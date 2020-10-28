@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "libft.h"
 
+
 /*
 typedef struct		s_list
 {
@@ -12,13 +13,14 @@ typedef struct		s_list
 
 typedef struct		s_tree
 {
-	char			token;
-	char			*data;
+	char			**data;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }					t_tree;
 
-t_tree			*ft_newtree(char *content)
+void		print_ascii_tree(t_tree *t);
+
+t_tree			*ft_newtree(char **content)
 {
 	t_tree	*new;
 
@@ -27,28 +29,57 @@ t_tree			*ft_newtree(char *content)
 	new->data = content;
 	new->left = NULL;
 	new->right = NULL;
-}
-
-t_tree			*ft_treeadd_root(t_tree *rtree, t_tree *new)
-{
-	if (!rtree)
-		return (new);
-	new->left = rtree;
 	return (new);
 }
 
-t_tree			*ft_add_leaf_dfs(t_tree *root, t_tree *new)
+void			ft_treeadd_root(t_tree **rtree, t_tree *new)
 {
-	if (root->left = NULL)
-	{
-		root->left = new;
-		return (root);
-	}
-	else
-		root = ft_add_leaf_dfs(root->left, new);
-	if (
-		
+	t_tree	*root;
+
+	root = *rtree;
+	if (!root)
+		*rtree = (new);
+	new->left = root;
+	*rtree = new;
 }
+
+int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new)
+{
+	t_tree *root;
+
+	root = *rtree;
+	if (root && root->left == NULL)
+	{
+		if (root->data[0][0] == '|' || root->data[0][0] == '>' || root->data[0][0] == '<')
+		{
+			root->left = new;
+			return (1);
+		}
+		return (0);
+	}
+	if (ft_add_leaf_dfs(&(root->left), new))
+		return (1);
+	if (root && root->right == NULL)
+	{
+		if (root->data[0][0] == '|' || root->data[0][0] == '>' || root->data[0][0] == '<')
+		{
+			root->right = new;
+			return (1);	
+		}
+		return (0);
+	}
+	return (0);
+}
+
+void		print_dfs_tree(t_tree *node)
+{
+	if (!node)
+		return ;
+	ft_printf("%s  --  ", node->data);
+	print_dfs_tree(node->left);
+	print_dfs_tree(node->right);
+}
+
 
 /*
 1 buscar el ;
@@ -64,45 +95,72 @@ t_tree				*build_tree(char **words, int semicolon)
 {
 	t_tree		*root;
 	t_tree		*tree;
-	int		i;
+	char		**cmd;
+	int			i;
+	int			j;
+	int			last_semicolon;
 	i = 0;
 
 	root = NULL;
+	last_semicolon = 0;
 	ft_printf ("on call semicolon is %d and words is :\n", semicolon);
 	while (words[i])
 		ft_printf("%s ", words[i++]);
 	ft_printf("\n\n");
 
-
 	
 	i = 0;
-	
-
+	j = 0;
 	while (i < semicolon)
 	{
-		if (words[i] == '|' || words[i] == '>' || words[i] == '<' )
+		if (words[i][0] == '|' || words[i][0] == '>' || words[i][0] == '<' )
 		{
-			//anadir, crear root
-			//todo lo anterior al index del operador on the leftmost deepmost		
-			tree = ft_newtree(words[i]);
-			root = ft_treeadd_root(root, tree);
 
-			tree = ft_newtree(words[i - 1]);
-			root = ft_add_leaf_dfs(root, tree);
+			cmd = (char**)malloc(sizeof(char*) * 2);
+			cmd[0] = words[i];
+			cmd[1] = NULL;
+
+			last_semicolon = i;
+			tree = ft_newtree(cmd);
+			ft_treeadd_root(&root, tree);
+
+			// super join 
 			
+			//proteger malloc de la siguente linea
+
+			cmd = (char**)malloc(sizeof(char*) * (i - j + 1));
+			while (j < i)
+			{
+				cmd[j] = words[j];		
+				j++;
+			}
+			cmd[j] = NULL;
+
+
+			tree = ft_newtree(cmd);
+			ft_add_leaf_dfs(&root, tree);
+
+			ft_printf("\n\n");
 		}
 		i++;
 	}
-	if (ni un puto operador pisha
-		aka if !tree
-	crear root, todo dentro
+	j = 0;
+	cmd = (char**)malloc(sizeof(char*) * i);
+	while (j < i)
+	{
+		cmd[j] = words[j];
+		j++;
+	}
+	cmd[j] = NULL;
 
 
-
-t_list *test = NULL;	
-	return (test);
-	
+	tree = ft_newtree(cmd);
+	ft_add_leaf_dfs(&root, tree);
+	//print_dfs_tree(root);
+	//print_ascii_tree(root);
+	return (root);
 }
+
 
 t_list				*parse_line(char *str)
 {
@@ -113,6 +171,7 @@ t_list				*parse_line(char *str)
 	
 	i = 0;
 	tree_list = NULL;
+	//TO_DO: aislar separadores y comandos que no esten rodeados de espacios
 	words = ft_split(str, 32);
 	while (words[i])
 	{
@@ -133,16 +192,29 @@ t_list				*parse_line(char *str)
 
 void			draw_list(t_list *list)
 {
+	t_list	*alst;
 	int i;
 
+	alst = list;
 	i = 1;
 	ft_printf("o-> ");
 	while (list)
 	{
-		ft_printf("node%d ---> ", i++);
+		ft_printf("NODE%d ---> ", i++);
 		list = list->next;		
 	}
 	ft_printf("NULL\n");
+	ft_printf("\n\n");
+	
+	list = alst;
+	i = 1;
+	while (list)
+	{
+		ft_printf("NODE%d TREE:\n", i++);
+		print_ascii_tree((t_tree*)list->content);
+		ft_printf("\n\n");
+		list = list->next;
+	}
 }
 
 
@@ -150,8 +222,9 @@ int main(int ac, char **av)
 {
 	t_list *tree_list;
 
-	tree_list = parse_line(" env |  wc |   wc > toto");
+	tree_list = parse_line(" env | wc -l | bc > toto");
 	
+	ft_printf("\n\n");
 	draw_list(tree_list);
 	
 	return (0);
