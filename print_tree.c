@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "libft.h"
 
 typedef struct Tree Tree;
 
@@ -69,8 +70,11 @@ int MAX (int X, int Y)
 
 asciinode * build_ascii_tree_recursive(Tree * t) 
 {
-  int i = 0;
   asciinode * node;
+  char *str;
+  char *tmp;
+  int	i;
+  int	j;
   
   if (t == NULL) return NULL;
 
@@ -88,8 +92,27 @@ asciinode * build_ascii_tree_recursive(Tree * t)
     node->right->parent_dir = 1;
   }
 
+  i = 0;
   while ((t->element)[i])
-	  sprintf(node->label, "%s", (t->element)[i++]);
+  {
+	  if (i == 0)
+	    str = ft_strdup((t->element)[i]);
+	  else
+	  {
+		tmp = str;
+	    str = ft_strjoin(str, (t->element)[i]);
+		//free(tmp);
+	  }
+	  i++;
+  }
+  if (!str)
+    str = (t->element)[0];
+ 
+  // while ((t->element)[i])
+//  {
+//	  sprintf(node->label, "%s ", (t->element)[0]);
+//  }
+  sprintf(node->label, "( %s )", str);
   node->lablen = strlen(node->label);
 
   return node;

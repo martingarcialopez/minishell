@@ -89,7 +89,7 @@ void		print_dfs_tree(t_tree *node)
 5 avanzar desde el operador y repetir el proceso
 */
 
-	//tree_list = parse_line(" env |  wc -l |   wc > toto");
+	//tree_list = parse_line(" env |  wc -l | bc > toto");
 
 t_tree				*build_tree(char **words, int semicolon)
 {
@@ -98,15 +98,16 @@ t_tree				*build_tree(char **words, int semicolon)
 	char		**cmd;
 	int			i;
 	int			j;
+	int			k;
 	int			last_semicolon;
 	i = 0;
 
 	root = NULL;
 	last_semicolon = 0;
-	ft_printf ("on call semicolon is %d and words is :\n", semicolon);
-	while (words[i])
-		ft_printf("%s ", words[i++]);
-	ft_printf("\n\n");
+	//ft_printf ("on call semicolon is %d and words is :\n", semicolon);
+	//while (words[i])
+	//	ft_printf("%s ", words[i++]);
+	//ft_printf("\n\n");
 
 	
 	i = 0;
@@ -117,7 +118,7 @@ t_tree				*build_tree(char **words, int semicolon)
 		{
 
 			cmd = (char**)malloc(sizeof(char*) * 2);
-			cmd[0] = words[i];
+			cmd[0] = ft_strdup(words[i]);
 			cmd[1] = NULL;
 
 			last_semicolon = i;
@@ -128,13 +129,12 @@ t_tree				*build_tree(char **words, int semicolon)
 			
 			//proteger malloc de la siguente linea
 
+			k = 0;
 			cmd = (char**)malloc(sizeof(char*) * (i - j + 1));
 			while (j < i)
-			{
-				cmd[j] = words[j];		
-				j++;
-			}
-			cmd[j] = NULL;
+				cmd[k++] = ft_strdup(words[j++]);
+			cmd[k] = NULL;
+			j++;
 
 
 			tree = ft_newtree(cmd);
@@ -144,14 +144,14 @@ t_tree				*build_tree(char **words, int semicolon)
 		}
 		i++;
 	}
-	j = 0;
-	cmd = (char**)malloc(sizeof(char*) * i);
+	k = 0;
+	cmd = (char**)malloc(sizeof(char*) * (i - j + 1));
 	while (j < i)
 	{
-		cmd[j] = words[j];
+		cmd[k] = words[j];
 		j++;
 	}
-	cmd[j] = NULL;
+	cmd[k] = NULL;
 
 
 	tree = ft_newtree(cmd);
@@ -223,6 +223,8 @@ int main(int ac, char **av)
 	t_list *tree_list;
 
 	tree_list = parse_line(" env | wc -l | bc > toto");
+	
+//	tree_list = parse_line(av[1]);
 	
 	ft_printf("\n\n");
 	draw_list(tree_list);
