@@ -148,14 +148,17 @@ t_tree				*build_tree(char **words, int semicolon)
 	cmd = (char**)malloc(sizeof(char*) * (i - j + 1));
 	while (j < i)
 	{
-		cmd[k] = words[j];
+		cmd[k++] = words[j];
 		j++;
 	}
 	cmd[k] = NULL;
 
 
 	tree = ft_newtree(cmd);
-	ft_add_leaf_dfs(&root, tree);
+	if (!root)
+		ft_treeadd_root(&root, tree);
+	else
+		ft_add_leaf_dfs(&root, tree);
 	//print_dfs_tree(root);
 	//print_ascii_tree(root);
 	return (root);
@@ -222,9 +225,9 @@ int main(int ac, char **av)
 {
 	t_list *tree_list;
 
-	tree_list = parse_line(" env | wc -l | bc > toto");
+//	tree_list = parse_line(" env | wc -l | bc > toto ");
 	
-//	tree_list = parse_line(av[1]);
+	tree_list = parse_line(av[1]);
 	
 	ft_printf("\n\n");
 	draw_list(tree_list);
