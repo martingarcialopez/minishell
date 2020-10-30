@@ -112,7 +112,7 @@ int		ft_read(int fd, t_statlst **lst, char *buffer, char **line)
 	return (rt);
 }
 
-int		get_next_line(int fd, char **line)
+int		gnl(int fd, char **line)
 {
 	char				buffer[BUFFER_SIZE + 1];
 	static t_statlst	*lst;
@@ -133,35 +133,4 @@ int		get_next_line(int fd, char **line)
 	if (rt > 0)
 		return (1);
 	return (-1);
-}
-
-int		main(int ac, char **av)
-{
-	int		fd;
-	char	*line;
-	int		fd2;
-
-	if (ac == 1)
-	{
-		fd = 0;
-		fd2 = 0;
-	}
-	else
-	{
-		fd = open(av[1], O_RDONLY);
-		fd2 = open(av[2], O_RDONLY);
-	}
-	line = NULL;
-	printf("%d\n", get_next_line(fd, &line));
-	printf("%s\n", line);
-	free(line);
-	printf("%d\n", get_next_line(fd2, &line));
-	printf("%s\n", line);
-	free(line);
-	printf("%d\n", get_next_line(fd, &line));
-	printf("%s\n", line);
-	free(line);
-
-	while (1);
-	return 0;
 }

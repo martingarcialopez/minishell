@@ -32,7 +32,7 @@ int				ft_isinlst(int fd, t_statlst **lst, char **line);
 void			ft_lstnewback(int fd, t_statlst **lst);
 void			ft_changecontent(int fd, t_statlst **lst, char *dst);
 int				ft_read(int fd, t_statlst **lst, char *buffer, char **line);
-int				get_next_line(int fd, char **line);
+int				gnl(int fd, char **line);
 char			*ft_ovread(char **line, char *content);
 char			*ft_strjoin(char const *s1, char const *s2);
 size_t			ft_strlen(const char *s);

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/builtins.h"
-#include "../headers/libft.h"
+#include "../includes/builtins.h"
+#include "../includes/libft.h"
 
 
 void	add_env(t_env  *new)
@@ -106,7 +106,7 @@ int		ft_unset(char **args)
 	while (args[i] != NULL)
 	{
 		list = g_env;
-		if (strcmp(list->name, args[i]) == 0 && list != NULL)	//change by ft_strcmp
+		if (ft_strcmp(list->name, args[i]) == 0 && list != NULL)	//change by ft_strcmp
 		{	
 			g_env = g_env->next;
 			lst_free(list);
@@ -114,7 +114,7 @@ int		ft_unset(char **args)
 		else
 			while (list != NULL && list->next != NULL)
 			{
-				if (strcmp(list->next->name, args[i]) == 0)		//change by ft_strcmp
+				if (ft_strcmp(list->next->name, args[i]) == 0)		//change by ft_strcmp
 				{
 					list_rm_next(list);
 					i++;
