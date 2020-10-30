@@ -66,8 +66,11 @@ PRINTF_F = ft_printf.c \
 		   utils.c \
 		   float_utils.c
 
+GET_NEXT_LINE = get_next_line.c \
+	   	get_next_line_utils.c	
 
-SRCS	=  $(addprefix srcs/libft/, $(LIBFT_F)) $(addprefix srcs/ft_printf/, $(PRINTF_F))
+
+SRCS	=  $(addprefix srcs/libft/, $(LIBFT_F)) $(addprefix srcs/ft_printf/, $(PRINTF_F)) $(addprefix srcs/get_next_line/, $(GET_NEXT_LINE))
 
 OBJS	= ${SRCS:.c=.o}
 
