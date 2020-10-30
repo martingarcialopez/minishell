@@ -28,7 +28,7 @@ int		ft_isinlst(int fd, t_statlst **lst, char **line)
 				return (2);
 			}
 			tmp_dst = *line;
-			*line = ft_strjoin(*line, tmp_lst->content);
+			*line = ft_strjuan(*line, tmp_lst->content);
 			free(tmp_dst);
 			return (1);
 		}
@@ -47,7 +47,7 @@ void	ft_lstnewback(int fd, t_statlst **lst)
 		return ;
 	new->fd = fd;
 	new->next = NULL;
-	new->content = ft_strjoin("", "");
+	new->content = ft_strjuan("", "");
 	if (!tmp_lst)
 	{
 		*lst = new;
@@ -97,7 +97,7 @@ int		ft_read(int fd, t_statlst **lst, char *buffer, char **line)
 	{
 		buffer[rt] = '\0';
 		tmp = *line;
-		*line = ft_strjoin(*line, buffer);
+		*line = ft_strjuan(*line, buffer);
 		free(tmp);
 		i = 0;
 		while (*(*line + i) != '\n' && *(*line + i) != '\0')
@@ -119,7 +119,7 @@ int		gnl(int fd, char **line)
 	int					rt;
 	int					count;
 
-	*line = ft_strjoin("", "");
+	*line = ft_strjuan("", "");
 	if ((count = ft_isinlst(fd, &lst, line)) == 2)
 		return (1);
 	if (!count)
