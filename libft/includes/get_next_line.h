@@ -34,7 +34,7 @@ void			ft_changecontent(int fd, t_statlst **lst, char *dst);
 int				ft_read(int fd, t_statlst **lst, char *buffer, char **line);
 int				gnl(int fd, char **line);
 char			*ft_ovread(char **line, char *content);
-char			*ft_strjoin(char const *s1, char const *s2);
+char			*ft_strjuan(char const *s1, char const *s2);
 size_t			ft_strlen(const char *s);
 int				ft_isinstr(char c, char const *s2);
 void			ft_freelst(int fd, t_statlst **lst);

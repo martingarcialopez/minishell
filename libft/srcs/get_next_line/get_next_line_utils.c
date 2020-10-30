@@ -20,7 +20,7 @@ char	*ft_ovread(char **line, char *content)
 
 	tmp = content;
 	free(*line);
-	*line = ft_strjoin("", content);
+	*line = ft_strjuan("", content);
 	i = 0;
 	while ((*line)[i] != '\n')
 		i++;
@@ -37,7 +37,7 @@ char	*ft_ovread(char **line, char *content)
 	return (content);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjuan(char const *s1, char const *s2)
 {
 	int		len1;
 	int		len2;
