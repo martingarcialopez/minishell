@@ -1,40 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.h                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 15:29:21 by mgarcia-         ###   ########.fr       */
+/*   Created: 2019/10/09 15:25:48 by mgarcia-          #+#    #+#             */
+/*   Updated: 2019/10/16 23:10:38 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TREE_H_
-# define _TREE_H_
-
 #include "libft.h"
 
-typedef struct		s_tree
+void	*ft_calloc(size_t count, size_t size)
 {
-	char		**data;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}			t_tree;
+	void	*ptr;
+	size_t	len;
 
-
-t_tree			*ft_newtree(char **content);
-
-void			ft_treeadd_root(t_tree **rtree, t_tree *new);
-
-int			ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
-
-void			print_dfs_tree(t_tree *node);
-
-void			print_ascii_tree(t_tree *t);
-
-void			draw_list(t_list *list);
-
-t_list			*parse_line(char *str);
-
-#endif
+	len = count * size;
+	if (!(ptr = malloc(len)))
+		return (NULL);
+	return (ft_memset(ptr, 0, len));
+}

@@ -1,40 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.h                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 15:29:21 by mgarcia-         ###   ########.fr       */
+/*   Created: 2019/10/09 16:46:51 by mgarcia-          #+#    #+#             */
+/*   Updated: 2019/10/17 17:02:44 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TREE_H_
-# define _TREE_H_
-
 #include "libft.h"
 
-typedef struct		s_tree
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char		**data;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}			t_tree;
+	unsigned char	*str;
+	size_t			i;
 
-
-t_tree			*ft_newtree(char **content);
-
-void			ft_treeadd_root(t_tree **rtree, t_tree *new);
-
-int			ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
-
-void			print_dfs_tree(t_tree *node);
-
-void			print_ascii_tree(t_tree *t);
-
-void			draw_list(t_list *list);
-
-t_list			*parse_line(char *str);
-
-#endif
+	str = (unsigned char *)b;
+	i = 0;
+	while (i < len)
+		str[i++] = (unsigned char)c;
+	return (b);
+}

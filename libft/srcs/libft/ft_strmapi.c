@@ -1,40 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.h                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 15:29:21 by mgarcia-         ###   ########.fr       */
+/*   Created: 2019/10/09 10:35:14 by mgarcia-          #+#    #+#             */
+/*   Updated: 2019/10/18 14:24:41 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TREE_H_
-# define _TREE_H_
-
 #include "libft.h"
 
-typedef struct		s_tree
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char		**data;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}			t_tree;
+	char			*str;
+	unsigned int	i;
 
-
-t_tree			*ft_newtree(char **content);
-
-void			ft_treeadd_root(t_tree **rtree, t_tree *new);
-
-int			ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
-
-void			print_dfs_tree(t_tree *node);
-
-void			print_ascii_tree(t_tree *t);
-
-void			draw_list(t_list *list);
-
-t_list			*parse_line(char *str);
-
-#endif
+	if (!s)
+		return (NULL);
+	if (!(str = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1))))
+		return (NULL);
+	i = 0;
+	while (*s)
+	{
+		str[i] = (*f)(i, *s++);
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}

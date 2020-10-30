@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.h                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 15:29:21 by mgarcia-         ###   ########.fr       */
+/*   Created: 2019/10/07 14:11:18 by mgarcia-          #+#    #+#             */
+/*   Updated: 2019/12/02 21:44:45 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TREE_H_
-# define _TREE_H_
-
 #include "libft.h"
 
-typedef struct		s_tree
+int		ft_atoi(const char *str)
 {
-	char		**data;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}			t_tree;
+	long	nb;
+	int		neg;
+	int		ovf;
 
-
-t_tree			*ft_newtree(char **content);
-
-void			ft_treeadd_root(t_tree **rtree, t_tree *new);
-
-int			ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
-
-void			print_dfs_tree(t_tree *node);
-
-void			print_ascii_tree(t_tree *t);
-
-void			draw_list(t_list *list);
-
-t_list			*parse_line(char *str);
-
-#endif
+	nb = 0;
+	neg = 1;
+	ovf = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		if (*str == '-')
+			neg = -1;
+		str++;
+	}
+	while ((*str >= '0' && *str <= '9') && ovf == 1)
+	{
+		nb = (nb * 10) + *str++ - 48;
+		if (nb < 0)
+			ovf = (neg == 1 ? -1 : 0);
+	}
+	return (ovf != 1 ? ovf : (int)(nb * neg));
+}

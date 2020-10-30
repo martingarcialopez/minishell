@@ -1,40 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.h                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 15:29:21 by mgarcia-         ###   ########.fr       */
+/*   Created: 2019/10/07 14:27:13 by mgarcia-          #+#    #+#             */
+/*   Updated: 2019/10/07 15:18:25 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TREE_H_
-# define _TREE_H_
-
 #include "libft.h"
 
-typedef struct		s_tree
+int		ft_strncmp(const char *str1, const char *str2, size_t n)
 {
-	char		**data;
-	struct s_tree	*left;
-	struct s_tree	*right;
-}			t_tree;
+	size_t i;
 
-
-t_tree			*ft_newtree(char **content);
-
-void			ft_treeadd_root(t_tree **rtree, t_tree *new);
-
-int			ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
-
-void			print_dfs_tree(t_tree *node);
-
-void			print_ascii_tree(t_tree *t);
-
-void			draw_list(t_list *list);
-
-t_list			*parse_line(char *str);
-
-#endif
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (str1[i] == str2[i] && str1[i] && str2[i] && (i < n - 1))
+		i++;
+	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
+}
