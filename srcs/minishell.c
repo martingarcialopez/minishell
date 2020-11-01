@@ -1,5 +1,6 @@
 #include "builtins.h"
 #include "tree.h"
+#include "libft.h"
 
 int main(int v, char **n, char **envp)
 {
@@ -30,8 +31,8 @@ int main(int v, char **n, char **envp)
 		ft_printf("(los voltereta)-> ");
 		i = gnl(0, &line);
 		tree_list = parse_line(line);
-		draw_list(tree_list);
-		//do whatever with line
+		//draw_list(tree_list);
+		function(((t_tree*)(tree_list->content))->data);
 		free(line);
 	}
 	return (0);

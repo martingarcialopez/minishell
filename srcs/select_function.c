@@ -1,12 +1,16 @@
 #include "../includes/builtins.h"
 #include "../includes/libft.h"
 
-char	**set_builtin_str(char ***str)
-{
-	**str[0] = ft_strjoin();
-}
-
 int	function(char **args)
 {
-	char *builtin_str[3];
+	int	i;
+
+	i = 0;
+	while (g_builtin_fnc[i].name != NULL)
+	{
+		if(ft_strcmp(args[0], g_builtin_fnc[i].name) == 0)
+			return((*g_builtin_fnc[i].fnct)(args));
+		i++;
+	}
+	return (0);
 }
