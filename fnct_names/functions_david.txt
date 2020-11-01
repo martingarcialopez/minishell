@@ -1,0 +1,3 @@
+srcs/minishell.c
+srcs/environment.c
+srcs/select_function.c
