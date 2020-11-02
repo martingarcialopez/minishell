@@ -1,3 +1,4 @@
 srcs/minishell.c
 srcs/environment.c
 srcs/select_function.c
+srcs/builtins.c

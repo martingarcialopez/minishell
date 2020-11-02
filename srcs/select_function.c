@@ -4,7 +4,9 @@
 int	function(char **args)
 {
 	int	i;
-
+	
+	if (args[0] == NULL)
+		return (1);
 	i = 0;
 	while (g_builtin_fnc[i].name != NULL)
 	{

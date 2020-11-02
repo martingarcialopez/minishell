@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/10/30 21:18:36 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/02 11:47:53 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int		ft_unset(char **args)
 				if (ft_strcmp(list->next->name, args[i]) == 0)
 				{
 					list_rm_next(list);
-					//i++;
 					break;
 				}
 				list = list->next;
