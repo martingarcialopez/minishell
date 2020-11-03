@@ -77,5 +77,7 @@ int	function(char **args)
 			return((*g_builtin_fnc[i].fnct)(args));
 		i++;
 	}
-	return (0);
+	call_system_function(args);
+	ft_printf("Error: command not found\n");
+	return (1); //Si llega hastq aqui es que se chingo la wea
 }
