@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/02 11:47:53 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/03 19:33:13 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,32 @@ void	add_env(t_env  *new)
 		list = list->next;
 	list->next = new;
 }
+char		*join_value(char **data)
+{
+	char	*value;
+	int	i;
+	char	*tmp;
+
+	value = data[1];
+	i = 2;
+	while (data[i] != NULL)
+	{
+		tmp = value;
+		value = ft_strjoin(value, "=");//securizar
+		free(tmp);
+		tmp = value;
+		value = ft_strjoin(value, data[i]);//securizar
+		free(tmp);
+		i++;
+	}
+	return (value);
+}
 
 int		init_env(char **envp)
 {
 	int 	i;
+	int	j;
+	char	*tmp;
 	char	**data;
 	t_env	*new;
 
@@ -41,10 +63,10 @@ int		init_env(char **envp)
 		data = ft_split(envp[i], '=');
 		new = (t_env*)malloc(sizeof(t_env));//securizar
 		new->name = data[0];
-		new->value = data[1];
+		new->value = join_value(data);
 		new->next = NULL;
 		add_env(new);
-		free(data);
+		free(data);//free all the split
 		i++;
 	}
 	return (0);
@@ -68,7 +90,7 @@ int		ft_export(char **args)
 		/* 	error; */
 		new = (t_env*)malloc(sizeof(t_env)); //securizar
 		new->name = data[0];
-		new->value = data[1];
+		new->value = join_value(data);
 		new->next = NULL;
 		add_env(new);
 		i++;
