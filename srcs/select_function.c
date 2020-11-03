@@ -1,5 +1,5 @@
-#include "../includes/builtins.h"
-#include "../includes/libft.h"
+#include "builtins.h"
+#include "libft.h"
 
 int	function(char **args)
 {

@@ -1,3 +1,5 @@
 srcs/parsing.c
 srcs/print_tree.c
 srcs/tree.c
+srcs/ascii_art.c
+srcs/solve_tree.c
