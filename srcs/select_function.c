@@ -31,21 +31,17 @@ void	solve_dollar(char ***args) //mallocs sin securizar;
 	i = 0;
 	while ((*args)[i] != NULL)
 	{
-		/* ft_printf("holaaa\n"); */
 		if (ft_isinstr('$', (*args)[i]))
 		{
-		/* ft_printf("holaaa\n"); */
 			spl = ft_split((*args)[i], '$');
 			j = 0;
 			if (*(*args)[i] != '$')
 				j++;
 			while (spl[j] != NULL)
 			{
-				/* ft_printf("holaaa\n"); */
 				lst = g_env;
 				while (lst != NULL && ft_strcmp(lst->name, spl[j]) != 0)
 					lst = lst->next;
-				/* ft_printf("holaaa\n"); */
 				tmp = spl[j];
 				if (lst != NULL)
 					spl[j] = ft_strdup(lst->value);
@@ -54,20 +50,50 @@ void	solve_dollar(char ***args) //mallocs sin securizar;
 				free(tmp);
 				j++;
 			}
-				/* ft_printf("holaaa\n"); */
 			(*args)[i] = ft_superjoin(spl);
-				/* ft_printf("holaaa\n"); */
 			free(spl);//hay que hacer free a todo el split
 		}
 		i++;
 	}	
 }
 
+char	**env_to_vect(void)
+{
+	t_env	*lst;
+	char	**newenv;
+	int	l;
+	int	i;
+	char	*tmp;
+
+	lst = g_env;
+
+	l = 0;
+	while (lst != NULL)
+	{
+		lst = lst->next;
+		l++;
+	}
+	newenv = (char**)malloc(sizeof(char*) * (l + 1)); //securizar malloc
+	i = 0;
+	newenv[l] = NULL;
+	lst = g_env;
+	while (i < l)
+	{
+		newenv[i] = ft_strjoin(lst->name, "=");
+		tmp = newenv[i];
+		newenv[i] = ft_strjoin(newenv[i], lst->value);
+		free(tmp);
+		lst = lst->next;
+		i++;
+	}
+	return (newenv);
+}
+
 int	function(char **args)
 {
 	int	i;
-
-	solve_dollar(&args);	
+	
+	solve_dollar(&args);
 	if (args[0] == NULL)
 		return (1);
 	i = 0;
