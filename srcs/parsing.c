@@ -36,8 +36,8 @@ t_tree				*build_tree(char **words, int semicolon)
 	t_tree		*root;
 	t_tree		*tree;
 	char		**cmd;
-	int			i;
-	int			j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -65,7 +65,14 @@ t_tree				*build_tree(char **words, int semicolon)
 		ft_add_leaf_dfs(&root, tree);
 	return (root);
 }
+/*
+char				*str_preprocessing(char *str)
+{
+	char	*s;
 
+	
+}
+*/
 t_list				*parse_line(char *str)
 {
 	t_list	*tree_list;
@@ -76,6 +83,7 @@ t_list				*parse_line(char *str)
 	i = 0;
 	tree_list = NULL;
 	//TO_DO: aislar separadores y comandos que no esten rodeados de espacios
+//	str = str_preprocessing(str);
 	words = ft_split(str, 32);
 	while (words[i])
 	{

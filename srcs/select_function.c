@@ -1,5 +1,6 @@
 #include "builtins.h"
 #include "libft.h"
+#include "tree.h"
 
 char	*ft_superjoin(char **str)//mallocs sin securizar;
 {
@@ -103,5 +104,5 @@ int	function(char **args)
 			return((*g_builtin_fnc[i].fnct)(args));
 		i++;
 	}
-	return (0);
+	return (call_system_function(args));
 }

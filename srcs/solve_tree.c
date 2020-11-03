@@ -7,7 +7,9 @@ int		exec_commands(t_tree *tree)
 	int	ret;
 
 	root = tree;
-	if (tree && tree->left != NULL)
+	if (!tree || !(tree->data[0]))
+		return (0);
+	if (tree->left != NULL)
 		ret = exec_commands(tree->left);
 	if (tree->data[0][0] != '|' && tree->data[0][0] != '>' && tree->data[0][0] != '<')
 		function(tree->data);

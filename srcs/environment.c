@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/builtins.h"
-#include "../includes/libft.h"
+#include "builtins.h"
+#include "libft.h"
 
 
 void	add_env(t_env  *new)

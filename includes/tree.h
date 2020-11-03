@@ -41,4 +41,8 @@ void			display_ascii_art(void);
 
 int			exec_commands(t_tree *tree);
 
+int			call_system_function(char **args);
+
+char			**env_to_vect(void);
+
 #endif
