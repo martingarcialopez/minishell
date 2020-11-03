@@ -37,4 +37,8 @@ void			draw_list(t_list *list);
 
 t_list			*parse_line(char *str);
 
+void			display_ascii_art(void);
+
+int			exec_commands(t_tree *tree);
+
 #endif

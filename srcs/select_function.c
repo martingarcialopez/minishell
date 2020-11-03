@@ -1,5 +1,5 @@
-#include "../includes/builtins.h"
-#include "../includes/libft.h"
+#include "builtins.h"
+#include "libft.h"
 
 char	*ft_superjoin(char **str)//mallocs sin securizar;
 {

@@ -1,3 +1,5 @@
+#include "libft.h"
+
 void		display_ascii_art()
 {
 	ft_printf("***************************************************************\n");
