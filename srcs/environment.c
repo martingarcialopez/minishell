@@ -6,47 +6,32 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/03 19:33:13 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/03 23:56:27 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "libft.h"
 
-
-void	add_env(t_env  *new)
+void		save_return(int ret)
 {
-	t_env	*list;
+	t_env	*lst;
 
-	list = g_env;
-	if (list == NULL)
+	lst = g_env;
+	while (lst != NULL && ft_strcmp(lst->name, "?") != 0)
+		lst = lst->next;
+	if (lst == NULL)
 	{
-		g_env = new;
-		return ;
+		lst = (t_env*)malloc(sizeof(t_env));//securizar
+		lst->name = ft_strdup("?");//securizar
+		lst->value = ft_strdup(ft_itoa(ret));//securizar
+		add_env(lst);
 	}
-	while (list->next != NULL)
-		list = list->next;
-	list->next = new;
-}
-char		*join_value(char **data)
-{
-	char	*value;
-	int	i;
-	char	*tmp;
-
-	value = data[1];
-	i = 2;
-	while (data[i] != NULL)
+	else
 	{
-		tmp = value;
-		value = ft_strjoin(value, "=");//securizar
-		free(tmp);
-		tmp = value;
-		value = ft_strjoin(value, data[i]);//securizar
-		free(tmp);
-		i++;
+		free(lst->value);
+		lst->value = ft_strdup(ft_itoa(ret));
 	}
-	return (value);
 }
 
 int		init_env(char **envp)
@@ -69,6 +54,11 @@ int		init_env(char **envp)
 		free(data);//free all the split
 		i++;
 	}
+	new = (t_env*)malloc(sizeof(t_env));//securizar
+	new->name = ft_strdup("?");
+	new->value = ft_strdup("0");
+	new->next = NULL;
+	add_env(new);
 	return (0);
 }
 
@@ -97,22 +87,6 @@ int		ft_export(char **args)
 	}
 	return (0);
 
-}
-
-void	lst_free(t_env	*list)
-{
-		free(list->name);
-		free(list->value);
-		free(list);
-}
-
-void	list_rm_next(t_env *list)
-{
-	t_env	*aux;
-
-	aux = list->next->next;
-	lst_free(list->next);
-	list->next = aux;
 }
 
 int		ft_unset(char **args)
@@ -159,7 +133,8 @@ int		ft_env(char **args)
 	list = g_env;
 	while(list != NULL)
 	{
-		ft_printf("%s=%s\n", list->name, list->value);
+		if (ft_strcmp(list->name, "?") != 0)
+			ft_printf("%s=%s\n", list->name, list->value);
 		list = list->next;
 	}
 	return (0);

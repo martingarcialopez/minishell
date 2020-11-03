@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:05:39 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/02 23:42:26 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/03 23:57:32 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int				function(char **args);
 int				ft_pwd(char **args);
 int				ft_cd(char **args);
 int				ft_echo(char **args);
+void				add_env(t_env  *new);
+char				*join_value(char **data);
+void				lst_free(t_env	*list);
+void				list_rm_next(t_env *list);
+void				save_return(int ret);
 
 static t_bint_fnc	g_builtin_fnc[]=
 {

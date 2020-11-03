@@ -12,8 +12,8 @@ int		exec_commands(t_tree *tree)
 	if (tree->left != NULL)
 		ret = exec_commands(tree->left);
 	if (tree->data[0][0] != '|' && tree->data[0][0] != '>' && tree->data[0][0] != '<')
-		function(tree->data);
+		ret = function(tree->data);
 	else if (tree->right)
-		function(tree->right->data);
+		ret = function(tree->right->data);
 	return (ret);
 }
