@@ -6,7 +6,7 @@
 /*   By: daprovin <daprovin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 03:04:16 by daprovin          #+#    #+#             */
-/*   Updated: 2019/10/31 16:10:20 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/03 22:02:13 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_changecontent(int fd, t_statlst **lst, char *dst)
 	while (dst[i] != '\n')
 		i++;
 	tmp = tmp_lst->content;
-	l = ft_strlen(dst);
+	l = ft_strlon(dst);
 	if (!(tmp_lst->content = (char*)malloc(sizeof(char) * (l - i))))
 		return ;
 	free(tmp);
