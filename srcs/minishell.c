@@ -26,8 +26,6 @@ int main(int v, char **n, char **envp)
 			cmd_tree_list = cmd_tree_list->next;
 			// Implementar && y || dependiendo del ret
 		}
-		//do whatever with line
-		//ret = function(((t_tree*)(cmd_tree_list->content))->data);
 		free(line);
 	}
 	return (0);
