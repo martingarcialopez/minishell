@@ -49,4 +49,6 @@ int			retrieve_env_variable(char *name, char **value);
 
 char			*solve_cmd_path(char **args);
 
+void			redirection(t_tree *tree);
+
 #endif
