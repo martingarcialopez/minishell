@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:35 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/06 14:31:03 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/06 16:39:24 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,70 @@ t_tree				*build_tree(char **words, int semicolon)
 		ft_add_leaf_dfs(&root, tree);
 	return (root);
 }
-/*
+
+int				is_operator(char c)
+{
+	if (c == '|' || c == '>' || c == '<' || c == '&' || c == ';')
+		return (1);
+	return (0);
+}
+
 char				*str_preprocessing(char *str)
 {
 	char	*s;
+	int	len;
+	int 	i;
+	int	k;
 
-	
+	i = 0;
+	k = 0;
+	while (str[i])
+	{
+		if (is_operator(str[i]))
+			k++;
+		i++;
+	}
+	len = ft_strlen(str) + (k * 2);
+	s = (char*)malloc(sizeof(char) * len);	
+	i = 0;
+	while (*str)
+	{
+		if (!(is_operator(*str)))
+			s[i++] = *str++;	
+		else
+		{
+			s[i++] = 32;
+			s[i++] = *str++;	
+			if (!(is_operator(*str)))
+			{
+				s[i++] = 32;
+				s[i++] = *str++;
+			}
+			else
+			{
+				s[i++] = *str++;
+				s[i++] = 32;
+			}
+		}
+	}
+	s[i] = '\0';
+	return (s);	
 }
-*/
+
 t_list				*parse_line(char *str)
 {
 	t_list	*tree_list;
 	t_list	*list;
 	char	**words;
-	int		i;
+	int	i;
 	
 	i = 0;
 	tree_list = NULL;
-	//TO_DO: aislar separadores y comandos que no esten rodeados de espacios
-//	str = str_preprocessing(str);
+	str = str_preprocessing(str);
+	//ft_printf("str after preprocessing is %s\n", str);
 	words = ft_split(str, 32);
 	/* Solucionar las comillas1 */
+	free(str);
 	while (words[i])
 	{
 		if (words[i][0] == ';')

@@ -45,4 +45,8 @@ int			call_system_function(char **args);
 
 char			**env_to_vect(void);
 
+int			retrieve_env_variable(char *name, char **value);
+
+char			*solve_cmd_path(char **args);
+
 #endif
