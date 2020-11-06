@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:35 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 16:22:25 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/06 14:31:03 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ t_list				*parse_line(char *str)
 	//TO_DO: aislar separadores y comandos que no esten rodeados de espacios
 //	str = str_preprocessing(str);
 	words = ft_split(str, 32);
+	/* Solucionar las comillas1 */
 	while (words[i])
 	{
 		if (words[i][0] == ';')
