@@ -3,7 +3,7 @@
 #include "libft.h"
 #include <unistd.h>
 #include <sys/wait.h>
-
+#include <signal.h>
 
 int	call_system_function(char **args)
 {
@@ -17,6 +17,8 @@ int	call_system_function(char **args)
 	fk = fork();	
 	if (fk == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (!(execve(abs_path, args, env)))
 			perror("vsh");
 		return (1);
@@ -24,6 +26,8 @@ int	call_system_function(char **args)
 	else if (fk > 0)
 	{
 		wait(&status);
+//		if (WIFSIGNALED(status))
+//			kill(fk, SIGINT);
 		if (WIFEXITED(status)) 
         		return (status); 
 	}

@@ -1,6 +1,16 @@
 #include "builtins.h"
 #include "tree.h"
 
+static int		is_operator(char *str)
+{
+	if (ft_strcmp(str, "|") == 0 || ft_strcmp(str, "||") == 0
+		|| ft_strcmp(str, "&&") == 0 || ft_strcmp(str, ">") == 0
+		|| ft_strcmp(str, "<") == 0 || ft_strcmp(str, "<<") == 0
+		|| ft_strcmp(str, ">>") == 0)
+		return (1);
+	return (0);
+}
+
 void		pipeline(t_tree *tree, int count, int backup_fd)
 {
 	int	fd[2];
@@ -34,13 +44,11 @@ int		exec_commands(t_tree *tree)
 	root = tree;
 	if (!tree || !(tree->data[0]))
 		return (0);
-
+	if (tree->data[0][0] == '>' || tree->data[0][0] == '<')
+		redirection(tree);
 	if (tree->data[0][0] == '|')
-	{
 		pipeline(tree, 1, 0);
-		
-	}
-	if (tree->data[0][0] != '|' && tree->data[0][0] != '>' && tree->data[0][0] != '<')
+	if (!(is_operator(tree->data[0])))
 		return (function(tree->data));
 	return (ret);
 }

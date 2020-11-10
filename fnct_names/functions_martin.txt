@@ -5,4 +5,5 @@ srcs/ascii_art.c
 srcs/execve.c
 srcs/solve_cmd_path.c
 srcs/pipes.c
+srcs/redirections.c
 srcs/utils.c

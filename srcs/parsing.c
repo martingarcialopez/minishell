@@ -66,7 +66,7 @@ t_tree				*build_tree(char **words, int semicolon)
 	return (root);
 }
 
-int				is_operator(char c)
+static int				is_operator(char c)
 {
 	if (c == '|' || c == '>' || c == '<' || c == '&' || c == ';')
 		return (1);
