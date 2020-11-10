@@ -6,7 +6,7 @@
 /*   By: daprovin <daprovin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 16:20:20 by daprovin          #+#    #+#             */
-/*   Updated: 2019/10/31 15:45:30 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/03 22:01:43 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_ovread(char **line, char *content)
 	while ((*line)[i] != '\n')
 		i++;
 	(*line)[i] = '\0';
-	if (!(content = (char*)malloc(sizeof(char) * (ft_strlen(content) - i + 1))))
+	if (!(content = (char*)malloc(sizeof(char) * (ft_strlon(content) - i + 1))))
 		return (NULL);
 	j = 0;
 	while (tmp[j + i])
@@ -46,8 +46,8 @@ char	*ft_strjuan(char const *s1, char const *s2)
 
 	if (!s1)
 		return (NULL);
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
+	len1 = ft_strlon(s1);
+	len2 = ft_strlon(s2);
 	if (!(join = (char*)malloc(sizeof(char) * (len1 + len2 + 1))))
 		return (NULL);
 	i = 0;
@@ -64,7 +64,7 @@ char	*ft_strjuan(char const *s1, char const *s2)
 	return (join);
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlon(const char *s)
 {
 	size_t i;
 

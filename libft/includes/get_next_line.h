@@ -6,7 +6,7 @@
 /*   By: daprovin <daprovin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 23:30:37 by daprovin          #+#    #+#             */
-/*   Updated: 2019/10/31 15:14:13 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/03 22:01:01 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				ft_read(int fd, t_statlst **lst, char *buffer, char **line);
 int				gnl(int fd, char **line);
 char			*ft_ovread(char **line, char *content);
 char			*ft_strjuan(char const *s1, char const *s2);
-size_t			ft_strlen(const char *s);
+size_t			ft_strlon(const char *s);
 int				ft_isinstr(char c, char const *s2);
 void			ft_freelst(int fd, t_statlst **lst);
 

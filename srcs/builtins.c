@@ -64,7 +64,7 @@ int		ft_cd(char **args)
 		ft_printf("cd: %s\n",strerror(errno));
 	if (i == 0)
 		update_env();
-	return (i);
+	return (i * (-1));
 }
 
 int		ft_echo(char **args) //se puede hacer con un join para printear todo a la vez, preguntar a martin por las pipes

@@ -47,6 +47,7 @@ int main(int v, char **n, char **envp)
 			cmd_tree_list = cmd_tree_list->next;
 			// Implementar && y || dependiendo del ret
 		}
+		save_return(ret);
 		free(line);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:35 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 16:22:25 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/06 16:39:24 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ t_list				*parse_line(char *str)
 	str = str_preprocessing(str);
 	//ft_printf("str after preprocessing is %s\n", str);
 	words = ft_split(str, 32);
+	/* Solucionar las comillas1 */
 	free(str);
 	while (words[i])
 	{

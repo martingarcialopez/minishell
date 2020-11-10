@@ -20,7 +20,6 @@ char	*ft_superjoin(char **str)//mallocs sin securizar;
 	return (ret);
 }
 
-
 void	solve_dollar(char ***args) //mallocs sin securizar;
 {
 	int	i;
