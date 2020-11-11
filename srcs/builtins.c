@@ -18,25 +18,40 @@ int		ft_pwd(char **args)
 	return (0);
 }
 
+void new_env(char *name, char *value)
+{
+	t_env	*new;
+
+	new = (t_env*)malloc(sizeof(t_env)); //securizar
+	new->name = ft_strdup(name); //securizar
+	new->value = ft_strdup(value); //securizar
+	new->next = NULL;
+	add_env(new);
+}
+
 const int	update_env(void)
 {
 	t_env	*lst;
-	char	*buf;
 	char	*tmp;
+	char	*buf;
 
 	lst = g_env;
+	tmp = g_data[PWD];
 	buf = NULL;
 	buf = getcwd(buf, 0);
+	g_data[PWD] = buf;
 	while (lst != NULL)
 	{
 		if (ft_strcmp(lst->name, "PWD") == 0)
 		{
-			tmp = lst->value;
-			lst->value = buf;
+			free(lst->value);
+			lst->value = ft_strdup(g_data[PWD]); //securizar
 			break;
 		}
 		lst = lst->next;
 	}
+	if (lst == NULL)
+		new_env("PWD", g_data[PWD]);
 	lst = g_env;
 	while (lst != NULL)
 	{
@@ -48,7 +63,8 @@ const int	update_env(void)
 		}
 		lst = lst->next;
 	}
-	//add PWD if there is no
+	if (lst == NULL)
+		new_env("OLDPWD", tmp);
 	return 0;
 }
 
@@ -67,7 +83,7 @@ int		ft_cd(char **args)
 	return (i * (-1));
 }
 
-int		ft_echo(char **args) //se puede hacer con un join para printear todo a la vez, preguntar a martin por las pipes
+int		ft_echo(char **args)
 {
 	int	i;
 

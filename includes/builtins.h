@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:05:39 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/03 23:57:32 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/11 17:58:27 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include <stdio.h>
 # include <errno.h>
 # include <string.h>
+
+# define PWD 0
+# define OLDPWD 1
+# define RET 2
 
 typedef struct			s_env
 {
@@ -30,6 +34,7 @@ typedef struct			s_bint_fnc
 	int	(*fnct)(char **);
 }				t_bint_fnc;
 
+char	*g_data[3];
 t_env	*g_env;
 
 int				ft_env(char **args);
@@ -45,6 +50,7 @@ char				*join_value(char **data);
 void				lst_free(t_env	*list);
 void				list_rm_next(t_env *list);
 void				save_return(int ret);
+int				init_data(void);
 
 static t_bint_fnc	g_builtin_fnc[]=
 {

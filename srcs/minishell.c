@@ -22,6 +22,7 @@ int main(int v, char **n, char **envp)
 	{} //error
 	display_ascii_art();
 	init_env(envp);
+	init_data();
 	i = 1;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);

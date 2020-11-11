@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/03 23:56:27 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/11 20:40:45 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void		save_return(int ret)
 {
 	t_env	*lst;
 
+	if (ret > 255)
+		ret = ret % 255;
+	g_data[RET] = ft_itoa(ret);
 	lst = g_env;
 	while (lst != NULL && ft_strcmp(lst->name, "?") != 0)
 		lst = lst->next;
