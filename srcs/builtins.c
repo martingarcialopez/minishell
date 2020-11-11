@@ -109,3 +109,8 @@ int		ft_echo(char **args)
 	}
 	return (0);
 }
+
+int		ft_exit(char **args)
+{
+	exit(0);
+}
