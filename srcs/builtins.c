@@ -93,3 +93,8 @@ int		ft_echo(char **args) //se puede hacer con un join para printear todo a la v
 	}
 	return (0);
 }
+
+int		ft_exit(char **args)
+{
+	exit(0);
+}

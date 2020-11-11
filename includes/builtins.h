@@ -40,6 +40,7 @@ int				function(char **args);
 int				ft_pwd(char **args);
 int				ft_cd(char **args);
 int				ft_echo(char **args);
+int				ft_exit(char **args);
 void				add_env(t_env  *new);
 char				*join_value(char **data);
 void				lst_free(t_env	*list);
@@ -54,6 +55,7 @@ static t_bint_fnc	g_builtin_fnc[]=
 	{"pwd", &ft_pwd},
 	{"cd", &ft_cd},
 	{"echo", &ft_echo},
+	{"exit", &ft_exit},
 	{NULL, 0}
 };
 
