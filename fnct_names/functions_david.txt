@@ -3,3 +3,4 @@ srcs/environment.c
 srcs/select_function.c
 srcs/builtins.c
 srcs/environment_utils.c
+srcs/data.c
