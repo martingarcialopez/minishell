@@ -16,6 +16,34 @@
 #include "libft.h"
 #include <sys/wait.h>
 
+typedef enum		e_token_type
+{
+	literal,//0
+	separator,//1
+	and,//2
+	double_and,//3
+	pipeline,//4
+	semicolon,//5
+	left_redirection,//6
+	right_redirection,//7
+	double_right_redirection,//8
+	or,//9
+	single_quote,//10
+	double_quote,//11
+	backslash,//12
+	variable,//13
+	status,//14
+	space,//15
+	eof//16
+}			t_token_type;
+
+typedef struct		s_token
+{
+	char		*value;
+	t_token_type	type;
+	
+}			t_token;
+
 typedef struct		s_tree
 {
 	char		**data;
@@ -51,5 +79,7 @@ int			retrieve_env_variable(char *name, char **value);
 char			*solve_cmd_path(char **args);
 
 void			redirection(t_tree *tree);
+
+char			*solve_home(char *arg);
 
 #endif
