@@ -1,5 +1,6 @@
 #include "builtins.h"
 #include "libft.h"
+#include "tree.h"
 
 int		ft_pwd(char **args)
 {
@@ -71,9 +72,12 @@ const int	update_env(void)
 int		ft_cd(char **args)
 {
 	int	i;
+	char	*home;
 
-	if (args[1] == NULL)
-		i = chdir("~");
+	if (retrieve_env_variable("HOME", &home) == 0)
+		i = 0;
+	else if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
+		i = chdir(home);
 	else
 		i = chdir(args[1]);
 	if (i == -1)

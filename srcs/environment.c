@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/11 20:40:45 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/12 04:20:39 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,48 @@ int		init_env(char **envp)
 	return (0);
 }
 
+static int	change_env_value(char **data)
+{
+	t_env	*lst;
+
+	lst = g_env;
+	while (lst != NULL)
+	{
+		if (ft_strcmp(lst->name, data[0]) == 0)
+		{
+			free(lst->value);
+			lst->value = join_value(data);
+			return (0);
+		}
+		lst = lst->next;
+	}
+	return (1);
+}
+
 int		ft_export(char **args)
 {
 	int		i;
 	char	**data;
 	t_env	*new;
+	char	*value;
 
 	i = 1;
 	if (args[1] == NULL)
-	{
-		//strerror();
-	}
+	{} //	print_export();
 	while (args[i] != NULL)
 	{
 		data = ft_split(args[i], '=');
 		/* if (check_data(data)) */
 		/* 	error; */
-		new = (t_env*)malloc(sizeof(t_env)); //securizar
-		new->name = data[0];
-		new->value = join_value(data);
-		new->next = NULL;
-		add_env(new);
+		if (change_env_value(data)) //busca si la variable ya esta en env para no duplicarla
+		{	
+			new = (t_env*)malloc(sizeof(t_env)); //securizar
+			new->name = ft_strdup(data[0]);
+			new->value = join_value(data);
+			new->next = NULL;
+			add_env(new);
+		}
+		free(data); //free a todo el split
 		i++;
 	}
 	return (0);
