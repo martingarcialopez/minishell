@@ -1,4 +1,5 @@
 #include "builtins.h"
+#include "tree.h"
 #include "libft.h"
 
 int		ft_pwd(char **args)
@@ -73,7 +74,7 @@ int		ft_cd(char **args)
 	int	i;
 
 	if (args[1] == NULL)
-		i = chdir("~");
+		i = chdir(solve_home(""));
 	else
 		i = chdir(args[1]);
 	if (i == -1)
@@ -112,5 +113,6 @@ int		ft_echo(char **args)
 
 int		ft_exit(char **args)
 {
+	ft_printf("exit\n");
 	exit(0);
 }

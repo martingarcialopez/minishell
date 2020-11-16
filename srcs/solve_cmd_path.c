@@ -16,7 +16,7 @@ char			*solve_abs_path(char **args)
 	
 }
 
-char			*solve_home(char **args)
+char			*solve_home(char *arg)
 {
 	struct stat	stats;
 	char		*path;
@@ -28,11 +28,11 @@ char			*solve_home(char **args)
 		ft_printf("Error: HOME variable not found in env\n");
 		return (NULL);
 	}
-	len = ft_strlen(path) + ft_strlen(args[0]) + 1;
+	len = ft_strlen(path) + ft_strlen(arg) + 1;
 	abs_path = (char*)malloc(sizeof(char) * len);
 	abs_path[0] = '\0';
 	ft_strcat(abs_path, path);
-	ft_strcat(abs_path, ++args[0]);
+	ft_strcat(abs_path, ++arg);
 	//stat(abs_path, &stats);	
 	return (abs_path);
 }
@@ -98,7 +98,7 @@ char			*solve_cmd_path(char **args)
 	else if (args[0][0] == '.')
 		return (solve_relative_path(args));
 	else if (args[0][0] == '~')
-		return (solve_home(args));
+		return (solve_home(args[0]));
 	else
 		return (find_path(args));	
 }

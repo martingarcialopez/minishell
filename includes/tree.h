@@ -24,9 +24,9 @@ typedef enum		e_token_type
 	double_and,//3
 	pipeline,//4
 	semicolon,//5
-	left_redirection,//6
-	right_redirection,//7
-	double_right_redirection,//8
+	left_redir,//6
+	right_redir,//7
+	double_right_redir,//8
 	or,//9
 	single_quote,//10
 	double_quote,//11
@@ -46,13 +46,15 @@ typedef struct		s_token
 
 typedef struct		s_tree
 {
+	t_token_type	type;
 	char		**data;
 	struct s_tree	*left;
 	struct s_tree	*right;
 }			t_tree;
 
+void			print_ascii_tree(t_tree *tree);
 
-t_tree			*ft_newtree(char **content);
+t_tree			*ft_newtree(t_token_type type, char **cmd);
 
 void			ft_treeadd_root(t_tree **rtree, t_tree *new);
 
@@ -60,11 +62,11 @@ int			ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
 
 void			print_dfs_tree(t_tree *node);
 
-void			print_ascii_tree(t_tree *t);
-
-void			draw_list(t_list *list);
-
 t_list			*parse_line(char *str);
+
+t_list			*pparse_line(char *line);
+
+t_tree			*bbuild_tree(t_list **alst, char *sep);
 
 void			display_ascii_art(void);
 

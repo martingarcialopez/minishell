@@ -3,11 +3,33 @@
 #include <string.h>
 #include "libft.h"
 
+typedef enum		e_token_type
+{
+	literal,//0
+	separator,//1
+	and,//2
+	double_and,//3
+	pipeline,//4
+	semicolon,//5
+	left_redir,//6
+	right_redir,//7
+	double_right_redir,//8
+	or,//9
+	single_quote,//10
+	double_quote,//11
+	backslash,//12
+	variable,//13
+	status,//14
+	space,//15
+	eof//16
+}			t_token_type;
+
 typedef struct Tree Tree;
 
 struct Tree 
 {
-  char **element;
+  t_token_type	type;
+  char		**element;
   Tree * left, * right;
 };
 
@@ -93,13 +115,13 @@ asciinode * build_ascii_tree_recursive(Tree * t)
   }
 
   i = 0;
-  while ((t->element)[i])
+/*  while ((t->element)[i])
   {
 	  if (i == 0)
 	    str = ft_strdup((t->element)[i]);
 	  else
 	  {
-		tmp = str;
+	//	tmp = str;
 	    str = ft_strjoin(str, (t->element)[i]);
 		//free(tmp);
 	  }
@@ -107,12 +129,12 @@ asciinode * build_ascii_tree_recursive(Tree * t)
   }
   if (!str)
     str = (t->element)[0];
- 
-  // while ((t->element)[i])
-//  {
-//	  sprintf(node->label, "%s ", (t->element)[0]);
-//  }
-  sprintf(node->label, "( %s )", str);
+*/ 
+  /* while ((t->element)[i])
+  {
+	  sprintf(node->label, "%s ", (t->element)[0]);
+  }*/
+  sprintf(node->label, "( %d, %s )", (t->type), (t->element)[0]);
   node->lablen = strlen(node->label);
 
   return node;
