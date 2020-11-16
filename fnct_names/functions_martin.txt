@@ -1,4 +1,4 @@
-srcs/parsing.c
+srcs/real_parsing.c
 srcs/print_tree.c
 srcs/tree.c
 srcs/ascii_art.c

@@ -74,7 +74,7 @@ SRCS	=  $(addprefix srcs/libft/, $(LIBFT_F)) $(addprefix srcs/ft_printf/, $(PRIN
 
 OBJS	= ${SRCS:.c=.o}
 
-CC		= gcc
+CC		= gcc -g
 
 RM		= rm -f
 

@@ -11,7 +11,7 @@ static int		is_operator(char *str)
 	return (0);
 }
 
-void		pipeline(t_tree *tree, int count, int backup_fd)
+void		pipes(t_tree *tree, int count, int backup_fd)
 {
 	int	fd[2];
 	int	fk;
@@ -32,23 +32,25 @@ void		pipeline(t_tree *tree, int count, int backup_fd)
 	}
 	close(fd[1]);
 	if (tree->right)
-		pipeline(tree->right, count - 1, fd[0]);
+		pipes(tree->right, count - 1, fd[0]);
 	wait(NULL);
 }
 
 int		exec_commands(t_tree *tree)
 {
-	t_tree *root;
-	int	ret;
+	t_tree		*root;
+	int		ret;
 
 	root = tree;
 	if (!tree || !(tree->data[0]))
 		return (0);
-	if (tree->data[0][0] == '>' || tree->data[0][0] == '<')
+	if (tree->type == right_redir || tree->type == left_redir)
+	{
 		redirection(tree);
-	if (tree->data[0][0] == '|')
-		pipeline(tree, 1, 0);
-	if (!(is_operator(tree->data[0])))
+	}
+	if (tree->type == pipeline)
+		pipes(tree, 1, 0);
+	if (tree->type == literal)
 		return (function(tree->data));
 	return (ret);
 }
