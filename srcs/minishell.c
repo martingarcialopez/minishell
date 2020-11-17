@@ -49,15 +49,8 @@ int main(int v, char **n, char **envp)
 		}
 
 		tkn_lst = pparse_line(line);
-
 		free(line);
-
-/*		cmd_tree = bbuild_tree(&tkn_lst, &sep);
-//		print_ascii_tree(cmd_tree);
-		ret = exec_commands(cmd_tree);
-		save_return(ret);
-*/
-
+		tmp = tkn_lst;
 		while (tkn_lst)
 		{
 			sep = 0;
@@ -69,17 +62,9 @@ int main(int v, char **n, char **envp)
 				break;
 			if (tkn_lst)
 				tkn_lst = tkn_lst->next;
+			free_tree(cmd_tree);
 		}
-/*		cmd_tree_list = parse_line(line);
-		//draw_list(cmd_tree_list);
-		while (cmd_tree_list)
-		{
-			ret = exec_commands((t_tree*)(cmd_tree_list->content));
-			cmd_tree_list = cmd_tree_list->next;
-			// Implementar && y || dependiendo del ret
-		}
-		save_return(ret);
-		free(line);*/
+		ft_lstclear(&tmp, &free_token);
 	}
 }
 

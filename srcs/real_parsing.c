@@ -395,7 +395,7 @@ int main(int ac, char **av)
 	t_token	*token;
 	char *line="echo \\' \"ls | wc outputs; \\n\";ls | wc";
 		
-	lst = pparse_line(line);
+	lst = pparse_line(av[1]);
 	//ft_lstdelone(&lst, lst, &free_token);
 
 	while (lst)
@@ -404,9 +404,7 @@ int main(int ac, char **av)
 		ft_printf("%s <- %d\n", token->value, token->type);
 		lst = lst->next;
 	}
-	ft_lstclear(&lst, &free_token);
-	if (!lst)
-		ft_printf("list deleted\n");
+//	ft_lstclear(&lst, &free_token);
 	while (1)
 		;
 	return (0);

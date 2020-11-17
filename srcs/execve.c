@@ -25,6 +25,7 @@ int	call_system_function(char **args)
 	}
 	else if (fk > 0)
 	{
+		free(abs_path);
 		wait(&status);
 //		if (WIFSIGNALED(status))
 //			kill(fk, SIGINT);

@@ -75,6 +75,7 @@ char			*find_path(char **args)
 	len = ft_strlen(path) + ft_strlen(args[0]) + 1;
 	abs_path = (char*)malloc(sizeof(char) * len);
 	split_path = ft_split(path, ':');
+	free(path);
 	i = 0;
 	while (split_path[i])
 	{
@@ -84,7 +85,10 @@ char			*find_path(char **args)
 		ft_strcat(abs_path, args[0]);
 		stat(abs_path, &stats);
 		if (stats.st_mode & S_IXUSR)
+		{
+			free_tab(split_path);	
 			return (abs_path);
+		}
 		i++;
 	}
 	ft_printf("Error: Command not found in PATH\n");
