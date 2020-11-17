@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/17 12:48:06 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/17 14:57:05 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static void	init_tmp(char ***tmp, int l)
 	i = 0;
 	while (i < l)
 	{
-		*tmp[i] = NULL;
+		(*tmp)[i] = NULL;
 		i++;
 	}
 }
@@ -138,9 +138,10 @@ static int	print_export(void)
 		prnt = NULL;
 		while (lst != NULL)
 		{
-			if (prnt == NULL)
+			if (prnt == NULL && c_tmp(tmp, lst->name) == 0)
 				prnt = lst;
-			else if (ft_strcmp(prnt->name,lst->name) > 0 && c_tmp(tmp, lst->name) == 0)
+			if (prnt != NULL)
+				if (ft_strcmp(prnt->name,lst->name) > 0 && c_tmp(tmp, lst->name) == 0)
 				prnt = lst;
 			lst = lst->next;
 		}
@@ -148,6 +149,7 @@ static int	print_export(void)
 		tmp[i] = prnt->name;
 		i++;
 	}
+	free(tmp);
 	return (0);
 }
 
