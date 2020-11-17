@@ -50,25 +50,26 @@ int main(int v, char **n, char **envp)
 
 		tkn_lst = pparse_line(line);
 
-/*		tmp = tkn_lst;
-		while (tkn_lst)
-		{
-			token = (t_token*)(tkn_lst->content);
-			ft_printf("%s <- %d\n", token->value, token->type);
-			tkn_lst = tkn_lst->next;
-		}
-
-		tkn_lst = tmp;
-*/
 		free(line);
 
-
-		cmd_tree = bbuild_tree(&tkn_lst, &sep);
+/*		cmd_tree = bbuild_tree(&tkn_lst, &sep);
 //		print_ascii_tree(cmd_tree);
 		ret = exec_commands(cmd_tree);
 		save_return(ret);
+*/
 
-
+		while (tkn_lst)
+		{
+			sep = 0;
+			cmd_tree = bbuild_tree(&tkn_lst, &sep);
+///			print_ascii_tree(cmd_tree);
+			ret = exec_commands(cmd_tree);
+			save_return(ret);
+			if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
+				break;
+			if (tkn_lst)
+				tkn_lst = tkn_lst->next;
+		}
 /*		cmd_tree_list = parse_line(line);
 		//draw_list(cmd_tree_list);
 		while (cmd_tree_list)

@@ -10,7 +10,7 @@ static t_token			g_token_tab[] = {
 	{"<", left_redir},
 	{">", right_redir},
 	{";", semicolon},
-	{"&", and},
+	{"&", half_and},
 	{"\'", single_quote},
 	{"\"", double_quote},
 	{"\\", backslash},
@@ -18,7 +18,7 @@ static t_token			g_token_tab[] = {
 	{"$", variable},
 	{"?", status},
 	{">>", double_right_redir},
-	{"&&", double_and},
+	{"&&", and},
 	{"||", or},
 	{0, 0}	
 };
@@ -97,7 +97,7 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
 	while (lst)
 	{
 		token = (t_token*)(lst->content);	
-/*		if (token->type == semicolon || token->type == and || token->type == or)
+		if (token->type == semicolon || token->type == and || token->type == or)
 		{
 			if (token->type == semicolon)
 				*sep = ';';
@@ -107,7 +107,7 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
 				*sep = '|';
 			break;
 		}
-*/
+
 		if ((token->type == pipeline) || (token->type == right_redir)
 			|| (token->type == left_redir) || (token->type == double_right_redir))
 		{
@@ -130,6 +130,8 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
 		ft_treeadd_root(&root, tree);
 	else
 		ft_add_leaf_dfs(&root, tree);
+	if (*sep)
+		*alst = (*alst)->next;
 	return (root);
 }
 

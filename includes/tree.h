@@ -21,7 +21,7 @@ typedef enum		e_token_type
 	literal,//0
 	separator,//1
 	and,//2
-	double_and,//3
+	half_and,//3
 	pipeline,//4
 	semicolon,//5
 	left_redir,//6
