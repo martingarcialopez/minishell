@@ -2,7 +2,7 @@
 #include "tree.h"
 #include "libft.h"
 
-// ERROR ERRROR ERRORRR >>>> Revisar la funcion line_to_token lst, y join
+// ERROR ERRROR ERRORRR >>>> Revisar la funcion line_to_token_lst, y join
 // |, ||, &, &&, >, >>, pipe, or y and mal gestionados
 
 static t_token			g_token_tab[] = {
@@ -17,9 +17,9 @@ static t_token			g_token_tab[] = {
 	{" ", space},
 	{"$", variable},
 	{"?", status},
-/*	{">>", double_right_redir},*/
-/*	{"&&", double_and},*/
-/*	{"||", or},*/
+	{">>", double_right_redir},
+	{"&&", double_and},
+	{"||", or},
 	{0, 0}	
 };
 
@@ -153,7 +153,7 @@ t_list				*line_to_token_list(char *line)
 		i = 0;
 		while (g_token_tab[i].value)
 		{
-			if (g_token_tab[i].value[0] == token->value[0])
+			if (ft_strcmp(g_token_tab[i].value, token->value) == 0)
 				token->type = g_token_tab[i].type;
 			i++;
 		}
@@ -290,6 +290,40 @@ void				join_token_of_the_same_type(t_list **alst)
 	}
 }
 
+void				reevaluate_token(t_list **alst)
+{
+	t_list	*lst;
+	t_token	*token;
+	int	i;
+
+	lst = *alst;
+	while (lst)
+	{
+		token = (t_token*)(lst->content);
+		if (token->type != literal)
+		{
+			i = 0;
+			while (g_token_tab[i].value)
+			{
+				if (ft_strcmp(g_token_tab[i].value, token->value) == 0)
+				{
+					token->type = g_token_tab[i].type;
+					break;
+				}
+				i++;
+				if (!g_token_tab[i].value)
+				{
+					ft_printf("vsh: parse error near `%c\'\n", token->value[0]);
+					*alst = NULL;
+					return ;
+				}
+			}
+		}
+		lst = lst->next;
+	}
+	
+}
+
 //	David. Time to work. Do your thing Go Go Goooooo
 void				expand_variables(t_list **alst)
 {
@@ -343,9 +377,38 @@ t_list				*pparse_line(char *line)
 	int	ret;
 	char	sep;
 
+
+	t_list	*tmp;
+	t_token* token;
+
+
 	lst = line_to_token_list(line);
 	solve_quotes(&lst);
+
+/*
+	tmp = lst;
+	while (lst)
+	{
+		token = (t_token*)(lst->content);
+		ft_printf("%s <- %d\n", token->value, token->type);
+		lst = lst->next;
+	}
+	lst = tmp;
+*/
 	join_token_of_the_same_type(&lst);
+	reevaluate_token(&lst);
+
+/*
+	ft_printf("After join_token_of_the_same_type\n");
+	tmp = lst;
+	while (lst)
+	{
+		token = (t_token*)(lst->content);
+		ft_printf("%s <- %d\n", token->value, token->type);
+		lst = lst->next;
+	}
+	lst = tmp;
+*/
 	expand_variables(&lst);
 	remove_whitespaces(&lst);
 	return (lst);
