@@ -44,10 +44,9 @@ int		exec_commands(t_tree *tree)
 	root = tree;
 	if (!tree || !(tree->data[0]))
 		return (0);
-	if (tree->type == right_redir || tree->type == left_redir)
-	{
+	if (tree->type == right_redir || tree->type == left_redir
+		|| tree->type == double_right_redir)
 		redirection(tree);
-	}
 	if (tree->type == pipeline)
 		pipes(tree, 1, 0);
 	if (tree->type == literal)
