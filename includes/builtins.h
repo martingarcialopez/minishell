@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:05:39 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/11 17:58:27 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/12 17:52:10 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct			s_env
 {
 	char		*name;
 	char		*value;
+	int		stat;
 	struct s_env	*next;
 }				t_env;
 

@@ -76,9 +76,9 @@ int		ft_cd(char **args)
 
 	if (retrieve_env_variable("HOME", &home) == 0)
 		i = 0;
-	else if (args[1] == NULL || ft_strcmp(args[1], "~") == 0)
-		i = chdir(home);
-	else
+	else if (args[1] == NULL)
+		i = chdir("\0");
+	if (args[1] != NULL)
 		i = chdir(args[1]);
 	if (i == -1)
 		ft_printf("cd: %s\n",strerror(errno));

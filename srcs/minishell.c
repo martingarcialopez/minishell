@@ -78,6 +78,7 @@ int main(int v, char **n, char **envp)
 	{} //error
 	display_ascii_art();
 	init_env(envp);
+	init_data();
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	ret = 0;
