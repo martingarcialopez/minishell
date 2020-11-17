@@ -350,6 +350,7 @@ void				expand_variables(t_list **alst)
 	}	
 }
 
+// mas waitespaises tiene que removear esto eh, que las cabrillas tambien se cogen
 void				remove_whitespaces(t_list **alst)
 {
 	t_list	*lst;
@@ -377,38 +378,10 @@ t_list				*pparse_line(char *line)
 	int	ret;
 	char	sep;
 
-
-	t_list	*tmp;
-	t_token* token;
-
-
 	lst = line_to_token_list(line);
 	solve_quotes(&lst);
-
-/*
-	tmp = lst;
-	while (lst)
-	{
-		token = (t_token*)(lst->content);
-		ft_printf("%s <- %d\n", token->value, token->type);
-		lst = lst->next;
-	}
-	lst = tmp;
-*/
 	join_token_of_the_same_type(&lst);
 	reevaluate_token(&lst);
-
-/*
-	ft_printf("After join_token_of_the_same_type\n");
-	tmp = lst;
-	while (lst)
-	{
-		token = (t_token*)(lst->content);
-		ft_printf("%s <- %d\n", token->value, token->type);
-		lst = lst->next;
-	}
-	lst = tmp;
-*/
 	expand_variables(&lst);
 	remove_whitespaces(&lst);
 	return (lst);
