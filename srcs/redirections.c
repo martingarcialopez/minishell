@@ -68,10 +68,10 @@ static void		left_redirection(t_tree *tree)
 
 void		redirection(t_tree *tree)
 {
-	if (ft_strcmp(tree->data[0], ">") == 0)
+	if (tree->type == right_redir)
 		right_redirection(tree);
-	if (ft_strcmp(tree->data[0], ">>") == 0)
+	if (tree->type == double_right_redir)
 		double_right_redirection(tree);
-	if (ft_strcmp(tree->data[0], "<") == 0)
+	if (tree->type == left_redir)
 		left_redirection(tree);
 }

@@ -1,4 +1,5 @@
 #include "builtins.h"
+#include "tree.h"
 #include "libft.h"
 #include "tree.h"
 
@@ -116,5 +117,6 @@ int		ft_echo(char **args)
 
 int		ft_exit(char **args)
 {
+	ft_printf("exit\n");
 	exit(0);
 }

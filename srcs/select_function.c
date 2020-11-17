@@ -93,7 +93,7 @@ int	function(char **args)
 {
 	int	i;
 	
-	solve_dollar(&args);
+	//solve_dollar(&args);
 	if (args[0] == NULL)
 		return (1);
 	i = 0;

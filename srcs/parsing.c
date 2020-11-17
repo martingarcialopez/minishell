@@ -127,7 +127,6 @@ t_list				*parse_line(char *str)
 	str = str_preprocessing(str);
 	//ft_printf("str after preprocessing is %s\n", str);
 	words = ft_split(str, 32);
-	/* Solucionar las comillas1 */
 	free(str);
 	while (words[i])
 	{
