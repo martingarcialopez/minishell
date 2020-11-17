@@ -6,6 +6,17 @@
 #include <sys/stat.h>
 
 
+void			free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab[i]);
+	free(tab);
+}
+
 int	retrieve_env_variable(char *name, char **value)
 {
 	t_env	*list;

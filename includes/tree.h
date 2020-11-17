@@ -84,4 +84,10 @@ void			redirection(t_tree *tree);
 
 char			*solve_home(char *arg);
 
+void			free_tab(char **tab);
+
+void			free_tree(t_tree *node);
+
+void			free_token(void *tkn);
+
 #endif

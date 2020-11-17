@@ -13,6 +13,18 @@
 #include "tree.h"
 #include "libft.h"
 
+void			free_tree(t_tree *node)
+{
+	if (!node)
+		return ;
+	if (node->left)
+		free_tree(node->left);
+	if (node->right)
+		free_tree(node->right);
+	free_tab(node->data);
+	free(node);
+}
+
 t_tree			*ft_newtree(t_token_type type, char **cmd)
 {
 	t_tree	*new;
