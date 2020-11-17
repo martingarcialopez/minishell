@@ -42,7 +42,7 @@ int		exec_commands(t_tree *tree)
 	int		ret;
 
 	root = tree;
-	if (!tree || !(tree->data[0]))
+	if (!tree)
 		return (0);
 	if (tree->type == right_redir || tree->type == left_redir
 		|| tree->type == double_right_redir)
