@@ -3,19 +3,12 @@
 #include "libft.h"
 #include <setjmp.h>
 #include <sys/wait.h>
-
-static jmp_buf env;
-void	prompt_loop();
+#include <signal.h>
 
 void	signal_handler(int sigid)
 {
-//	if (sigid == SIGINT)
-//		longjmp(env, 42);
 	if (sigid == SIGINT)
-	{
-		ft_printf("\n");
-		prompt_loop();
-	}
+		ft_printf("\n(los voltereta)-> ");
 }
 
 void	prompt_loop()
@@ -30,13 +23,6 @@ void	prompt_loop()
 
 	while(1)
 	{
-		/*
-		if (setjmp(env) == 42)
-		{
-			ft_printf("\n");
-			continue ;
-		}
-		*/
 		ft_printf("(los voltereta)-> ");
 		i = gnl(0, &line);
 		if (!i)
@@ -44,7 +30,6 @@ void	prompt_loop()
 			ft_printf("exit\n");
 			exit(0);
 		}
-
 		tkn_lst = pparse_line(line);
 		free(line);
 		tmp = tkn_lst;
