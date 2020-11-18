@@ -21,7 +21,7 @@ typedef enum		e_token_type
 	literal,//0
 	separator,//1
 	and,//2
-	double_and,//3
+	half_and,//3
 	pipeline,//4
 	semicolon,//5
 	left_redir,//6
@@ -83,5 +83,11 @@ char			*solve_cmd_path(char **args);
 void			redirection(t_tree *tree);
 
 char			*solve_home(char *arg);
+
+void			free_tab(char **tab);
+
+void			free_tree(t_tree *node);
+
+void			free_token(void *tkn);
 
 #endif

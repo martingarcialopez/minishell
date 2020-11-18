@@ -21,13 +21,14 @@ int	call_system_function(char **args)
 		signal(SIGQUIT, SIG_DFL);
 		if (!(execve(abs_path, args, env)))
 			perror("vsh");
-		return (1);
+		exit(1);
 	}
 	else if (fk > 0)
 	{
+		free(abs_path);
 		wait(&status);
-//		if (WIFSIGNALED(status))
-//			kill(fk, SIGINT);
+		if (WIFSIGNALED(status))
+			kill(fk, SIGINT);
 		if (WIFEXITED(status)) 
         		return (status); 
 	}

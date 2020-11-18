@@ -10,7 +10,7 @@ static t_token			g_token_tab[] = {
 	{"<", left_redir},
 	{">", right_redir},
 	{";", semicolon},
-	{"&", and},
+	{"&", half_and},
 	{"\'", single_quote},
 	{"\"", double_quote},
 	{"\\", backslash},
@@ -18,7 +18,7 @@ static t_token			g_token_tab[] = {
 	{"$", variable},
 	{"?", status},
 	{">>", double_right_redir},
-	{"&&", double_and},
+	{"&&", and},
 	{"||", or},
 	{0, 0}	
 };
@@ -36,9 +36,10 @@ void				free_token(void *tkn)
 char				**create_command(t_list **alst, t_list *lst)
 {
 	t_list	*begin;
-	t_list	*tmp;
+	t_list	*ltmp;
 	t_token	*token;
 	char	**cmd;
+	char	*tmp;
 	int	i;
 	
 
@@ -51,8 +52,8 @@ char				**create_command(t_list **alst, t_list *lst)
 		begin = begin->next;
 	}
 	cmd = (char**)malloc(sizeof(char*) * (i + 1));
-	while (--i >= 0)
-		cmd[i] = NULL;
+	while (i >= 0)
+		cmd[i--] = NULL;
 	i = 0;
 	begin = *alst;	
 	while (begin != lst)
@@ -67,17 +68,22 @@ char				**create_command(t_list **alst, t_list *lst)
 		if (cmd[i] == NULL)
 			cmd[i] = ft_strdup(token->value);
 		else
+		{
+			tmp = cmd[i];
 			cmd[i] = ft_strjoin(cmd[i], token->value);
+			free(tmp);
+		}
 
-		tmp = begin->next;
-		ft_lstdelone(alst, begin, &free_token);
-		begin = tmp;	
+	//	ltmp = begin->next;
+	//	ft_lstdelone(alst, begin, &free_token);
+	//	begin = ltmp;	
+		begin = begin->next;
 	}
 	
 
-	i++;
-	cmd[i] = NULL;	
+	cmd[++i] = NULL;	
 	i = 0;
+	*alst = begin;
 //	while (cmd[i])
 //		ft_printf("cmd[%d] is %s\n", i, cmd[i++]);
 	return (cmd);
@@ -86,6 +92,7 @@ char				**create_command(t_list **alst, t_list *lst)
 t_tree				*bbuild_tree(t_list **alst, char *sep)
 {
 	t_list		*lst;
+	t_list		tmp;
 	t_token		*token;
 	char		**cmd;
 
@@ -97,7 +104,7 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
 	while (lst)
 	{
 		token = (t_token*)(lst->content);	
-/*		if (token->type == semicolon || token->type == and || token->type == or)
+		if (token->type == semicolon || token->type == and || token->type == or)
 		{
 			if (token->type == semicolon)
 				*sep = ';';
@@ -107,7 +114,7 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
 				*sep = '|';
 			break;
 		}
-*/
+
 		if ((token->type == pipeline) || (token->type == right_redir)
 			|| (token->type == left_redir) || (token->type == double_right_redir))
 		{
@@ -130,6 +137,8 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
 		ft_treeadd_root(&root, tree);
 	else
 		ft_add_leaf_dfs(&root, tree);
+//	if (*sep)
+//		*alst = (*alst)->next;
 	return (root);
 }
 
@@ -393,7 +402,7 @@ int main(int ac, char **av)
 	t_token	*token;
 	char *line="echo \\' \"ls | wc outputs; \\n\";ls | wc";
 		
-	lst = pparse_line(line);
+	lst = pparse_line(av[1]);
 	//ft_lstdelone(&lst, lst, &free_token);
 
 	while (lst)
@@ -402,9 +411,7 @@ int main(int ac, char **av)
 		ft_printf("%s <- %d\n", token->value, token->type);
 		lst = lst->next;
 	}
-	ft_lstclear(&lst, &free_token);
-	if (!lst)
-		ft_printf("list deleted\n");
+//	ft_lstclear(&lst, &free_token);
 	while (1)
 		;
 	return (0);
