@@ -6,12 +6,13 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/17 14:57:05 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/18 19:07:41 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "libft.h"
+#include "tree.h"
 
 void		save_return(int ret)
 {
@@ -19,22 +20,9 @@ void		save_return(int ret)
 
 	if (ret > 255)
 		ret = ret % 255;
+	free(g_data[RET]);
 	g_data[RET] = ft_itoa(ret);
 	lst = g_env;
-	while (lst != NULL && ft_strcmp(lst->name, "?") != 0)
-		lst = lst->next;
-	if (lst == NULL)
-	{
-		lst = (t_env*)malloc(sizeof(t_env));//securizar
-		lst->name = ft_strdup("?");//securizar
-		lst->value = ft_strdup(ft_itoa(ret));//securizar
-		add_env(lst);
-	}
-	else
-	{
-		free(lst->value);
-		lst->value = ft_strdup(ft_itoa(ret));
-	}
 }
 
 int		init_env(char **envp)

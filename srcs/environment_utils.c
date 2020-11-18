@@ -32,8 +32,10 @@ char		*join_value(char **data)
 		tmp = value;
 		value = ft_strjoin(value, data[i]);//securizar
 		free(tmp);
+		free(data[i]);
 		i++;
 	}
+	free(data[i]);
 	return (value);
 }
 

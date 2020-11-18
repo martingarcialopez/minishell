@@ -70,15 +70,33 @@ const int	update_env(void)
 	return 0;
 }
 
+static char	*join_home(char *home, char *args)
+{
+	char	*tmp;
+	char	*ret;
+	
+	args++;
+	ret = ft_strjoin(home, args);
+	return (ret);
+}
+
 int		ft_cd(char **args)
 {
 	int	i;
 	char	*home;
+	char	*tmp;
 
 	if (retrieve_env_variable("HOME", &home) == 0)
 		i = 0;
 	else if (args[1] == NULL)
-		i = chdir("\0");
+		i = chdir(home);
+	else if (args[1] != NULL && *args[1] == '~')
+	{
+		tmp = args[1];
+		args[1] = join_home(home, args[1]);
+		free(tmp);
+		ft_printf("%s\n", args[1]);
+	}
 	if (args[1] != NULL)
 		i = chdir(args[1]);
 	if (i == -1)
