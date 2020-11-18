@@ -92,6 +92,8 @@ char			*find_path(char **args)
 		i++;
 	}
 	ft_printf("Error: Command not found in PATH\n");
+	free_tab(split_path);
+	free(abs_path);
 	return (NULL);
 }
 

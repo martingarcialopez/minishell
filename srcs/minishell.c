@@ -55,7 +55,7 @@ int main(int v, char **n, char **envp)
 		{
 			sep = 0;
 			cmd_tree = bbuild_tree(&tkn_lst, &sep);
-///			print_ascii_tree(cmd_tree);
+//			print_ascii_tree(cmd_tree);
 			ret = exec_commands(cmd_tree);
 			save_return(ret);
 			if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
