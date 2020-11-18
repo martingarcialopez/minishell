@@ -21,12 +21,14 @@ int	call_system_function(char **args)
 		signal(SIGQUIT, SIG_DFL);
 		if (!(execve(abs_path, args, env)))
 			perror("vsh");
+		free_tab(env);
 		exit(1);
 	}
 	else if (fk > 0)
 	{
 		free(abs_path);
 		wait(&status);
+		free_tab(env);
 		if (WIFSIGNALED(status))
 			kill(fk, SIGINT);
 		if (WIFEXITED(status)) 
@@ -34,6 +36,7 @@ int	call_system_function(char **args)
 	}
 	else
 	{
+		free_tab(env);
 		ft_printf("Error: fork not working\n");
 		return (1);
 	}

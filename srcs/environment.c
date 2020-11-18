@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/18 19:07:41 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/18 20:05:26 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,9 @@ int		init_env(char **envp)
 		new->stat = 0;
 		new->next = NULL;
 		add_env(new);
-		free(data);//free all the split
+		free(data);
 		i++;
 	}
-	new = (t_env*)malloc(sizeof(t_env));//securizar
-	new->name = ft_strdup("?");
-	new->value = ft_strdup("0");
-	new->stat = 0;
-	new->next = NULL;
-	add_env(new);
 	return (0);
 }
 
@@ -137,6 +131,7 @@ static int	print_export(void)
 		tmp[i] = prnt->name;
 		i++;
 	}
+
 	free(tmp);
 	return (0);
 }
@@ -161,7 +156,7 @@ int		ft_export(char **args)
 		if (change_env_value(data, stat)) //busca si la variable ya esta en env para no duplicarla
 		{	
 			new = (t_env*)malloc(sizeof(t_env)); //securizar
-			new->name = ft_strdup(data[0]);
+			new->name = data[0];
 			new->value = join_value(data);
 			new->stat = stat;
 			new->next = NULL;

@@ -95,7 +95,6 @@ int		ft_cd(char **args)
 		tmp = args[1];
 		args[1] = join_home(home, args[1]);
 		free(tmp);
-		ft_printf("%s\n", args[1]);
 	}
 	if (args[1] != NULL)
 		i = chdir(args[1]);
@@ -103,6 +102,7 @@ int		ft_cd(char **args)
 		ft_printf("cd: %s\n",strerror(errno));
 	if (i == 0)
 		update_env();
+	free(home);
 	return (i * (-1));
 }
 
