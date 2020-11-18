@@ -27,8 +27,8 @@ int	call_system_function(char **args)
 	{
 		free(abs_path);
 		wait(&status);
-//		if (WIFSIGNALED(status))
-//			kill(fk, SIGINT);
+		if (WIFSIGNALED(status))
+			kill(fk, SIGINT);
 		if (WIFEXITED(status)) 
         		return (status); 
 	}

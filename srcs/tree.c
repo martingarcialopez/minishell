@@ -21,6 +21,8 @@ void			free_tree(t_tree *node)
 		free_tree(node->left);
 	if (node->right)
 		free_tree(node->right);
+//	ft_printf("node->type %d, node->value[0], [1] -%s- -%s-\n",
+//				node->type, node->data[0], node->data[1]);
 	free_tab(node->data);
 	free(node);
 }
