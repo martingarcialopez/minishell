@@ -21,7 +21,7 @@ int	call_system_function(char **args)
 		signal(SIGQUIT, SIG_DFL);
 		if (!(execve(abs_path, args, env)))
 			perror("vsh");
-		return (1);
+		exit(1);
 	}
 	else if (fk > 0)
 	{

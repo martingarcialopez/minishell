@@ -64,8 +64,6 @@ int main(int v, char **n, char **envp)
 				tkn_lst = tkn_lst->next;
 			free_tree(cmd_tree);
 		}
-		//if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
-		//	free_tree(cmd_tree);
 		ft_lstclear(&tmp, &free_token);
 	}
 }
