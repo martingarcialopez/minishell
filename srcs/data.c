@@ -14,11 +14,8 @@ int	init_data(void)
 			g_data[PWD] = ft_strdup(list->value);
 		else if (ft_strcmp(list->name, "OLDPWD") == 0)
 			g_data[OLDPWD] = ft_strdup(list->value); //securizar
-		else if (ft_strcmp(list->name, "?") == 0)
-			g_data[RET] = ft_strdup(list->value); //securizar
 		list = list->next;
 	}
-	//g_data[CHILD_RUNNING] = (char*)malloc(sizeof(char) * 2);
 	g_data[CHILD_RUNNING] = 0;
 	return (0);
 }
