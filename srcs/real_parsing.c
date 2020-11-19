@@ -366,6 +366,7 @@ void				expand_variables(t_list **alst)
 void				remove_whitespaces(t_list **alst)
 {
 	t_list	*lst;
+	t_list	*tmp;
 	t_token	*token;
 	t_token *next_token;
 
@@ -376,16 +377,30 @@ void				remove_whitespaces(t_list **alst)
 		next_token = (t_token*)lst->next->content;
 		if ((token->type == space && next_token->type != literal)
 			|| (token->type == space && *alst == lst))
+		{
+			tmp = lst->next;
 			ft_lstdelone(alst, lst, &free_token);
+			lst = tmp;
+		}
 		else if (token->type != literal && next_token->type == space)
+		{
 			ft_lstdelone(alst, lst->next, &free_token);
-		lst = lst->next;
+			lst = lst->next;
+		}
+		else
+			lst = lst->next;
 	}
+/*
+	if (lst)
+	{
+		token = (t_token*)lst->content;
+	}*/
 }
 
 void				trambolic_redirections(t_list **alst)
 {
 	t_list	*lst;
+	t_list	*prev;
 	t_token	*token;
 	t_token	*next_token;
 	t_list	*tmp;
@@ -402,14 +417,20 @@ void				trambolic_redirections(t_list **alst)
 		}*/
 		if (lst == *alst && token->type == right_redir)
 		{
-			if (lst->next->next)
+			if (lst->next->next->next)
 			{
+				ft_lstdelone(alst, lst->next->next, &free_token);
 				tmp = lst;
 				lst = lst->next->next;
-				next_tmp = lst->next;
-				lst->next = tmp;
-				tmp->next->next = next_tmp;	
 				*alst = lst;
+				while (lst && lst->next && (((t_token*)lst->next->content)->type == literal || ((t_token*)lst->next->content)->type == space))
+					lst = lst->next;
+				lst->next = tmp;
+				lst->next->next->next = NULL;	
+			//	next_tmp = lst->next;
+			//	lst->next = tmp;
+			//	tmp->next->next = next_tmp;	
+		//		*alst = lst;
 			}
 		}
 		lst = lst->next;
@@ -423,15 +444,40 @@ t_list				*pparse_line(char *line)
 	int	ret;
 	char	sep;
 
+
+	t_token	*token;
+	t_list *tmp;
+
+
 	lst = line_to_token_list(line);
 	solve_quotes(&lst);
 	join_token_of_the_same_type(&lst);
 	reevaluate_token(&lst);
 	expand_variables(&lst);
 	remove_whitespaces(&lst);
+/*
+	tmp = lst;
+	while (tmp)
+	{
+		token = (t_token*)(tmp->content);
+		ft_printf("%s <- %d\n", token->value, token->type);
+		tmp = tmp->next;
+	}
+*/
 	trambolic_redirections(&lst);
+/*
+	ft_printf("====================\n");
+	tmp = lst;
+	while (tmp)
+	{
+		token = (t_token*)(tmp->content);
+		ft_printf("%s <- %d\n", token->value, token->type);
+		tmp = tmp->next;
+	}
+*/
 	return (lst);
 }
+
 /*
 int main(int ac, char **av)
 {
