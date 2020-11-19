@@ -67,6 +67,8 @@ void new_env(char *name, char *value)
 	}
 	if (lst == NULL)
 		new_env("OLDPWD", tmp);
+	free(g_data[OLDPWD]);
+	g_data[OLDPWD] = (char*)sec(ft_strdup(tmp));
 	return 0;
 }
 
