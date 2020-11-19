@@ -56,5 +56,4 @@ void				save_return(int ret);
 int				init_data(void);
 void				*sec(void *ptr);
 
-
 #endif
