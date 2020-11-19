@@ -44,7 +44,7 @@ void	prompt_loop()
 				break;
 			if (tkn_lst)
 				tkn_lst = tkn_lst->next;
-			free_tree(cmd_tree);
+//			free_tree(cmd_tree);
 		}
 		ft_lstclear(&tmp, &free_token);
 	}
@@ -59,5 +59,6 @@ int main(int ac, char **av, char **envp)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	prompt_loop();
+	exit(0);
 	return (0);
 }

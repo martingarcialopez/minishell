@@ -34,6 +34,7 @@ char			*solve_home(char *arg)
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, ++arg);
 	//stat(abs_path, &stats);	
+	free(path);
 	return (abs_path);
 }
 
@@ -55,6 +56,7 @@ char			*solve_relative_path(char **args)
 	ft_strcat(abs_path, ++args[0]);
 	stat(abs_path, &stats);	
 	//stats
+	free(path);
 	return (abs_path);
 }
 
