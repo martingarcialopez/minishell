@@ -99,7 +99,7 @@ char			*find_path(char **args)
 		}
 		i++;
 	}
-	ft_printf("Error: Command not found in PATH\n");
+	ft_printf("vsh: command not found: %s\n", args[0]);
 	free_tab(split_path);
 	free(abs_path);
 	return (NULL);
