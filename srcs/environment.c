@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/19 17:01:41 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/19 19:23:34 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		save_return(int ret)
 	if (ret > 255)
 		ret = ret % 255;
 	free(g_data[RET]);
-	g_data[RET] = ft_itoa(ret);//securizar
+	g_data[RET] = (char*)sec(ft_itoa(ret));
 	lst = g_env;
 }
 
@@ -59,10 +59,15 @@ static int	change_env_value(char **data, int stat)
 		if (ft_strcmp(lst->name, data[0]) == 0)
 		{
 			if (stat == 1)
+			{
+				free(data[0]);
+				free(data[1]);
 				return (0);
+			}
 			free(lst->value);
 			lst->value = join_value(data);
 			lst->stat = stat;
+			free(data[0]);
 			return (0);
 		}
 		lst = lst->next;
@@ -111,7 +116,7 @@ static int	print_export(void)
 		lst = lst->next;
 		l++;
 	}
-	tmp = (char **)malloc(sizeof(char*) * l); //securizar
+	tmp = (char **)sec(malloc(sizeof(char*) * l));
 	init_tmp(&tmp, l);
 	i = 0;
 	while (i < l)
@@ -150,19 +155,19 @@ int		ft_export(char **args)
 	while (args[i] != NULL)
 	{
 		stat = ft_isinstr('=', args[i]) ? 0 : 1;
-		data = ft_split(args[i], '=');
+		data = (char**)sec(ft_split(args[i], '='));
 		/* if (check_data(data)) */
 		/* 	error; */
-		if (change_env_value(data, stat)) //busca si la variable ya esta en env para no duplicarla
+		if (change_env_value(data, stat))
 		{	
-			new = (t_env*)malloc(sizeof(t_env)); //securizar
+			new = (t_env*)sec(malloc(sizeof(t_env)));
 			new->name = data[0];
 			new->value = join_value(data);
 			new->stat = stat;
 			new->next = NULL;
 			add_env(new);
 		}
-		free(data); //free a todo el split
+		free(data);
 		i++;
 	}
 	return (0);
@@ -176,9 +181,7 @@ int		ft_unset(char **args)
 
 	i = 1;
 	if (args[1] == NULL)
-	{
-		//strerror();
-	}
+		ft_putstr_fd("vsh: unset: not enough arguments", 2);
 	while (args[i] != NULL)
 	{
 		list = g_env;
@@ -207,9 +210,7 @@ int		ft_env(char **args)
 	t_env	*list;
 
 	if (args[1] != NULL)
-	{
-		//strerror();
-	}
+		ft_putstr_fd("vsh: env: too many arguments", 2);
 	list = g_env;
 	while(list != NULL)
 	{
