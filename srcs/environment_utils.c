@@ -23,6 +23,8 @@ char		*join_value(char **data)
 	char	*tmp;
 
 	value = data[1];
+	if (data[1] == NULL)
+		return (value);
 	i = 2;
 	while (data[i] != NULL)
 	{
