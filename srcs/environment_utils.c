@@ -24,7 +24,11 @@ char		*join_value(char **data)
 
 	value = data[1];
 	if (data[1] == NULL)
+	{
+		free(data[1]);
+		value = ft_strdup("");//securizar
 		return (value);
+	}
 	i = 2;
 	while (data[i] != NULL)
 	{

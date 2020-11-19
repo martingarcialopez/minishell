@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/18 20:05:26 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/19 17:01:41 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		save_return(int ret)
 	if (ret > 255)
 		ret = ret % 255;
 	free(g_data[RET]);
-	g_data[RET] = ft_itoa(ret);
+	g_data[RET] = ft_itoa(ret);//securizar
 	lst = g_env;
 }
 
@@ -36,8 +36,8 @@ int		init_env(char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		data = ft_split(envp[i], '=');
-		new = (t_env*)malloc(sizeof(t_env));//securizar
+		data = (char**)sec(ft_split(envp[i], '='));
+		new = (t_env*)sec(malloc(sizeof(t_env)));
 		new->name = data[0];
 		new->value = join_value(data);
 		new->stat = 0;
@@ -213,7 +213,7 @@ int		ft_env(char **args)
 	list = g_env;
 	while(list != NULL)
 	{
-		if (ft_strcmp(list->name, "?") != 0 && list->stat == 0)
+		if (list->stat == 0)
 			ft_printf("%s=%s\n", list->name, list->value);
 		list = list->next;
 	}
