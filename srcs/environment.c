@@ -28,8 +28,8 @@ void		save_return(int ret)
 int		init_env(char **envp)
 {
 	int 	i;
-	int	j;
-	char	*tmp;
+//	int	j;
+//	char	*tmp;
 	char	**data;
 	t_env	*new;
 
@@ -141,7 +141,7 @@ int		ft_export(char **args)
 	int		i;
 	char	**data;
 	t_env	*new;
-	char	*value;
+//	char	*value;
 	int	stat;
 
 	i = 1;

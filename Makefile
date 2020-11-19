@@ -11,10 +11,11 @@ SRCS	= $(F_DAVID) $(F_MARTIN)
 OBJS	= ${SRCS:.c=.o}
 
 .c.o:
-	gcc -g -g3 -fsanitize=address -c -I includes $< -o ${<:.c=.o}
+	gcc -Wall -Wextra -Werror -g -g3 -fsanitize=address -c -I includes $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJS}
 	gcc -g3 -fsanitize=address ${OBJS} libft/libft.a -o ${NAME}
+	
 
 all: ${NAME}
 

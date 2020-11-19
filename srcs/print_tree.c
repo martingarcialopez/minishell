@@ -93,10 +93,9 @@ int MAX (int X, int Y)
 asciinode * build_ascii_tree_recursive(Tree * t) 
 {
   asciinode * node;
-  char *str;
-  char *tmp;
+  //char *str;
+  //char *tmp;
   int	i;
-  int	j;
   
   if (t == NULL) return NULL;
 
