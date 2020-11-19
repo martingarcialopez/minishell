@@ -383,6 +383,39 @@ void				remove_whitespaces(t_list **alst)
 	}
 }
 
+void				trambolic_redirections(t_list **alst)
+{
+	t_list	*lst;
+	t_token	*token;
+	t_token	*next_token;
+	t_list	*tmp;
+	t_list	*next_tmp;
+
+	lst = *alst;
+	while (lst && lst->next)
+	{
+		token = (t_token*)lst->content;
+		next_token = (t_token*)lst->next->content;
+		/*if (token->type != literal && next_token->type == right_redir)
+		{
+			a
+		}*/
+		if (lst == *alst && token->type == right_redir)
+		{
+			if (lst->next->next)
+			{
+				tmp = lst;
+				lst = lst->next->next;
+				next_tmp = lst->next;
+				lst->next = tmp;
+				tmp->next->next = next_tmp;	
+				*alst = lst;
+			}
+		}
+		lst = lst->next;
+	}
+}
+
 t_list				*pparse_line(char *line)
 {
 	t_list	*lst;
@@ -396,6 +429,7 @@ t_list				*pparse_line(char *line)
 	reevaluate_token(&lst);
 	expand_variables(&lst);
 	remove_whitespaces(&lst);
+	trambolic_redirections(&lst);
 	return (lst);
 }
 /*
