@@ -391,9 +391,8 @@ void				remove_whitespaces(t_list **alst)
 		}
 		else if (token->type != literal && next_token->type == space)
 		{
-			//ft_lstdelone(alst, lst->next, &free_token);
-			//*lst = lst->next;
-			(void)tmp;
+			ft_lstdelone(alst, lst->next, &free_token);
+			lst = lst->next;
 		}
 		else
 			lst = lst->next;

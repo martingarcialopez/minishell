@@ -10,11 +10,17 @@ SRCS	= $(F_DAVID) $(F_MARTIN)
 
 OBJS	= ${SRCS:.c=.o}
 
+CC	= clang
+
+CFLAGS	= -Wall -Wextra -Werror
+
+DEBUG_FLAGS = -g3 -fsanitize=address
+
 .c.o:
-	gcc -Wall -Wextra -Werror -g -c -I includes $< -o ${<:.c=.o}
+	${CC} -c -I includes $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJS}
-	gcc ${OBJS} libft/libft.a -o ${NAME}
+	${CC} ${DEBUG} ${CFLAGS} ${OBJS} libft/libft.a -o ${NAME}
 	
 
 all: ${NAME}
