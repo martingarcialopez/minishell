@@ -36,7 +36,6 @@ void				free_token(void *tkn)
 char				**create_command(t_list **alst, t_list *lst)
 {
 	t_list	*begin;
-	t_list	*ltmp;
 	t_token	*token;
 	char	**cmd;
 	char	*tmp;
@@ -92,7 +91,6 @@ char				**create_command(t_list **alst, t_list *lst)
 t_tree				*bbuild_tree(t_list **alst, char *sep)
 {
 	t_list		*lst;
-	t_list		tmp;
 	t_token		*token;
 	char		**cmd;
 
@@ -345,7 +343,7 @@ void				expand_variables(t_list **alst)
 	{
 		token = (t_token*)lst->content;
 		next_token = (t_token*)lst->next->content;
-		if (token->type == variable)
+		if (token->type == variable && next_token->type == literal)
 		{
 			token->type = literal;	
 			if (!(retrieve_env_variable(next_token->value, &env_variable)))
@@ -355,6 +353,8 @@ void				expand_variables(t_list **alst)
 			free(token->value);
 			ft_lstdelone(alst, lst->next, &free_token);
 		}
+		else 
+			token->type = literal;
 		lst = lst->next;
 	}	
 }
@@ -442,13 +442,10 @@ void				trambolic_redirections(t_list **alst)
 t_list				*pparse_line(char *line)
 {
 	t_list	*lst;
-	t_tree	*tree;
-	int	ret;
-	char	sep;
 
 
-	t_token	*token;
-	t_list *tmp;
+//	t_token	*token;
+//	t_list *tmp;
 
 
 	lst = line_to_token_list(line);
@@ -467,8 +464,8 @@ t_list				*pparse_line(char *line)
 	}
 */
 	trambolic_redirections(&lst);
-/*
-	ft_printf("====================\n");
+
+/*	ft_printf("====================\n");
 	tmp = lst;
 	while (tmp)
 	{
@@ -476,8 +473,8 @@ t_list				*pparse_line(char *line)
 		ft_printf("%s <- %d\n", token->value, token->type);
 		tmp = tmp->next;
 	}
-*/
 
+*/
 
 	return (lst);
 }

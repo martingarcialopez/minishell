@@ -11,18 +11,14 @@
 
 char			*solve_abs_path(char **args)
 {
-	struct stat	stats;
 	char		*abs_path;
 	
-	stat(args[0], &stats);
-	//if (stats.st_mode & S_IXUSR)
 	abs_path = ft_strdup(args[0]);
 	return (abs_path);
 	}
 
 char			*solve_home(char *arg)
 {
-	struct stat	stats;
 	char		*path;
 	char		*abs_path;
 	int		len;
@@ -37,7 +33,6 @@ char			*solve_home(char *arg)
 	abs_path[0] = '\0';
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, ++arg);
-	//stat(abs_path, &stats);	
 	free(path);
 	return (abs_path);
 }

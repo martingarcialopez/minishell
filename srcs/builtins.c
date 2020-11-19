@@ -6,7 +6,7 @@
 int		ft_pwd(char **args)
 {
 	char	*buf;
-	t_env	*list;
+//	t_env	*list;
 
 	if (args[1] != NULL)
 	{
@@ -31,7 +31,7 @@ void new_env(char *name, char *value)
 	add_env(new);
 }
 
-const int	update_env(void)
+/*const*/ int	update_env(void)
 {
 	t_env	*lst;
 	char	*tmp;
@@ -72,7 +72,7 @@ const int	update_env(void)
 
 static char	*join_home(char *home, char *args)
 {
-	char	*tmp;
+//	char	*tmp;
 	char	*ret;
 	
 	args++;
@@ -135,6 +135,7 @@ int		ft_echo(char **args)
 
 int		ft_exit(char **args)
 {
+	(void)args;
 	ft_printf("exit\n");
 	exit(0);
 }
