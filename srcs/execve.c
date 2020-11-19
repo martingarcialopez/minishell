@@ -25,11 +25,13 @@ int	call_system_function(char **args)
 	}
 	else if (fk > 0)
 	{
+		signal(SIGINT, SIG_IGN);
 		free(abs_path);
 		wait(&status);
+		signal(SIGINT, &signal_handler);
 		free_tab(env);
 		if (WIFSIGNALED(status))
-			kill(fk, SIGINT);
+			ft_printf("\n");
 		if (WIFEXITED(status)) 
         		return (status); 
 	}

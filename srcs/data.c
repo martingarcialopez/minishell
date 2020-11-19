@@ -16,6 +16,6 @@ int	init_data(void)
 			g_data[OLDPWD] = ft_strdup(list->value); //securizar
 		list = list->next;
 	}
-	g_data[RET] = ft_strdup("0"); //securizar
+	g_data[CHILD_RUNNING] = 0;
 	return (0);
 }
