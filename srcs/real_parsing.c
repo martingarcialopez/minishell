@@ -351,10 +351,8 @@ void				expand_variables(t_list **alst)
 			if (!(retrieve_env_variable(next_token->value, &env_variable)))
 				token->value = ft_strdup("");
 			else
-			{
-				free(token->value);
 				token->value = env_variable;
-			}
+			free(token->value);
 			ft_lstdelone(alst, lst->next, &free_token);
 		}
 		lst = lst->next;
