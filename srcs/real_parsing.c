@@ -241,25 +241,25 @@ void		bbackslash(t_list **begin, t_list *lst, char *last, char *backsl)
 
 void		solve_quotes(t_list **alst)
 {
-	t_list	*begin;
 	t_list	*lst;
+	t_list	*tmp;
 	t_token	*token;
 	char	last;
 	char	backsl;
 	
-	begin = *alst;
 	lst = *alst;
 	last = 0;
 	backsl = 0;
 	while (lst)
 	{
+		tmp = lst->next;
 		token = (t_token*)(lst->content);
 		if (token->type == single_quote)
-			ssingle_quote(&begin, lst, &last, &backsl);	
+			ssingle_quote(alst, lst, &last, &backsl);	
 		else if (token->type == double_quote)
-			ddouble_quote(&begin, lst, &last, &backsl);
+			ddouble_quote(alst, lst, &last, &backsl);
 		else if (token->type == backslash)
-			bbackslash(&begin, lst, &last, &backsl);
+			bbackslash(alst, lst, &last, &backsl);
 		else if (backsl || last)
 		{
 			if (!(last == 22 && token->type == variable))
@@ -267,9 +267,8 @@ void		solve_quotes(t_list **alst)
 			if (backsl)
 				backsl = 0;
 		}
-		lst = lst->next;
+		lst = tmp;
 	}
-	*alst = begin;
 }
 
 
