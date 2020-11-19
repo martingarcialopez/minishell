@@ -9,10 +9,12 @@
 char			*solve_abs_path(char **args)
 {
 	struct stat	stats;
+	char		*abs_path;
 	
 	stat(args[0], &stats);
 	//if (stats.st_mode & S_IXUSR)
-	return (args[0]);
+	abs_path = ft_strdup(args[0]);
+	return (abs_path);
 	
 }
 
@@ -53,7 +55,7 @@ char			*solve_relative_path(char **args)
 	abs_path = (char*)malloc(sizeof(char) * len);
 	abs_path[0] = '\0';
 	ft_strcat(abs_path, path);
-	ft_strcat(abs_path, ++args[0]);
+	ft_strcat(abs_path, (*args + 1));
 	stat(abs_path, &stats);	
 	//stats
 	free(path);

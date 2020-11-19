@@ -90,4 +90,6 @@ void			free_tree(t_tree *node);
 
 void			free_token(void *tkn);
 
+void			signal_handler(int sigid);
+
 #endif

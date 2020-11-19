@@ -8,7 +8,12 @@
 void	signal_handler(int sigid)
 {
 	if (sigid == SIGINT)
-		ft_printf("\n(los voltereta)-> ");
+	{
+	/*	if (g_data[CHILD_RUNNING])
+			ft_printf("\n") ;*/
+//		else
+			ft_printf("\n(los voltereta)-> ");
+	}
 }
 
 void	prompt_loop()
@@ -44,7 +49,7 @@ void	prompt_loop()
 				break;
 			if (tkn_lst)
 				tkn_lst = tkn_lst->next;
-//			free_tree(cmd_tree);
+			free_tree(cmd_tree);
 		}
 		ft_lstclear(&tmp, &free_token);
 	}

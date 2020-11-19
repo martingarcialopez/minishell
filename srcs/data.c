@@ -18,5 +18,7 @@ int	init_data(void)
 			g_data[RET] = ft_strdup(list->value); //securizar
 		list = list->next;
 	}
+	//g_data[CHILD_RUNNING] = (char*)malloc(sizeof(char) * 2);
+	g_data[CHILD_RUNNING] = 0;
 	return (0);
 }

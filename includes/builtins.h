@@ -20,6 +20,7 @@
 # define PWD 0
 # define OLDPWD 1
 # define RET 2
+# define CHILD_RUNNING 3
 
 typedef struct			s_env
 {
@@ -35,7 +36,7 @@ typedef struct			s_bint_fnc
 	int	(*fnct)(char **);
 }				t_bint_fnc;
 
-char	*g_data[3];
+char	*g_data[4];
 t_env	*g_env;
 
 int				ft_env(char **args);
