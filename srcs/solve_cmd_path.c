@@ -5,6 +5,9 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+#ifndef _DARWIN_FEATURE_64_BIT_INODE
+# define _DARWIN_FEATURE_64_BIT_INODE
+#endif
 
 char			*solve_abs_path(char **args)
 {
@@ -15,8 +18,7 @@ char			*solve_abs_path(char **args)
 	//if (stats.st_mode & S_IXUSR)
 	abs_path = ft_strdup(args[0]);
 	return (abs_path);
-	
-}
+	}
 
 char			*solve_home(char *arg)
 {
@@ -87,15 +89,17 @@ char			*find_path(char **args)
 		ft_strcat(abs_path, split_path[i]);
 		ft_strcat(abs_path, "/");
 		ft_strcat(abs_path, args[0]);
-		stat(abs_path, &stats);
-		if (stats.st_mode & S_IXUSR)
+		if (stat(abs_path, &stats) == 0)
 		{
-			free_tab(split_path);	
-			return (abs_path);
+			if (stats.st_mode & S_IXUSR)
+			{
+				free_tab(split_path);	
+				return (abs_path);
+			}
 		}
 		i++;
 	}
-	ft_printf("Error: Command not found in PATH\n");
+	ft_printf("vsh: command not found: %s\n", args[0]);
 	free_tab(split_path);
 	free(abs_path);
 	return (NULL);

@@ -27,9 +27,9 @@ int	call_system_function(char **args)
 	{
 		signal(SIGINT, SIG_IGN);
 		free(abs_path);
+		free_tab(env);
 		wait(&status);
 		signal(SIGINT, &signal_handler);
-		free_tab(env);
 		if (WIFSIGNALED(status))
 			ft_printf("\n");
 		if (WIFEXITED(status)) 

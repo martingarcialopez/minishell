@@ -351,10 +351,8 @@ void				expand_variables(t_list **alst)
 			if (!(retrieve_env_variable(next_token->value, &env_variable)))
 				token->value = ft_strdup("");
 			else
-			{
-				free(token->value);
 				token->value = env_variable;
-			}
+			free(token->value);
 			ft_lstdelone(alst, lst->next, &free_token);
 		}
 		lst = lst->next;
@@ -406,30 +404,35 @@ void				trambolic_redirections(t_list **alst)
 	t_list	*next_tmp;
 
 	lst = *alst;
+	prev = NULL;
 	while (lst && lst->next)
 	{
 		token = (t_token*)lst->content;
 		next_token = (t_token*)lst->next->content;
-		/*if (token->type != literal && next_token->type == right_redir)
+		if ((token->type != literal && next_token->type == right_redir)
+			|| (lst == *alst && token->type == right_redir))
 		{
-			a
-		}*/
-		if (lst == *alst && token->type == right_redir)
-		{
+			if (token->type != literal && next_token->type == right_redir)
+			{
+				prev = lst;
+				lst = lst->next;
+			}
 			if (lst->next->next->next)
 			{
 				ft_lstdelone(alst, lst->next->next, &free_token);
 				tmp = lst;
 				lst = lst->next->next;
-				*alst = lst;
-				while (lst && lst->next && (((t_token*)lst->next->content)->type == literal || ((t_token*)lst->next->content)->type == space))
+				
+				if (prev)
+					prev->next = lst;
+				else
+					*alst = lst;
+				while (lst && lst->next && (((t_token*)lst->next->content)->type == literal
+					|| ((t_token*)lst->next->content)->type == space))
 					lst = lst->next;
+				next_tmp = lst->next;
 				lst->next = tmp;
-				lst->next->next->next = NULL;	
-			//	next_tmp = lst->next;
-			//	lst->next = tmp;
-			//	tmp->next->next = next_tmp;	
-		//		*alst = lst;
+				lst->next->next->next = next_tmp;	
 			}
 		}
 		lst = lst->next;
@@ -474,9 +477,10 @@ t_list				*pparse_line(char *line)
 		tmp = tmp->next;
 	}
 */
+
+
 	return (lst);
 }
-
 /*
 int main(int ac, char **av)
 {
