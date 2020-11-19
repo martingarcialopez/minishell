@@ -76,7 +76,7 @@ static char	*join_home(char *home, char *args)
 	char	*ret;
 	
 	args++;
-	ret = ft_strjoin(home, args);
+	ret = ft_strjoin(home, args);//securizar
 	return (ret);
 }
 
@@ -90,16 +90,18 @@ int		ft_cd(char **args)
 		i = 0;
 	else if (args[1] == NULL)
 		i = chdir(home);
-	else if (args[1] != NULL && *args[1] == '~')
+	else if (args[1] != NULL && *args[1] == '~' && args[1][1] != '-')
 	{
 		tmp = args[1];
 		args[1] = join_home(home, args[1]);
 		free(tmp);
 	}
-	if (args[1] != NULL)
+	if (args[1] != NULL && *args[1] == '~' && *(args[1] + 1) == '-')
+		i = chdir(g_data[OLDPWD]);
+	else if (args[1] != NULL)
 		i = chdir(args[1]);
 	if (i == -1)
-		ft_printf("cd: %s\n",strerror(errno));
+		ft_printf("vsh: cd: %s\n",strerror(errno));
 	if (i == 0)
 		update_env();
 	free(home);

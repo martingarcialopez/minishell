@@ -43,3 +43,13 @@ int	retrieve_env_variable(char *name, char **value)
 	}	
 	return (0);	
 }
+
+void	*sec(void *ptr)
+{
+	if (ptr == NULL)
+	{
+		perror("vsh: ERROR:");
+		exit(1);	
+	}
+	return (ptr);
+}

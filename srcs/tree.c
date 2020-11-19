@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:23:31 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/10/29 16:05:07 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/19 20:04:32 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ void			ft_treeadd_root(t_tree **rtree, t_tree *new)
 	if (!root)
 		*rtree = new;
 	else
+	{
 		new->left = root;
 		*rtree = new;
+	}
 }
 
 int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new)

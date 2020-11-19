@@ -95,7 +95,7 @@ asciinode * build_ascii_tree_recursive(Tree * t)
   asciinode * node;
   //char *str;
   //char *tmp;
-  int	i;
+  /* int	i; */
   
   if (t == NULL) return NULL;
 
@@ -113,7 +113,7 @@ asciinode * build_ascii_tree_recursive(Tree * t)
     node->right->parent_dir = 1;
   }
 
-  i = 0;
+  /* i = 0; */
 /*  while ((t->element)[i])
   {
 	  if (i == 0)
