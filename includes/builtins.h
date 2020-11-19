@@ -55,16 +55,4 @@ void				list_rm_next(t_env *list);
 void				save_return(int ret);
 int				init_data(void);
 
-static t_bint_fnc	g_builtin_fnc[]=
-{
-	{"env", &ft_env},
-	{"export", &ft_export},
-	{"unset", &ft_unset},
-	{"pwd", &ft_pwd},
-	{"cd", &ft_cd},
-	{"echo", &ft_echo},
-	{"exit", &ft_exit},
-	{NULL, 0}
-};
-
 #endif
