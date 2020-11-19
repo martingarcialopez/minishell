@@ -36,7 +36,6 @@ void				free_token(void *tkn)
 char				**create_command(t_list **alst, t_list *lst)
 {
 	t_list	*begin;
-	t_list	*ltmp;
 	t_token	*token;
 	char	**cmd;
 	char	*tmp;
@@ -92,7 +91,6 @@ char				**create_command(t_list **alst, t_list *lst)
 t_tree				*bbuild_tree(t_list **alst, char *sep)
 {
 	t_list		*lst;
-	t_list		tmp;
 	t_token		*token;
 	char		**cmd;
 
@@ -172,8 +170,8 @@ t_list				*line_to_token_list(char *line)
 	} return (begin);
 }
 
-//double quotes == 22
-//single quotes == 27
+//double quotes == 34
+//single quotes == 39
 
 void		ssingle_quote(t_list **begin, t_list *lst, char *last, char *backsl)
 {
@@ -182,15 +180,15 @@ void		ssingle_quote(t_list **begin, t_list *lst, char *last, char *backsl)
 	token = (t_token*)((lst)->content);
 	if (!*backsl && !*last)
 	{
-		*last = 27;
+		*last = 39;
 		ft_lstdelone(begin, lst, &free_token);
 	}
-	else if (!*backsl && *last == 27)
+	else if (!*backsl && *last == 39)
 	{
 		*last = 0;
 		ft_lstdelone(begin, lst, &free_token);
 	}
-	else if (*backsl || *last == 22)
+	else if (*backsl || *last == 34)
 	{
 		if (*backsl)
 			*backsl = 0;
@@ -205,15 +203,15 @@ void		ddouble_quote(t_list **begin, t_list *lst, char *last, char *backsl)
 	token = (t_token*)((lst)->content);
 	if (!*backsl && !*last)
 	{
-		*last = 22;
+		*last = 34;
 		ft_lstdelone(begin, lst, &free_token);
 	}
-	else if (!*backsl && *last == 22)
+	else if (!*backsl && *last == 34)
 	{
 		*last = 0;
 		ft_lstdelone(begin, lst, &free_token);
 	}
-	else if (*backsl || *last == 27)
+	else if (*backsl || *last == 39)
 	{
 		if (*backsl)
 			*backsl = 0;
@@ -226,12 +224,12 @@ void		bbackslash(t_list **begin, t_list *lst, char *last, char *backsl)
 	t_token *token;
 
 	token = (t_token*)(lst->content);
-	if (!*backsl && (!*last || *last == 22))
+	if (!*backsl && (!*last || *last == 34))
 	{
 		*backsl = 1;
 		ft_lstdelone(begin, lst, &free_token);
 	}
-	else if (*backsl || *last == 27)
+	else if (*backsl || *last == 39)
 	{
 		if (*backsl)
 			*backsl = 0;
@@ -262,12 +260,17 @@ void		solve_quotes(t_list **alst)
 			bbackslash(alst, lst, &last, &backsl);
 		else if (backsl || last)
 		{
-			if (!(last == 22 && token->type == variable))
+			if (!(last == 34 && token->type == variable))
 				token->type = literal;
 			if (backsl)
 				backsl = 0;
 		}
 		lst = tmp;
+	}
+	if (last)
+	{
+		ft_printf("vsh: parse error: missing quote (%c)\n",  last);
+		ft_lstclear(alst, &free_token);
 	}
 }
 
@@ -345,18 +348,25 @@ void				expand_variables(t_list **alst)
 	{
 		token = (t_token*)lst->content;
 		next_token = (t_token*)lst->next->content;
-		if (token->type == variable)
+		if (token->type == variable && (next_token->type == literal && ft_strcmp(next_token->value, "\'") != 0))
 		{
 			token->type = literal;	
 			if (!(retrieve_env_variable(next_token->value, &env_variable)))
 				token->value = ft_strdup("");
 			else
 				token->value = env_variable;
-			free(token->value);
 			ft_lstdelone(alst, lst->next, &free_token);
 		}
+		else if (token->type == variable /*&& (next_token->type != literal || ft_strcmp(next_token->value, "\'") == 0)*/)
+			token->type = literal;
 		lst = lst->next;
 	}	
+	if (lst)
+	{
+		token = (t_token*)lst->content;
+		if (token->type == variable)
+			token->type = literal;
+	}
 }
 
 // mas waitespaises tiene que removear esto eh, que las cabrillas tambien se cogen
@@ -381,8 +391,9 @@ void				remove_whitespaces(t_list **alst)
 		}
 		else if (token->type != literal && next_token->type == space)
 		{
-			ft_lstdelone(alst, lst->next, &free_token);
-			lst = lst->next;
+			//ft_lstdelone(alst, lst->next, &free_token);
+			//*lst = lst->next;
+			(void)tmp;
 		}
 		else
 			lst = lst->next;
@@ -442,12 +453,9 @@ void				trambolic_redirections(t_list **alst)
 t_list				*pparse_line(char *line)
 {
 	t_list	*lst;
-	t_tree	*tree;
-	int	ret;
-	char	sep;
 
 
-	t_token	*token;
+//	t_token	*token;
 	t_list *tmp;
 
 
@@ -456,16 +464,16 @@ t_list				*pparse_line(char *line)
 	join_token_of_the_same_type(&lst);
 	reevaluate_token(&lst);
 	expand_variables(&lst);
-	remove_whitespaces(&lst);
-/*
+
 	tmp = lst;
-	while (tmp)
+/*	while (tmp)
 	{
 		token = (t_token*)(tmp->content);
 		ft_printf("%s <- %d\n", token->value, token->type);
 		tmp = tmp->next;
 	}
 */
+	remove_whitespaces(&lst);
 	trambolic_redirections(&lst);
 /*
 	ft_printf("====================\n");

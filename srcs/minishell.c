@@ -58,6 +58,8 @@ void	prompt_loop()
 
 int main(int ac, char **av, char **envp)
 {
+	(void)ac;
+	(void)av;
 	display_ascii_art();
 	init_env(envp);
 	init_data();
