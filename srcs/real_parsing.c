@@ -345,7 +345,7 @@ void				expand_variables(t_list **alst)
     {
 	token = (t_token*)lst->content;
 	next_token = (t_token*)lst->next->content;
-	if (token->type == variable && (next_token->type == literal && ft_strcmp(next_token->value, "\'") != 0))
+	if (token->type == variable && (next_token->type == status || (next_token->type == literal && ft_strcmp(next_token->value, "\'") != 0)))
 	{
 	    token->type = literal;	
 	    if (!(retrieve_env_variable(next_token->value, &env_variable)))
