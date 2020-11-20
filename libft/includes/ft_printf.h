@@ -60,7 +60,7 @@ typedef struct	s_float
 
 int				ft_printf(const char *format, ...);
 
-int				ft_printf_fd(const char *format, ...);
+int				ft_printf_fd(int fd, const char *format, ...);
 
 int				ft_vprintf(int fd, const char *format, va_list ap);
 

@@ -13,7 +13,7 @@ char			*solve_abs_path(char **args)
 {
 	char		*abs_path;
 	
-	abs_path = ft_strdup(args[0]);
+	abs_path = sec(ft_strdup(args[0]));
 	return (abs_path);
 	}
 
@@ -29,7 +29,7 @@ char			*solve_home(char *arg)
 		return (NULL);
 	}
 	len = ft_strlen(path) + ft_strlen(arg) + 1;
-	abs_path = (char*)malloc(sizeof(char) * len);
+	abs_path = (char*)sec(malloc(sizeof(char) * len));
 	abs_path[0] = '\0';
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, ++arg);
@@ -49,7 +49,7 @@ char			*solve_relative_path(char **args)
 		return (NULL);
 	}
 	len = ft_strlen(path) + ft_strlen(args[0]) + 1;
-	abs_path = (char*)malloc(sizeof(char) * len);
+	abs_path = (char*)sec(malloc(sizeof(char) * len));
 	abs_path[0] = '\0';
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, (*args + 1));
@@ -74,8 +74,8 @@ char			*find_path(char **args)
 		return (NULL);
 	}
 	len = ft_strlen(path) + ft_strlen(args[0]) + 1;
-	abs_path = (char*)malloc(sizeof(char) * len);
-	split_path = ft_split(path, ':');
+	abs_path = (char*)sec(malloc(sizeof(char) * len));
+	split_path = sec(ft_split(path, ':'));
 	free(path);
 	i = 0;
 	while (split_path[i])

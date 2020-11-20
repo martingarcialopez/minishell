@@ -49,7 +49,7 @@ char				**create_command(t_list **alst, t_list *lst)
 			i++;
 		begin = begin->next;
 	}
-	cmd = (char**)malloc(sizeof(char*) * (i + 1));
+	cmd = (char**)sec(malloc(sizeof(char*) * (i + 1)));
 	while (i >= 0)
 		cmd[i--] = NULL;
 	i = 0;
@@ -64,11 +64,11 @@ char				**create_command(t_list **alst, t_list *lst)
 			continue;
 		}
 		if (cmd[i] == NULL)
-			cmd[i] = ft_strdup(token->value);
+			cmd[i] = sec(ft_strdup(token->value));
 		else
 		{
 			tmp = cmd[i];
-			cmd[i] = ft_strjoin(cmd[i], token->value);
+			cmd[i] = sec(ft_strjoin(cmd[i], token->value));
 			free(tmp);
 		}
 
@@ -115,8 +115,8 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
 		if ((token->type == pipeline) || (token->type == right_redir)
 			|| (token->type == left_redir) || (token->type == double_right_redir))
 		{
-			cmd = (char**)malloc(sizeof(char*) * 2);
-			cmd[0] = ft_strdup("op");
+			cmd = (char**)sec(malloc(sizeof(char*) * 2));
+			cmd[0] = sec(ft_strdup("op"));
 			cmd[1] = NULL;
 			tree = ft_newtree(token->type, cmd);
 			ft_treeadd_root(&root, tree);
@@ -152,10 +152,10 @@ t_list				*line_to_token_list(char *line)
 	str[1] = '\0';
 	while (*line)
 	{
-		token = (t_token*)malloc(sizeof(t_token));
+		token = (t_token*)sec(malloc(sizeof(t_token)));
 		token->type = literal;
 		str[0] = *line;
-		token->value = ft_strdup(str);
+		token->value = sec(ft_strdup(str));
 		i = 0;
 		while (g_token_tab[i].value)
 		{
@@ -163,7 +163,7 @@ t_list				*line_to_token_list(char *line)
 				token->type = g_token_tab[i].type;
 			i++;
 		}
-		lst = ft_lstnew((void*)token);
+		lst = sec(ft_lstnew((void*)token));
 		ft_lstadd_back(&begin, lst);
 		line++;
 	} return (begin);
@@ -291,7 +291,7 @@ void				join_token_of_the_same_type(t_list **alst)
 		if (token->type == next_token->type)
 		{
 			tmp = token->value;
-			token->value = ft_strjoin(token->value, next_token->value);
+			token->value = sec(ft_strjoin(token->value, next_token->value));
 			free(tmp);
 			ft_lstdelone(begin, lst->next, &free_token);
 		}
@@ -357,7 +357,7 @@ void				expand_variables(t_list **alst)
 		{
 			token->type = literal;	
 			if (!(retrieve_env_variable(next_token->value, &env_variable)))
-				token->value = ft_strdup("");
+				token->value = sec(ft_strdup(""));
 			else
 				token->value = env_variable;
 			ft_lstdelone(alst, lst->next, &free_token);
