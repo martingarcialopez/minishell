@@ -14,11 +14,22 @@
 
 int	ft_printf(const char *format, ...)
 {
-	va_list	arg;
-	int		done;
+    va_list arg;
+    int     done;
 
-	va_start(arg, format);
-	done = ft_vprintf(format, arg);
-	va_end(arg);
-	return (done);
+    va_start(arg, format);
+    done = ft_vprintf(1, format, arg);
+    va_end(arg);
+    return (done);
+}
+
+int     ft_printf_fd(int fd, const char *format, ...)
+{
+    va_list arg;
+    int     done;
+
+    va_start(arg, format);
+    done = ft_vprintf(fd, format, arg);
+    va_end(arg);
+    return (done);
 }

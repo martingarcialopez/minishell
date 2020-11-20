@@ -41,7 +41,7 @@ void		putchar_buff(char c, char *buf, t_flags *f)
 		buf[f->i++] = c;
 	else
 	{
-		write(1, buf, BUFFSIZE);
+		write(f->fd, buf, BUFFSIZE);
 		f->idx += BUFFSIZE;
 		f->i = 0;
 		putchar_buff(c, buf, f);

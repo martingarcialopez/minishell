@@ -318,13 +318,19 @@ void				reevaluate_token(t_list **alst)
 				if (ft_strcmp(g_token_tab[i].value, token->value) == 0)
 				{
 					token->type = g_token_tab[i].type;
+                                        if (token->type == half_and)
+                                        {
+                                            ft_printf("vsh: parse error near `%s\'\n", token->value);
+                                            ft_lstclear(alst, &free_token);
+                                            return ;
+                                        }
 					break;
 				}
 				i++;
 				if (!g_token_tab[i].value)
 				{
 					ft_printf("vsh: parse error near `%c\'\n", token->value[0]);
-					*alst = NULL;
+                                        ft_lstclear(alst, &free_token);
 					return ;
 				}
 			}
@@ -419,15 +425,15 @@ void				trambolic_redirections(t_list **alst)
 	{
 		token = (t_token*)lst->content;
 		next_token = (t_token*)lst->next->content;
-		if ((token->type != literal && next_token->type == right_redir)
-			|| (lst == *alst && token->type == right_redir))
+		if ((token->type != literal && (next_token->type == right_redir || next_token->type == double_right_redir))
+			|| (lst == *alst && (token->type == right_redir || token->type == double_right_redir)))
 		{
-			if (token->type != literal && next_token->type == right_redir)
+			if (token->type != literal && (next_token->type == right_redir || next_token->type == double_right_redir))
 			{
 				prev = lst;
 				lst = lst->next;
 			}
-			if (lst->next->next->next)
+			if (lst->next->next && lst->next->next->next)
 			{
 				ft_lstdelone(alst, lst->next->next, &free_token);
 				tmp = lst;
@@ -447,6 +453,57 @@ void				trambolic_redirections(t_list **alst)
 		}
 		lst = lst->next;
 	}
+}
+
+int                             is_operator(t_token_type type)
+{
+    if (type == pipeline || type == or || type == and || type == right_redir
+            || type == left_redir || type == double_right_redir)
+        return (1);
+    return (0);
+}
+
+void                            check_syntax(t_list **alst)
+{
+    t_list  *lst;
+    t_token *tkn;
+    t_token *ntkn;
+
+    lst = *alst;
+    while (lst && lst->next)
+    {
+        tkn = (t_token*)lst->content;
+        ntkn = (t_token*)lst->next->content;
+        if (is_operator(tkn->type) && lst == *alst)
+        {
+            ft_printf("vsh: parse error near `%s'\n", tkn->value);
+            ft_lstclear(alst, &free_token);
+            return ;
+        }
+        else if (is_operator(tkn->type) && ntkn->type != literal)
+        {
+            ft_printf("vsh: parse error near `%s'\n", tkn->value);
+            ft_lstclear(alst, &free_token);
+            return ;
+        }
+        else if (tkn->type != literal && is_operator(ntkn->type))
+        {
+            ft_printf("vsh: parse error near `%s'\n", tkn->value);
+            ft_lstclear(alst, &free_token);
+            return ;
+        }
+        lst = lst->next;
+    }
+    if (lst)
+    {
+        tkn = (t_token*)lst->content;
+        if (is_operator(tkn->type))
+        {
+            ft_printf("vsh: parse error near `%s'\n", tkn->value);
+            ft_lstclear(alst, &free_token);
+            return ;
+        }
+    }
 }
 
 t_list				*pparse_line(char *line)
@@ -474,6 +531,7 @@ t_list				*pparse_line(char *line)
 */
 	remove_whitespaces(&lst);
 	trambolic_redirections(&lst);
+        check_syntax(&lst);
 /*
 	ft_printf("====================\n");
 	tmp = lst;

@@ -29,7 +29,7 @@ static void		double_right_redirection(t_tree *tree)
 
 	//proteger open
 	//proteger fork
-	fd = open(tree->right->data[0], O_WRONLY | O_CREAT | O_APPEND);
+	fd = open(tree->right->data[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	fk = fork();
 	if (fk == 0)
 	{
