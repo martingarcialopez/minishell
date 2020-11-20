@@ -516,8 +516,8 @@ t_list				*pparse_line(char *line)
 	}
 	*/
     remove_whitespaces(&lst);
-    trambolic_redirections(&lst);
     check_syntax(&lst);
+    trambolic_redirections(&lst);
     /*
        ft_printf("====================\n");
        tmp = lst;
