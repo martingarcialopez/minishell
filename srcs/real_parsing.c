@@ -2,8 +2,7 @@
 #include "tree.h"
 #include "libft.h"
 
-// ERROR ERRROR ERRORRR >>>> Revisar la funcion line_to_token_lst, y join
-// |, ||, &, &&, >, >>, pipe, or y and mal gestionados
+// ERROR ERRROR ERRORRR >>>> Revisar la funcion line_to_token_lst, y join // |, ||, &, &&, >, >>, pipe, or y and mal gestionados
 
 static t_token			g_token_tab[] = {
 	{"|", pipeline},
@@ -311,7 +310,7 @@ void				reevaluate_token(t_list **alst)
 	while (lst)
 	{
 		token = (t_token*)(lst->content);
-		if (token->type != literal)
+		if (token->type != literal && token->type != space)
 		{
 			i = 0;
 			while (g_token_tab[i].value)
@@ -397,11 +396,12 @@ void				remove_whitespaces(t_list **alst)
 		else
 			lst = lst->next;
 	}
-/*
 	if (lst)
 	{
 		token = (t_token*)lst->content;
-	}*/
+                if (token->type == space)
+                    ft_lstdelone(alst, lst, &free_token);
+	}
 }
 
 void				trambolic_redirections(t_list **alst)
@@ -453,10 +453,10 @@ t_list				*pparse_line(char *line)
 {
 	t_list	*lst;
 
-
-//	t_token	*token;
-	/* t_list *tmp; */
-
+/*
+	t_token	*token;
+	 t_list *tmp; 
+*/
 
 	lst = line_to_token_list(line);
 	solve_quotes(&lst);
@@ -483,8 +483,8 @@ t_list				*pparse_line(char *line)
 		ft_printf("%s <- %d\n", token->value, token->type);
 		tmp = tmp->next;
 	}
-*/
 
+*/
 
 	return (lst);
 }
