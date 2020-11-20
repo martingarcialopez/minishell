@@ -464,11 +464,20 @@ void                            check_syntax(t_list **alst)
 	tkn = (t_token*)lst->content;
 	ntkn = (t_token*)lst->next->content;
 	if (is_operator(tkn->type) && lst == *alst)
+	{
 	    parse_error(1, tkn->value, alst);
+	    return ;
+	}
 	else if (is_operator(tkn->type) && ntkn->type != literal)
+	{
 	    parse_error(1, tkn->value, alst);
+	    return ;
+	}
 	else if (tkn->type != literal && is_operator(ntkn->type))
+	{
 	    parse_error(1, tkn->value, alst);
+	    return ;
+	}
 	if (lst)
 	    lst = lst->next;
     }
