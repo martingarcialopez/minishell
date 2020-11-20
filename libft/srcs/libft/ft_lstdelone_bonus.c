@@ -20,6 +20,9 @@ void	ft_lstdelone(t_list **alst, t_list *lst, void (*del)(void *))
 	if (prev == lst)
 	{
 		*alst = lst->next;
+		(*del)(lst->content);
+		free(lst);
+		lst = NULL;
 		return ;
 	}
 	while (prev)
