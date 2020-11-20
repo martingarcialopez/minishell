@@ -11,14 +11,23 @@
 
 char			*solve_abs_path(char **args)
 {
+	struct stat	stats;
 	char		*abs_path;
-	
+
 	abs_path = sec(ft_strdup(args[0]));
-	return (abs_path);
+	if (stat(abs_path, &stats) == 0)
+	{
+	    if (stats.st_mode & S_IXUSR)
+		return (abs_path);
+	    else
+		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
 	}
+	return (abs_path);
+}
 
 char			*solve_home(char *arg)
 {
+	struct stat	stats;
 	char		*path;
 	char		*abs_path;
 	int		len;
@@ -31,6 +40,13 @@ char			*solve_home(char *arg)
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, ++arg);
 	free(path);
+	if (stat(abs_path, &stats) == 0)
+	{
+	    if (stats.st_mode & S_IXUSR)
+		return (abs_path);
+	    else
+		ft_printf_fd(2, "vsh: permission denied: %s\n", arg);
+	}
 	return (abs_path);
 }
 
@@ -48,9 +64,14 @@ char			*solve_relative_path(char **args)
 	abs_path[0] = '\0';
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, (*args + 1));
-	stat(abs_path, &stats);	
-	//stats
 	free(path);
+	if (stat(abs_path, &stats) == 0)
+	{
+	    if (stats.st_mode & S_IXUSR)
+		return (abs_path);
+	    else
+		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
+	}
 	return (abs_path);
 }
 
@@ -82,6 +103,11 @@ char			*find_path(char **args)
 			{
 				free_tab(split_path);	
 				return (abs_path);
+			}
+			else
+			{
+			    ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
+			    break;
 			}
 		}
 		i++;
