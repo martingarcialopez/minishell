@@ -15,7 +15,7 @@ void			parse_error(int err_type, void *value, t_list **alst)
 {
     ft_printf_fd(2, "vsh: parse error");
     if (err_type == 0)
-	ft_printf_fd(2, " near `%c'\n", (char)value);
+	ft_printf_fd(2, " near `%c'\n", *((char*)value));
     else if (err_type == 1)
 	ft_printf_fd(2, " near `%s'\n", (char*)value);
     else if (err_type == 2)
