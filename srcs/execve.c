@@ -38,7 +38,7 @@ int	call_system_function(char **args)
 	else
 	{
 		free_tab(env);
-		ft_printf("Error: fork not working\n");
+		ft_printf_fd(2, "vsh: error: could not fork process\n");
 		return (1);
 	}
 	return (1);

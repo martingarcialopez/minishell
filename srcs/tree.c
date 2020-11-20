@@ -12,6 +12,7 @@
 
 #include "tree.h"
 #include "libft.h"
+#include "builtins.h"
 
 void			free_tree(t_tree *node)
 {
@@ -31,7 +32,7 @@ t_tree			*ft_newtree(t_token_type type, char **cmd)
 {
 	t_tree	*new;
 
-	if (!(new = (t_tree*)malloc(sizeof(t_tree))))
+	if (!(new = (t_tree*)sec(malloc(sizeof(t_tree)))))
 		return (NULL);
 	new->type = type;
 	new->data = cmd;
