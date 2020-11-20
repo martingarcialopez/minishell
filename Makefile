@@ -20,15 +20,18 @@ DEBUG_FLAGS = -g -g3 -fsanitize=address
 	${CC} ${DEBUG_FLAGS} ${CFLAGS} -c -I includes $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJS}
+	make -C libft
 	${CC} ${DEBUG_FLAGS} ${CFLAGS} ${OBJS} libft/libft.a -o ${NAME}
 	
 
-all: ${NAME}
+all:	${NAME}
 
 clean:
+	make clean -C libft
 	rm -f ${OBJS}
 
-fclean: clean
+fclean:	clean
+	make fclean -C libft
 	rm -f ${NAME}
 
-re: fclean all
+re: 	fclean all

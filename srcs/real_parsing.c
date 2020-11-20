@@ -322,7 +322,10 @@ void				reevaluate_token(t_list **alst)
 		i++;
 	    }
 	    if (!g_token_tab[i].value)
-	        parse_error(0, token->value, alst);
+	    {
+	        parse_error(1, token->value, alst);
+		return ;
+	    }
 	}
 	if (lst)
 	    lst = lst->next;
