@@ -2,6 +2,18 @@
 #include "libft.h"
 #include "tree.h"
 
+static t_bint_fnc	g_builtin_fnc[]=
+{
+	{"env", &ft_env},
+	{"export", &ft_export},
+	{"unset", &ft_unset},
+	{"pwd", &ft_pwd},
+	{"cd", &ft_cd},
+	{"echo", &ft_echo},
+	{"exit", &ft_exit},
+	{NULL, 0}
+};
+
 char	*ft_superjoin(char **str)//mallocs sin securizar;
 {
 	int	i;

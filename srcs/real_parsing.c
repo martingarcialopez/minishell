@@ -390,9 +390,8 @@ void				remove_whitespaces(t_list **alst)
 		}
 		else if (token->type != literal && next_token->type == space)
 		{
-			//ft_lstdelone(alst, lst->next, &free_token);
-			//*lst = lst->next;
-			(void)tmp;
+			ft_lstdelone(alst, lst->next, &free_token);
+			lst = lst->next;
 		}
 		else
 			lst = lst->next;
@@ -455,7 +454,7 @@ t_list				*pparse_line(char *line)
 
 
 //	t_token	*token;
-	t_list *tmp;
+	/* t_list *tmp; */
 
 
 	lst = line_to_token_list(line);
@@ -464,7 +463,7 @@ t_list				*pparse_line(char *line)
 	reevaluate_token(&lst);
 	expand_variables(&lst);
 
-	tmp = lst;
+	/* tmp = lst; */
 /*	while (tmp)
 	{
 		token = (t_token*)(tmp->content);

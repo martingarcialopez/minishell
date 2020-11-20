@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:05:39 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/19 16:56:47 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/19 20:10:21 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,5 @@ void				list_rm_next(t_env *list);
 void				save_return(int ret);
 int				init_data(void);
 void				*sec(void *ptr);
-
-static t_bint_fnc	g_builtin_fnc[]=
-{
-	{"env", &ft_env},
-	{"export", &ft_export},
-	{"unset", &ft_unset},
-	{"pwd", &ft_pwd},
-	{"cd", &ft_cd},
-	{"echo", &ft_echo},
-	{"exit", &ft_exit},
-	{NULL, 0}
-};
 
 #endif
