@@ -13,8 +13,11 @@
 #ifndef _TREE_H_
 # define _TREE_H_
 
-#include "libft.h"
-#include <sys/wait.h>
+# include "libft.h"
+# include <sys/wait.h>
+
+# define MAJOR_VERSION 1
+# define MINOR_VERSION 1
 
 typedef enum		e_token_type
 {

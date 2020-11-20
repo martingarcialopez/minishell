@@ -60,9 +60,9 @@ int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	display_ascii_art();
 	init_env(envp);
 	init_data();
+	display_ascii_art();
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	prompt_loop();
