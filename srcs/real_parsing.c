@@ -2,8 +2,7 @@
 #include "tree.h"
 #include "libft.h"
 
-// ERROR ERRROR ERRORRR >>>> Revisar la funcion line_to_token_lst, y join
-// |, ||, &, &&, >, >>, pipe, or y and mal gestionados
+// ERROR ERRROR ERRORRR >>>> Revisar la funcion line_to_token_lst, y join // |, ||, &, &&, >, >>, pipe, or y and mal gestionados
 
 static t_token			g_token_tab[] = {
 	{"|", pipeline},
