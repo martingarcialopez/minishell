@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 16:52:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/03/12 15:45:26 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/20 12:01:40 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct	s_float
 
 int				ft_printf(const char *format, ...);
 
-int				ft_printf_fd(const char *format, ...);
+int				ft_printf_fd(int fd, const char *format, ...);
 
 int				ft_vprintf(int fd, const char *format, va_list ap);
 
