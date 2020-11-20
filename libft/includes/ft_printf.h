@@ -32,21 +32,22 @@
 # define FLAG_PRECISION 1024
 # define FLAG_LONG_DBL	2048
 # define FLAG_HEX_ADDR	4096
-# define FLAG_SEP		8192
+# define FLAG_SEP	8192
 # define DEF_FLOAT_PREC 6
 
 # define BUFFSIZE 64
 
-typedef struct	s_flags
+typedef struct          	s_flags
 {
-	unsigned int	i;
-	size_t			idx;
-	int				base;
-	unsigned int	flags;
-	int				width;
-	int				precision;
-	struct lconv	*lc;
-}				t_flags;
+        int                     fd;
+	unsigned int    	i;
+	size_t	        	idx;
+	int	        	base;
+	unsigned int    	flags;
+	int	    	        width;
+	int	    	        precision;
+	struct lconv            *lc;
+}			        t_flags;
 
 typedef struct	s_float
 {
@@ -59,7 +60,9 @@ typedef struct	s_float
 
 int				ft_printf(const char *format, ...);
 
-int				ft_vprintf(const char *format, va_list ap);
+int				ft_printf_fd(const char *format, ...);
+
+int				ft_vprintf(int fd, const char *format, va_list ap);
 
 /*
 **		argument parsing

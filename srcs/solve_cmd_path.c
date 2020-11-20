@@ -94,7 +94,9 @@ char			*find_path(char **args)
 		}
 		i++;
 	}
-	ft_printf("vsh: command not found: %s\n", args[0]);
+//	ft_printf("vsh: command not found: %s\n", args[0]);
+        ft_printf_fd(2, "vsh: command not found: %s\n", args[0]);
+        //ft_putstr_fd("vsh: command not found\n", 2);
 	free_tab(split_path);
 	free(abs_path);
 	return (NULL);
