@@ -95,4 +95,8 @@ void			free_token(void *tkn);
 
 void			signal_handler(int sigid);
 
+void			parse_error(int n, void *value, t_list **alst);
+
+char			*error_retrieving_env_variable(char *var);
+
 #endif

@@ -17,10 +17,10 @@ CFLAGS	= -Wall -Wextra -Werror
 DEBUG_FLAGS = -g -g3 -fsanitize=address
 
 .c.o:
-	${CC} ${CFLAGS} -c -I includes $< -o ${<:.c=.o}
+	${CC} ${DEBUG_FLAGS} ${CFLAGS} -c -I includes $< -o ${<:.c=.o}
 
 ${NAME}: ${OBJS}
-	${CC} ${CFLAGS} ${OBJS} libft/libft.a -o ${NAME}
+	${CC} ${DEBUG_FLAGS} ${CFLAGS} ${OBJS} libft/libft.a -o ${NAME}
 	
 
 all: ${NAME}

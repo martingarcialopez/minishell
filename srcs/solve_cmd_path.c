@@ -24,10 +24,7 @@ char			*solve_home(char *arg)
 	int		len;
 
 	if (!(retrieve_env_variable("HOME", &path)))
-	{
-		ft_printf("Error: HOME variable not found in env\n");
-		return (NULL);
-	}
+	    return (error_retrieving_env_variable("HOME"));
 	len = ft_strlen(path) + ft_strlen(arg) + 1;
 	abs_path = (char*)sec(malloc(sizeof(char) * len));
 	abs_path[0] = '\0';
@@ -44,10 +41,8 @@ char			*solve_relative_path(char **args)
 	char		*abs_path;
 	int		len;
 
-	if (!(retrieve_env_variable("PWD", &path))) {
-		ft_printf("Error: PWD variable not found in env\n");
-		return (NULL);
-	}
+	if (!(retrieve_env_variable("PWD", &path)))
+	    return (error_retrieving_env_variable("PWD"));	
 	len = ft_strlen(path) + ft_strlen(args[0]) + 1;
 	abs_path = (char*)sec(malloc(sizeof(char) * len));
 	abs_path[0] = '\0';
@@ -69,10 +64,7 @@ char			*find_path(char **args)
 	int		i;
 	
 	if (!(retrieve_env_variable("PATH", &path)))
-	{
-		ft_printf("Error: PATH variable not found in env\n");
-		return (NULL);
-	}
+	    return (error_retrieving_env_variable("PATH"));
 	len = ft_strlen(path) + ft_strlen(args[0]) + 1;
 	abs_path = (char*)sec(malloc(sizeof(char) * len));
 	split_path = sec(ft_split(path, ':'));
@@ -94,9 +86,7 @@ char			*find_path(char **args)
 		}
 		i++;
 	}
-//	ft_printf("vsh: command not found: %s\n", args[0]);
         ft_printf_fd(2, "vsh: command not found: %s\n", args[0]);
-        //ft_putstr_fd("vsh: command not found\n", 2);
 	free_tab(split_path);
 	free(abs_path);
 	return (NULL);
