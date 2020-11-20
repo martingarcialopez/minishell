@@ -88,14 +88,18 @@ int		ft_cd(char **args)
 	char	*tmp;
 
 	if (retrieve_env_variable("HOME", &home) == 0)
-		i = -1;
+		i = 0;
 	else if (args[1] == NULL)
+	{
 		i = chdir(home);
+		free(home);
+	}
 	else if (args[1] != NULL && *args[1] == '~' && args[1][1] != '-')
 	{
 		tmp = args[1];
 		args[1] = join_home(home, args[1]);
 		free(tmp);
+		free(home);
 	}
 	if (args[1] != NULL && *args[1] == '~' && *(args[1] + 1) == '-')
 			i = chdir(g_data[OLDPWD]);
