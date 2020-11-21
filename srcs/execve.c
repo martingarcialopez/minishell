@@ -19,8 +19,9 @@ int	call_system_function(char **args)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		if (!(execve(abs_path, args, env)))
-			perror("vsh");
+		execve(abs_path, args, env);
+		ft_printf_fd(2, "%s: error", g_data[ARGV0]);
+		perror("");
 		exit(1);
 	}
 	else if (fk > 0)
@@ -38,7 +39,7 @@ int	call_system_function(char **args)
 	else
 	{
 		free_tab(env);
-		ft_printf_fd(2, "vsh: error: could not fork process\n");
+		ft_printf_fd(2, "%s: error: could not fork process\n", g_data[ARGV0]);
 		return (1);
 	}
 	return (1);
