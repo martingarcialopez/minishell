@@ -12,16 +12,17 @@ int	call_system_function(char **args)
 	int	fk;
 	int	status;
 
-	abs_path = solve_cmd_path(args);
+	if ((abs_path = solve_cmd_path(args)) == NULL)
+	    return (1);
 	env = env_to_vect();
 	fk = fork();	
 	if (fk == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		if (!(execve(abs_path, args, env)))
-			perror("vsh");
-		exit(1);
+		execve(abs_path, args, env);
+		ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], abs_path, strerror(errno));
+		exit(error(abs_path));
 	}
 	else if (fk > 0)
 	{
@@ -35,11 +36,7 @@ int	call_system_function(char **args)
 		if (WIFEXITED(status)) 
         		return (status); 
 	}
-	else
-	{
-		free_tab(env);
-		ft_printf_fd(2, "vsh: error: could not fork process\n");
-		return (1);
-	}
-	return (1);
+    	free_tab(env);
+    	ft_printf_fd(2, "%s: error: could not fork process\n", g_data[ARGV0]);
+    	return (1);
 }

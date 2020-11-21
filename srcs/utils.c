@@ -7,13 +7,13 @@
 
 char			*error_retrieving_env_variable(char *var)
 {
-    ft_printf_fd(2, "vsh: error: %s variable not found in env\n", var);
+    ft_printf_fd(2, "%s: error: %s variable not found in env\n", g_data[ARGV0], var);
     return (NULL);
 }
 
 void			parse_error(int err_type, void *value, t_list **alst)
 {
-    ft_printf_fd(2, "vsh: parse error");
+    ft_printf_fd(2, "%s: parse error", g_data[ARGV0]);
     if (err_type == 0)
 	ft_printf_fd(2, " near `%c'\n", *((char*)value));
     else if (err_type == 1)
@@ -65,7 +65,8 @@ void	*sec(void *ptr)
 {
 	if (ptr == NULL)
 	{
-		perror("vsh: error");
+		ft_printf_fd(2, "%s: error", g_data[ARGV0]);
+		perror("");
 		exit(1);	
 	}
 	return (ptr);

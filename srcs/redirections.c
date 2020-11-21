@@ -3,108 +3,97 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-static void		right_redirection(t_tree *tree)
+int			error(char *err)
 {
-    struct stat		stats;
+    ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
+    return (1);
+}
+
+int			error_fork_failed(void)
+{
+    ft_printf_fd(2, "%s: error: %s\n", g_data[ARGV0], strerror(errno));
+    return (1);
+}
+
+static int		right_redirection(t_tree *tree)
+{
     int			fk;
     int			fd;
+    int			status;
 
-    //proteger fork
-    if (stat(tree->right->data[0], &stats) == 0)
-    {
-	if (stats.st_mode & S_IFDIR)
-	{
-	    ft_printf_fd(2, "vsh: is a directory: %s\n", tree->right->data[0]);
-	    return ;
-	}
-    }
     if ((fd = open(tree->right->data[0], O_WRONLY | O_CREAT | O_TRUNC, 0644)) < 0)
-    {
-	perror("vsh");
-	return ;
-    }
+	return (error(tree->right->data[0]));
     fk = fork();
     if (fk == 0)
     {
 	dup2(fd, 1);
 	close(fd);
-	exec_commands(tree->left);
-	exit(0);
+	exit(exec_commands(tree->left));
     }
     else if (fk > 0)
-	wait(NULL);
+    {
+	wait(&status);
+	if (WIFEXITED(status))
+	    return (status);
+    }
+    return (error_fork_failed());
 }
 
-static void		double_right_redirection(t_tree *tree)
+static int		double_right_redirection(t_tree *tree)
 {
-    struct stat		stats;
     int			fk;
     int			fd;
+    int			status;
 
-    //proteger fork
-    if (stat(tree->right->data[0], &stats) == 0)
-    {
-	if (stats.st_mode & S_IFDIR)
-	{
-	    ft_printf_fd(2, "vsh: is a directory: %s\n", tree->right->data[0]);
-	    return ;
-	}
-    }
     if ((fd = open(tree->right->data[0], O_WRONLY | O_CREAT | O_APPEND, 0644)) < 0)
-    {
-	perror("vsh");
-	return ;
-    }
+	return (error(tree->right->data[0]));
     fk = fork();
     if (fk == 0)
     {
 	dup2(fd, 1);
 	close(fd);
-	exec_commands(tree->left);
-	exit(0);
+	exit(exec_commands(tree->left));
     }
     else if (fk > 0)
-	wait(NULL);
+    {
+	wait(&status);
+	if (WIFEXITED(status))
+	    return (status);
+    }
+    return (error_fork_failed());
 }
 
-static void		left_redirection(t_tree *tree)
+static int		left_redirection(t_tree *tree)
 {
-    struct stat		stats;
     int			fk;
     int			fd;
+    int			status;
 
-    //proteger fork
-    if (stat(tree->right->data[0], &stats) == 0)
-    {
-	if (!(stats.st_mode & S_IRUSR))
-	{
-	    ft_printf_fd(2, "vsh: permission denied: %s\n", tree->right->data[0]);
-	    return ;
-	}
-    }
     if ((fd = open(tree->right->data[0], O_RDONLY)) < 0)
-    {
-	perror("vsh");
-	return ;
-    }
+	return (error(tree->right->data[0]));
     fk = fork();
     if (fk == 0)
     {
 	dup2(fd, 0);
 	close(fd);
-	exec_commands(tree->left);
-	exit(0);
+	exit(exec_commands(tree->left));
     }
     else if (fk > 0)
-	wait(NULL);
+    {
+	wait(&status);
+	if (WIFEXITED(status))
+	    return (status);
+    }
+    return (error_fork_failed());
 }
 
-void		redirection(t_tree *tree)
+int		redirection(t_tree *tree)
 {
     if (tree->type == right_redir)
-	right_redirection(tree);
+	return (right_redirection(tree));
     if (tree->type == double_right_redir)
-	double_right_redirection(tree);
+	return (double_right_redirection(tree));
     if (tree->type == left_redir)
-	left_redirection(tree);
+	return (left_redirection(tree));
+    return (1);
 }

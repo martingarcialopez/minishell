@@ -83,7 +83,7 @@ int			retrieve_env_variable(char *name, char **value);
 
 char			*solve_cmd_path(char **args);
 
-void			redirection(t_tree *tree);
+int			redirection(t_tree *tree);
 
 char			*solve_home(char *arg);
 
@@ -98,5 +98,7 @@ void			signal_handler(int sigid);
 void			parse_error(int n, void *value, t_list **alst);
 
 char			*error_retrieving_env_variable(char *var);
+
+int			error(char *err);
 
 #endif
