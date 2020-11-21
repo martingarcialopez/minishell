@@ -108,7 +108,7 @@ int		ft_cd(char **args)
 	else if (args[1] != NULL)
 			i = chdir(args[1]);
 	if (i == -1)
-		ft_printf_fd(2, "vsh: cd: %s\n",strerror(errno));
+		ft_printf_fd(2, "%s: cd: %s\n", g_data[ARGV0], strerror(errno));
 	if (i == 0)
 		update_env();
 	return (i * (-1));

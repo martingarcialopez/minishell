@@ -93,7 +93,7 @@ int		    main(int ac, char **av, char **envp)
 	    {
 		if (ac == 2)
 		{
-		    ft_printf_fd(2, "vsh: -c: option requires an argument\n");
+		    ft_printf_fd(2, "%s: -c: option requires an argument\n", g_data[ARGV0]);
 		    exit(1);
 		}
 		init_env(envp);

@@ -65,7 +65,7 @@ void	*sec(void *ptr)
 {
 	if (ptr == NULL)
 	{
-		ft_printf_fd("%s: error", g_data[ARGV0]);
+		ft_printf_fd(2, "%s: error", g_data[ARGV0]);
 		perror("");
 		exit(1);	
 	}

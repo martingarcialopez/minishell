@@ -177,7 +177,7 @@ int		ft_unset(char **args)
 
 	i = 1;
 	if (args[1] == NULL)
-		ft_putstr_fd("vsh: unset: not enough arguments\n", 2);
+		ft_printf_fd(2, "%s: unset: not enough arguments\n", g_data[ARGV0]);
 	while (args[i] != NULL)
 	{
 		list = g_env;
@@ -206,7 +206,7 @@ int		ft_env(char **args)
 	t_env	*list;
 
 	if (args[1] != NULL)
-		ft_putstr_fd("vsh: env: too many arguments\n", 2);
+		ft_printf_fd(2, "%s: env: too many arguments\n", g_data[ARGV0]);
 	list = g_env;
 	while(list != NULL)
 	{

@@ -28,14 +28,11 @@ void		pipes(t_tree *tree, int count, int backup_fd)
 
 int		exec_commands(t_tree *tree)
 {
-	int		ret;
-
-	ret = 0;
 	if (!tree)
 		return (0);
 	if (tree->type == right_redir || tree->type == left_redir
 		|| tree->type == double_right_redir)
-		redirection(tree);
+		return (redirection(tree));
 	if (tree->type == pipeline)
 		pipes(tree, 1, 0);
 	if (tree->type == literal)
@@ -43,5 +40,5 @@ int		exec_commands(t_tree *tree)
 		ft_printf("");
 		return (function(tree->data));
 	}
-	return (ret);
+	return (g_ret);
 }
