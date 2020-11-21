@@ -56,10 +56,51 @@ void	prompt_loop()
 	
 }
 
-int main(int ac, char **av, char **envp)
+int		    exec_single_command(char *line)
+{
+	int	ret;
+	char	sep;
+	t_list	*tkn_lst;
+	t_list	*tmp;
+	t_tree	*cmd_tree;
+
+	    tkn_lst = pparse_line(line);
+	    tmp = tkn_lst;
+	    while (tkn_lst)
+	    {
+	    	sep = 0;
+	    	cmd_tree = bbuild_tree(&tkn_lst, &sep);
+//	    	print_ascii_tree(cmd_tree);
+	    	ret = exec_commands(cmd_tree);
+	    	save_return(ret);
+	    	if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
+	    		break;
+	    	if (tkn_lst)
+	    		tkn_lst = tkn_lst->next;
+	    	free_tree(cmd_tree);
+	    }
+	    ft_lstclear(&tmp, &free_token);
+	    return (ft_atoi(g_data[RET]));
+}
+
+int		    main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
+	if (ac > 1)
+	{
+	    if (ac >= 2 && ft_strcmp(av[1], "-c") == 0)
+	    {
+		if (ac == 2)
+		{
+		    ft_printf_fd(2, "vsh: -c: option requires an argument\n");
+		    exit(1);
+		}
+		init_env(envp);
+		init_data();
+		return (exec_single_command(av[2]));
+	    }
+	}
 	init_env(envp);
 	init_data();
 	display_ascii_art();

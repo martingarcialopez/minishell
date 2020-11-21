@@ -113,6 +113,10 @@ char			*find_path(char **args)
 		i++;
 	}
         ft_printf_fd(2, "vsh: command not found: %s\n", args[0]);
+	char	*tmp;
+	tmp = g_data[RET];
+	g_data[RET] = sec(ft_strdup("1"));
+	free(tmp);
 	free_tab(split_path);
 	free(abs_path);
 	return (NULL);
