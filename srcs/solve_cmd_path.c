@@ -22,7 +22,12 @@ char			*solve_abs_path(char **args)
 	    else
 		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
 	}
-	return (abs_path);
+        ft_printf_fd(2, "vsh: no such file or directory: %s\n", args[0]);
+	free(abs_path);
+	abs_path = g_data[RET];
+	g_data[RET] = sec(ft_strdup("1"));
+	free(abs_path);
+	return (NULL);
 }
 
 char			*solve_home(char *arg)
@@ -47,7 +52,12 @@ char			*solve_home(char *arg)
 	    else
 		ft_printf_fd(2, "vsh: permission denied: %s\n", arg);
 	}
-	return (abs_path);
+        ft_printf_fd(2, "vsh: no such file or directory: %s\n", args[0]);
+	free(abs_path);
+	abs_path = g_data[RET];
+	g_data[RET] = sec(ft_strdup("1"));
+	free(abs_path);
+	return (NULL);
 }
 
 char			*solve_relative_path(char **args)
@@ -67,12 +77,16 @@ char			*solve_relative_path(char **args)
 	free(path);
 	if (stat(abs_path, &stats) == 0)
 	{
-	    if (stats.st_mode & S_IXUSR)
-		return (abs_path);
-	    else
+	    if (!(stats.st_mode & S_IXUSR))
 		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
+	    return (abs_path);
 	}
-	return (abs_path);
+        ft_printf_fd(2, "vsh: no such file or directory: %s\n", args[0]);
+	free(abs_path);
+	abs_path = g_data[RET];
+	g_data[RET] = sec(ft_strdup("1"));
+	free(abs_path);
+	return (NULL);
 }
 
 char			*find_path(char **args)
