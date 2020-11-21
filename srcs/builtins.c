@@ -6,7 +6,6 @@
 int		ft_pwd(char **args)
 {
 	char	*buf;
-//	t_env	*list;
 
 	if (args[1] != NULL)
 	{
@@ -81,36 +80,60 @@ static char	*join_home(char *home, char *args)
 	return (ret);
 }
 
+int		print_relative_path(char *home)
+{
+	int	r;
+	int	i;
+	char	*str;
+	char	*tmp;
+
+	str = (char*)sec(ft_strdup(g_data[OLDPWD]));
+	r = chdir(g_data[OLDPWD]);
+	i = 0;
+	if (home != NULL)
+	{
+		while (*(home + i) == *(str + i) && *(home + i) != '\0' && *(str + i) != '\0')
+			i++;
+		if (strlen(home) <= strlen(str))
+		{
+			tmp = str;
+			str = (char*)sec(ft_strjoin("~", (str + i)));
+			free(tmp);
+		}
+	}
+	ft_printf("%s\n", str);
+	free(str);
+	return (r);
+}
+
 int		ft_cd(char **args)
 {
 	int	i;
 	char	*home;
 	char	*tmp;
 
+	home = NULL;
 	if (retrieve_env_variable("HOME", &home) == 0)
 		i = 0;
 	else if (args[1] == NULL)
-	{
 		i = chdir(home);
-		free(home);
-	}
 	else if (args[1] != NULL && *args[1] == '~' && args[1][1] != '-')
 	{
 		tmp = args[1];
 		args[1] = join_home(home, args[1]);
 		free(tmp);
-		free(home);
 	}
+	if (args[1] != NULL && ft_strcmp(args[1], "~-") == 0)
+		i = chdir(g_data[OLDPWD]);
 	else if (args[1] != NULL && args[1][0] == '-' && args[1][1] == '\0')
-	{}	// i = print relative path(home);
-	if (args[1] != NULL && *args[1] == '~' && *(args[1] + 1) == '-')
-			i = chdir(g_data[OLDPWD]);
+		i = print_relative_path(home);
 	else if (args[1] != NULL)
-			i = chdir(args[1]);
+		i = chdir(args[1]);
 	if (i == -1)
 		ft_printf_fd(2, "vsh: cd: %s\n",strerror(errno));
 	if (i == 0)
 		update_env();
+	free(home);
 	return (i * (-1));
 }
 
