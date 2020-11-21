@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/19 19:47:38 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/21 16:10:26 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void		save_return(int ret)
 {
 	if (ret > 255)
 		ret = ret % 255;
-	free(g_data[RET]);
-	g_data[RET] = (char*)sec(ft_itoa(ret));
+	g_ret = ret;
 }
 
 int		init_env(char **envp)
