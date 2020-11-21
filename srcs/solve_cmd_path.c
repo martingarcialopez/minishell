@@ -5,10 +5,6 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-#ifndef _DARWIN_FEATURE_64_BIT_INODE
-# define _DARWIN_FEATURE_64_BIT_INODE
-#endif
-
 char			*solve_abs_path(char **args)
 {
 	struct stat	stats;
@@ -22,7 +18,10 @@ char			*solve_abs_path(char **args)
 	    else
 		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
 	}
-	return (abs_path);
+        ft_printf_fd(2, "vsh: no such file or directory: %s\n", args[0]);
+	free(abs_path);
+	g_ret = 1;
+	return (NULL);
 }
 
 char			*solve_home(char *arg)
@@ -47,7 +46,10 @@ char			*solve_home(char *arg)
 	    else
 		ft_printf_fd(2, "vsh: permission denied: %s\n", arg);
 	}
-	return (abs_path);
+        ft_printf_fd(2, "vsh: no such file or directory: %s\n", arg);
+	free(abs_path);
+	g_ret = 1;
+	return (NULL);
 }
 
 char			*solve_relative_path(char **args)
@@ -67,12 +69,14 @@ char			*solve_relative_path(char **args)
 	free(path);
 	if (stat(abs_path, &stats) == 0)
 	{
-	    if (stats.st_mode & S_IXUSR)
-		return (abs_path);
-	    else
+	    if (!(stats.st_mode & S_IXUSR))
 		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
+	    return (abs_path);
 	}
-	return (abs_path);
+        ft_printf_fd(2, "vsh: no such file or directory: %s\n", args[0]);
+	free(abs_path);
+	g_ret = 1;
+	return (NULL);
 }
 
 char			*find_path(char **args)
@@ -113,6 +117,7 @@ char			*find_path(char **args)
 		i++;
 	}
         ft_printf_fd(2, "vsh: command not found: %s\n", args[0]);
+	g_ret = 1;
 	free_tab(split_path);
 	free(abs_path);
 	return (NULL);
@@ -123,7 +128,11 @@ char			*solve_cmd_path(char **args)
 	if (args[0][0] == '/')
 		return (solve_abs_path(args));
 	else if (args[0][0] == '.')
+	{
+		if (ft_strcmp(args[0], ".") == 0)
+		    return (sec(ft_strdup(".")));
 		return (solve_relative_path(args));
+	}
 	else if (args[0][0] == '~')
 		return (solve_home(args[0]));
 	else

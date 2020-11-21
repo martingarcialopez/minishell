@@ -3,7 +3,7 @@
 #include "tree.h"
 
 
-int	init_data(void)
+int	init_data(char **argv)
 {
 	t_env	*list;
 
@@ -16,5 +16,7 @@ int	init_data(void)
 			g_data[OLDPWD] = ft_strdup(list->value); //securizar
 		list = list->next;
 	}
+	g_data[ARGV0] = argv[0];
+	g_ret = 0;
 	return (0);
 }
