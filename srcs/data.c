@@ -16,7 +16,6 @@ int	init_data(char **argv)
 			g_data[OLDPWD] = ft_strdup(list->value); //securizar
 		list = list->next;
 	}
-//	g_data[RET] = (char*)sec(ft_strdup("0"));
 	g_data[ARGV0] = argv[0];
 	g_ret = 0;
 	return (0);

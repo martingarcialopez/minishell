@@ -101,6 +101,8 @@ int		ft_cd(char **args)
 		free(tmp);
 		free(home);
 	}
+	else if (args[1] != NULL && args[1][0] == '-' && args[1][1] == '\0')
+	{}	// i = print relative path(home);
 	if (args[1] != NULL && *args[1] == '~' && *(args[1] + 1) == '-')
 			i = chdir(g_data[OLDPWD]);
 	else if (args[1] != NULL)
