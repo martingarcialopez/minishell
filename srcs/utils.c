@@ -46,7 +46,7 @@ int	retrieve_env_variable(char *name, char **value)
 	}
 	else if (ft_strcmp("RET", name) == 0 || ft_strcmp("?", name) == 0)
 	{
-		*value = sec(ft_strdup(g_data[RET]));
+		*value = sec(ft_itoa(g_ret));
 		return (1);
 	}
 	while (list)

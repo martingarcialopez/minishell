@@ -9,7 +9,6 @@ static void		right_redirection(t_tree *tree)
     int			fk;
     int			fd;
 
-    //proteger open
     //proteger fork
     if (stat(tree->right->data[0], &stats) == 0)
     {
@@ -38,11 +37,19 @@ static void		right_redirection(t_tree *tree)
 
 static void		double_right_redirection(t_tree *tree)
 {
+    struct stat		stats;
     int			fk;
     int			fd;
 
-    //proteger open
     //proteger fork
+    if (stat(tree->right->data[0], &stats) == 0)
+    {
+	if (stats.st_mode & S_IFDIR)
+	{
+	    ft_printf_fd(2, "vsh: is a directory: %s\n", tree->right->data[0]);
+	    return ;
+	}
+    }
     if ((fd = open(tree->right->data[0], O_WRONLY | O_CREAT | O_APPEND, 0644)) < 0)
     {
 	perror("vsh");
@@ -66,7 +73,6 @@ static void		left_redirection(t_tree *tree)
     int			fk;
     int			fd;
 
-    //proteger open
     //proteger fork
     if (stat(tree->right->data[0], &stats) == 0)
     {

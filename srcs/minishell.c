@@ -80,7 +80,7 @@ int		    exec_single_command(char *line)
 	    	free_tree(cmd_tree);
 	    }
 	    ft_lstclear(&tmp, &free_token);
-	    return (ft_atoi(g_data[RET]));
+	    return (g_ret);
 }
 
 int		    main(int ac, char **av, char **envp)
@@ -97,12 +97,12 @@ int		    main(int ac, char **av, char **envp)
 		    exit(1);
 		}
 		init_env(envp);
-		init_data();
+		init_data(av);
 		return (exec_single_command(av[2]));
 	    }
 	}
 	init_env(envp);
-	init_data();
+	init_data(av);
 	display_ascii_art();
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);

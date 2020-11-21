@@ -19,7 +19,7 @@
 
 # define PWD 0
 # define OLDPWD 1
-# define RET 2
+# define ARGV0 2
 
 typedef struct			s_env
 {
@@ -37,6 +37,7 @@ typedef struct			s_bint_fnc
 
 char	*g_data[3];
 t_env	*g_env;
+int	g_ret;
 
 int				ft_env(char **args);
 int				init_env(char **envp);
@@ -52,7 +53,7 @@ char				*join_value(char **data);
 void				lst_free(t_env	*list);
 void				list_rm_next(t_env *list);
 void				save_return(int ret);
-int				init_data(void);
+int				init_data(char **argv);
 void				*sec(void *ptr);
 
 #endif
