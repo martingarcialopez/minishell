@@ -17,7 +17,7 @@
 # include <sys/wait.h>
 
 # define MAJOR_VERSION 1
-# define MINOR_VERSION 2
+# define MINOR_VERSION 3
 
 typedef enum		e_token_type
 {

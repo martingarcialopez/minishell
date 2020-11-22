@@ -94,7 +94,6 @@ int		    main(int ac, char **av, char **envp)
 		    ft_printf_fd(2, "%s: -c: option requires an argument\n", g_data[ARGV0]);
 		    exit(1);
 		}
-		ft_printf("hello hello ac is %d\n", ac);
 		while (--ac > 2)
 		    av[ac - 3] = av[ac];
 		init_env(envp);
