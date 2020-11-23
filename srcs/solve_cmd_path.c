@@ -15,7 +15,7 @@ char			*command_not_found(char **tab, char *str, char *cmd)
 
 char			*free_tab_and_return_path(char **tab, char *abs_path)
 {
-    free(tab);
+    free_tab(tab);
     return (abs_path);
 }
 
