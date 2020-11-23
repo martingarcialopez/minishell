@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/21 16:10:26 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/23 18:02:15 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void		save_return(int ret)
 int		init_env(char **envp)
 {
 	int 	i;
-//	int	j;
-//	char	*tmp;
 	char	**data;
 	t_env	*new;
 
@@ -137,23 +135,39 @@ static int	print_export(void)
 	return (0);
 }
 
+static int	check_args(char **args)
+{
+	int	i;
+
+	i = 1;
+	while (args[i] != NULL)
+	{
+		if (*args[i] == '?')
+		{
+			ft_printf_fd(2, "%s: export: not matches found: %s\n", g_data[ARGV0], args[i]);
+			return (1);
+		}
+		i++;	
+	}
+	return (0);
+}
+
 int		ft_export(char **args)
 {
 	int		i;
 	char	**data;
 	t_env	*new;
-//	char	*value;
 	int	stat;
 
 	i = 1;
 	if (args[1] == NULL)
 		print_export();
+	if (check_args(args))
+		return (1);
 	while (args[i] != NULL)
 	{
 		stat = ft_isinstr('=', args[i]) ? 0 : 1;
 		data = (char**)sec(ft_split(args[i], '='));
-		/* if (check_data(data)) */
-		/* 	error; */
 		if (change_env_value(data, stat))
 		{	
 			new = (t_env*)sec(malloc(sizeof(t_env)));
@@ -167,7 +181,6 @@ int		ft_export(char **args)
 		i++;
 	}
 	return (0);
-
 }
 
 int		ft_unset(char **args)
