@@ -6,7 +6,7 @@
 int			error(char *err)
 {
     ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
-    return (1);
+    return (errno);
 }
 
 int			error_fork_failed(void)
