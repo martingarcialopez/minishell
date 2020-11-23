@@ -64,21 +64,28 @@ TEST_ARRAY=(
 'echo 5 + 3 | bc'
 'ls | wc | wc -l | bc'
 'echo "cat traveler" | cat | cat | cat | cat | cat | cat'
-'################		REDIRECTIONS		    #################'
+'################	    RIGHT REDIRECTION		    #################'
 '> d ; ls'
 'pwd > d ; cat d'
-'ls > d -l; cat d'
+'ls > d -a; cat d'
 'echo entre el clavel y la rosa > d su majestad es coja; cat d'
 '> d echo cucu cantaba la rana; cat d'
 'echo "redirection party trick" > d > e > f ; ls ; cat f'
+'notacommand > d'
+'pwd > dir'
+'ls > d imnotaflag meneither'
+'################	    DOUBLE REDIRECTION		    #################'
 '>> d; ls'
 'pwd >> d; cat d'
 'echo double the redirection double the fun >> d ; cat d'
 'pwd >> d ; echo apendicitis >> d ; cat d'
-'pwd >> d ; ls >> d -l ; cat d'
+'pwd >> d ; ls >> d -a ; cat d'
 'echo entre el clavel y la rosa >> d su majestad es coja ; cat d'
 '>> d echo cucu cantaba la rana; cat d'
-'echo "party trick x2" >> d >> e >> f ; ls ; cat f')
+'echo "party trick x2" >> d >> e >> f ; ls ; cat f'
+'notacommand >> d'
+'pwd >> dir'
+'ls >> d imnotaflag meneither')
 
 
 
