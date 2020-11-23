@@ -174,5 +174,7 @@ int		ft_exit(char **args)
 {
 	(void)args;
 	ft_printf("exit\n");
-	exit(0);
+	if (!args[1])
+	    exit(0);
+	exit(atoi(args[1]));
 }

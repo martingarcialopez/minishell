@@ -22,8 +22,7 @@ char	*ft_superjoin(char **str)//mallocs sin securizar;
 
 	i = 0;
 	ret = ft_strdup("");
-	while (str[i] != NULL)
-	{
+	while (str[i] != NULL) {
 		tmp = ret;
 		ret = ft_strjoin(ret, str[i]);
 		free(tmp);
