@@ -5,28 +5,49 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+char			*command_not_found(char **tab, char *str, char *cmd)
+{
+	free_tab(tab);
+	free(str);
+	ft_printf_fd(2, "%s: %s: command not found\n", g_data[ARGV0], cmd);
+	return (NULL);
+}
+
+char			*free_tab_and_return_path(char **tab, char *abs_path)
+{
+    free(tab);
+    return (abs_path);
+}
+
+int			check_path_status(char *path)
+{
+    struct stat		stats;
+
+    if (stat(path, &stats) == 0)
+    {
+//	if (stats.st_mode & S_IXUSR)
+	    return (0);
+//	return (1);
+    }
+    return (2);
+}
+
 char			*solve_abs_path(char **args)
 {
-	struct stat	stats;
+//	int		errnum;
 	char		*abs_path;
 
 	abs_path = sec(ft_strdup(args[0]));
-	if (stat(abs_path, &stats) == 0)
-	{
-	    if (stats.st_mode & S_IXUSR)
-		return (abs_path);
-	    else
-		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
-	}
-        ft_printf_fd(2, "vsh: no such file or directory: %s\n", args[0]);
-	free(abs_path);
-	g_ret = 1;
-	return (NULL);
+/*	if ((errnum = check_path_status(abs_path)) == 0)
+	    return (abs_path);
+	//free(abs_path);
+	return (path_error(errnum, abs_path));*/
+	return (abs_path);
 }
 
 char			*solve_home(char *arg)
 {
-	struct stat	stats;
+//	int		errnum;
 	char		*path;
 	char		*abs_path;
 	int		len;
@@ -39,22 +60,16 @@ char			*solve_home(char *arg)
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, ++arg);
 	free(path);
-	if (stat(abs_path, &stats) == 0)
-	{
-	    if (stats.st_mode & S_IXUSR)
-		return (abs_path);
-	    else
-		ft_printf_fd(2, "vsh: permission denied: %s\n", arg);
-	}
-        ft_printf_fd(2, "vsh: no such file or directory: %s\n", arg);
+/*	if ((errnum = check_path_status(abs_path)) == 0)
+	    return (abs_path);
 	free(abs_path);
-	g_ret = 1;
-	return (NULL);
+	return (path_error(errnum, arg));*/
+	return (abs_path);
 }
 
 char			*solve_relative_path(char **args)
 {
-	struct stat	stats;
+//	int		errnum;
 	char		*path;
 	char		*abs_path;
 	int		len;
@@ -67,21 +82,15 @@ char			*solve_relative_path(char **args)
 	ft_strcat(abs_path, path);
 	ft_strcat(abs_path, (*args + 1));
 	free(path);
-	if (stat(abs_path, &stats) == 0)
-	{
-	    if (!(stats.st_mode & S_IXUSR))
-		ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
+/*	if ((errnum = check_path_status(abs_path)) == 0)
 	    return (abs_path);
-	}
-        ft_printf_fd(2, "vsh: no such file or directory: %s\n", args[0]);
 	free(abs_path);
-	g_ret = 1;
-	return (NULL);
+	return (path_error(errnum, args[0]));*/
+	return (abs_path);
 }
 
 char			*find_path(char **args)
 {
-	struct stat	stats;
 	char		*path;
 	char		*abs_path;
 	char		**split_path;
@@ -101,26 +110,11 @@ char			*find_path(char **args)
 		ft_strcat(abs_path, split_path[i]);
 		ft_strcat(abs_path, "/");
 		ft_strcat(abs_path, args[0]);
-		if (stat(abs_path, &stats) == 0)
-		{
-			if (stats.st_mode & S_IXUSR)
-			{
-				free_tab(split_path);	
-				return (abs_path);
-			}
-			else
-			{
-			    ft_printf_fd(2, "vsh: permission denied: %s\n", args[0]);
-			    break;
-			}
-		}
+		if (check_path_status(abs_path) == 0)
+		    return (free_tab_and_return_path(split_path, abs_path));
 		i++;
 	}
-        ft_printf_fd(2, "vsh: command not found: %s\n", args[0]);
-	g_ret = 1;
-	free_tab(split_path);
-	free(abs_path);
-	return (NULL);
+	return (command_not_found(split_path, abs_path, args[0]));
 }
 
 char			*solve_cmd_path(char **args)
@@ -128,11 +122,7 @@ char			*solve_cmd_path(char **args)
 	if (args[0][0] == '/')
 		return (solve_abs_path(args));
 	else if (args[0][0] == '.')
-	{
-		if (ft_strcmp(args[0], ".") == 0)
-		    return (sec(ft_strdup(".")));
 		return (solve_relative_path(args));
-	}
 	else if (args[0][0] == '~')
 		return (solve_home(args[0]));
 	else

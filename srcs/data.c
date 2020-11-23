@@ -6,6 +6,7 @@
 int	init_data(char **argv)
 {
 	t_env	*list;
+	int	i;
 
 	list = g_env;
 	while (list != NULL)
@@ -17,6 +18,13 @@ int	init_data(char **argv)
 		list = list->next;
 	}
 	g_data[ARGV0] = argv[0];
+	i = 0;
+	// gestionar ./minishell -c 'cat < doesnotexist' idonthaveslash
+	while (*(g_data[ARGV0] + i))
+	    i++;
+	while (*(g_data[ARGV0] + i) != '/')
+	    i--;
+	g_data[ARGV0] = (g_data[ARGV0] + ++i);
 	g_ret = 0;
 	return (0);
 }
