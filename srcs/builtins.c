@@ -22,7 +22,6 @@ int		ft_pwd(char **args)
 void 		new_env(char *name, char *value)
 {
 	t_env	*new;
-
 	new = (t_env*)sec(malloc(sizeof(t_env))); 
 	new->name = (char*)sec(ft_strdup(name));
 	new->value = (char*)sec(ft_strdup(value));
@@ -139,33 +138,29 @@ int		ft_cd(char **args)
 
 int		ft_echo(char **args)
 {
-	int	i;
-	int	f;
-	int	j;
+	int	i[3];
 
-	i = 1;
-	f = 0;
-	j = 0;
-	if (args[1] == NULL)
-		return (0);
-	while (args[i] != NULL && args[i][0] == '-')
+	i[0] = 1; 
+	i[1] = 0;
+	i[2] = 0;
+	while (args[i[0]] != NULL && args[i[0]][0] == '-')
 	{
-		j = 1;
-		while (args[i][j] == 'n')
-			j++;
-		if (args[i][j] == '\0')
-			f = 1;
+		i[2] = 1;
+		while (args[i[0]][i[2]] == 'n')
+			i[2]++;
+		if (args[i[0]][i[2]] == '\0')
+			i[1] = 1;
 		else
 			break;
-		i++;
+		i[0]++;
 	}
-	while (args[i] != NULL)
+	while (args[i[0]] != NULL)
 	{
-		ft_printf("%s", args[i++]);
-		if (args[i] != NULL)
+		ft_printf("%s", args[i[0]++]);
+		if (args[i[0]] != NULL)
 			ft_printf(" ");
 	}
-	if (f == 0)
+	if (i[1] == 0)
 		ft_printf("\n");
 	return (0);
 }

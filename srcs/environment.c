@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/23 18:02:15 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/23 18:54:28 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,25 @@ void		save_return(int ret)
 	g_ret = ret;
 }
 
+void		no_env(void)
+{
+	t_env	*new;
+
+	new = (t_env*)sec(malloc(sizeof(t_env)));
+	new->name = (char*)sec(ft_strdup("PWD"));
+	new->value = NULL;
+	new->value = getcwd(new->value, 0);
+	new->stat = 0;
+	new->next = NULL;
+	add_env(new);
+	new = (t_env*)sec(malloc(sizeof(t_env)));
+	new->name = (char*)sec(ft_strdup("OLDPWD"));
+	new->value = (char*)sec(ft_strdup(""));
+	new->stat = 0;
+	new->next = NULL;
+	add_env(new);
+}
+
 int		init_env(char **envp)
 {
 	int 	i;
@@ -28,18 +47,21 @@ int		init_env(char **envp)
 	t_env	*new;
 
 	i = 0;
-	while (envp[i] != NULL)
-	{
-		data = (char**)sec(ft_split(envp[i], '='));
-		new = (t_env*)sec(malloc(sizeof(t_env)));
-		new->name = data[0];
-		new->value = join_value(data);
-		new->stat = 0;
-		new->next = NULL;
-		add_env(new);
-		free(data);
-		i++;
-	}
+	if (envp[i] == NULL)
+		no_env();
+	else
+		while (envp[i] != NULL)
+		{
+			data = (char**)sec(ft_split(envp[i], '='));
+			new = (t_env*)sec(malloc(sizeof(t_env)));
+			new->name = data[0];
+			new->value = join_value(data);
+			new->stat = 0;
+			new->next = NULL;
+			add_env(new);
+			free(data);
+			i++;
+		}
 	return (0);
 }
 
