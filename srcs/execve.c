@@ -21,7 +21,7 @@ int	call_system_function(char **args)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execve(abs_path, args, env);
-		ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], abs_path, strerror(errno));
+		//ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], abs_path, strerror(errno));
 		exit(error(abs_path));
 	}
 	else if (fk > 0)
