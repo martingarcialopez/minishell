@@ -6,7 +6,7 @@
 int			error(char *err)
 {
     ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
-    return (errno);
+    return (1);
 }
 
 int			error_fork_failed(void)
@@ -34,7 +34,10 @@ static int		right_redirection(t_tree *tree)
     {
 	wait(&status);
 	if (WIFEXITED(status))
+	{
+//	    ft_printf("in redirections, ret is %d\n", status);
 	    return (status);
+	}
     }
     return (error_fork_failed());
 }
@@ -58,7 +61,9 @@ static int		double_right_redirection(t_tree *tree)
     {
 	wait(&status);
 	if (WIFEXITED(status))
+	{
 	    return (status);
+	}
     }
     return (error_fork_failed());
 }

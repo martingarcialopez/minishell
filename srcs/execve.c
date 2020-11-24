@@ -23,6 +23,7 @@ int	call_system_function(char **args)
 		execve(abs_path, args, env);
 		//ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], abs_path, strerror(errno));
 		exit(error(abs_path));
+		//exit(127);
 	}
 	else if (fk > 0)
 	{
@@ -32,7 +33,10 @@ int	call_system_function(char **args)
 		wait(&status);
 		signal(SIGINT, &signal_handler);
 		if (WIFSIGNALED(status))
+		{
 			ft_printf("\n");
+			return (status);
+		}
 		if (WIFEXITED(status)) 
         		return (status); 
 	}
