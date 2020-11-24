@@ -31,59 +31,33 @@ void				free_token(void *tkn)
     free(token);
 }
 
-//free strjoin
 char				**create_command(t_list **alst, t_list *lst)
 {
     t_list	*begin;
     t_token	*token;
     char	**cmd;
-    char	*tmp;
-    int	i;
-
+    int		i;
 
     begin = *alst;
     i = 1;
     while (begin != lst)
     {
-	if (((t_token*)begin->content)->type == space)
-	    i++;
+	i++;
 	begin = begin->next;
     }
     cmd = (char**)sec(malloc(sizeof(char*) * (i + 1)));
-    while (i >= 0)
-	cmd[i--] = NULL;
+    while (--i >= 0)
+	cmd[i] = NULL;
     i = 0;
     begin = *alst;	
     while (begin != lst)
     {
 	token = begin->content;
-	if (token->type == space)
-	{
-	    i++;
-	    begin = begin->next;
-	    continue;
-	}
-	if (cmd[i] == NULL)
-	    cmd[i] = sec(ft_strdup(token->value));
-	else
-	{
-	    tmp = cmd[i];
-	    cmd[i] = sec(ft_strjoin(cmd[i], token->value));
-	    free(tmp);
-	}
-
-	//	ltmp = begin->next;
-	//	ft_lstdelone(alst, begin, &free_token);
-	//	begin = ltmp;	
+	if (token->type == literal)
+	    cmd[i++] = sec(ft_strdup(token->value));
 	begin = begin->next;
     }
-
-
     cmd[++i] = NULL;	
-    i = 0;
-    *alst = begin;
-    //	while (cmd[i])
-    //		ft_printf("cmd[%d] is %s\n", i, cmd[i++]);
     return (cmd);
 }
 
@@ -139,7 +113,6 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
     return (root);
 }
 
-//probablemente la funcion con mas leaks de minishell. gg
 t_list				*line_to_token_list(char *line)
 {
     t_list		*begin;
@@ -369,91 +342,134 @@ void				expand_variables(t_list **alst)
     }
 }
 
-// mas waitespaises tiene que removear esto eh, que las cabrillas tambien se cogen
 void				remove_whitespaces(t_list **alst)
 {
     t_list	*lst;
     t_list	*tmp;
     t_token	*token;
-    t_token *next_token;
 
     lst = *alst;
-    while (lst && lst->next)
+    while (lst)
     {
 	token = (t_token*)lst->content;
-	next_token = (t_token*)lst->next->content;
-	if ((token->type == space && next_token->type != literal)
-		|| (token->type == space && *alst == lst))
+	if (token->type == space)
 	{
 	    tmp = lst->next;
 	    ft_lstdelone(alst, lst, &free_token);
 	    lst = tmp;
 	}
-	else if (token->type != literal && next_token->type == space)
-	{
-	    ft_lstdelone(alst, lst->next, &free_token);
-	    lst = lst->next;
-	}
 	else
 	    lst = lst->next;
     }
-    if (lst)
+}
+
+void				put_lstnext_before_redir(int *redir, t_list **elem, t_list **prev, t_list **begin)
+{
+    t_list  *elem_prev;
+    t_list  *elem_next;
+    t_list  *prev_next;
+
+    *redir = 0;
+    elem_prev = *elem;
+    *elem = (*elem)->next;
+    elem_next = (*elem)->next;
+    if (*prev == NULL)
     {
-	token = (t_token*)lst->content;
-	if (token->type == space)
-	    ft_lstdelone(alst, lst, &free_token);
+	(*elem)->next = *begin;
+	*begin = *elem;
     }
+    else
+    {
+	prev_next = (*prev)->next; 
+	(*prev)->next = *elem;
+	(*elem)->next = prev_next;
+    }
+    elem_prev->next = elem_next;
 }
 
 void				trambolic_redirections(t_list **alst)
 {
     t_list	*lst;
     t_list	*prev;
-    t_token	*token;
-    t_token	*next_token;
-    t_list	*tmp;
-    t_list	*next_tmp;
-
+    t_token	*t;
+    t_token	*nt;
+    int		redir;
+    
     lst = *alst;
     prev = NULL;
+    redir = 0;
     while (lst && lst->next)
     {
-	token = (t_token*)lst->content;
-	next_token = (t_token*)lst->next->content;
-	if ((token->type != literal && (next_token->type == right_redir || next_token->type == double_right_redir))
-		|| (lst == *alst && (token->type == right_redir || token->type == double_right_redir)))
+	t = (t_token*)lst->content;
+	nt = (t_token*)lst->next->content;
+	if (t->type == right_redir || t->type == double_right_redir)
+	    redir = 1;
+	else if (nt->type == right_redir || nt->type == double_right_redir)
+	    prev = lst;
+	else if (redir && t->type == literal && nt->type == literal)
 	{
-	    if (token->type != literal && (next_token->type == right_redir || next_token->type == double_right_redir))
-	    {
-		prev = lst;
-		lst = lst->next;
-	    }
-	    if (lst->next->next && lst->next->next->next)
-	    {
-		ft_lstdelone(alst, lst->next->next, &free_token);
-		tmp = lst;
-		lst = lst->next->next;
-
-		if (prev)
-		    prev->next = lst;
-		else
-		    *alst = lst;
-		while (lst && lst->next && (((t_token*)lst->next->content)->type == literal
-			    || ((t_token*)lst->next->content)->type == space))
-		    lst = lst->next;
-		next_tmp = lst->next;
-		lst->next = tmp;
-		lst->next->next->next = next_tmp;	
-	    }
+	    put_lstnext_before_redir(&redir, &lst, &prev, alst);
+	    lst = *alst;
+	    continue ;
 	}
 	lst = lst->next;
     }
 }
 
+void				swap_list_elements(t_list **link1, t_list **link2, t_list **alst)
+{
+    t_list	*lst;
+    t_list	*l1_prev;
+    t_list	*l2_prev;
+    t_list	*swap;
+
+    lst = *alst;
+    while (lst)
+    {
+	if (lst->next == *link1)
+	    l1_prev = lst;
+	else if (lst->next == *link2)
+	    l2_prev = lst;
+	lst = lst->next;
+    }
+    swap = (*link1)->next;
+    (*link1)->next = (*link2)->next;
+    (*link2)->next = swap;
+    l1_prev->next = *link2;
+    l2_prev->next = *link1;
+}
+
+void				redirection_party_trick(t_list **alst)
+{
+    t_list	*lst;
+    t_list	*a;
+    t_list	*b;
+    t_token	*t;
+    int		redir;
+
+    lst = *alst;
+    redir = 0;
+    a = NULL;
+    b = NULL;
+    while (lst)
+    {
+	t = (t_token*)lst->content;
+	if (t->type == right_redir || t->type == double_right_redir)
+	{
+	    a  = !redir ? lst->next : a;
+	    b = redir ? lst->next : b;
+	    redir++;
+	}
+	lst = lst->next;
+    }
+    if (a && b)
+	swap_list_elements(&a, &b, alst);
+}
+
 int                             is_operator(t_token_type type)
 {
-    if (type == pipeline || type == or || type == and || type == right_redir
-	    || type == left_redir || type == double_right_redir)
+    if (type == pipeline || type == or || type == and
+	    || type == left_redir)
 	return (1);
     return (0);
 }
@@ -498,12 +514,10 @@ void                            check_syntax(t_list **alst)
 t_list				*pparse_line(char *line)
 {
     t_list	*lst;
-
-    /*
+/*
        t_token	*token;
        t_list *tmp; 
-       */
-
+*/
     lst = line_to_token_list(line);
     solve_quotes(&lst);
     join_token_of_the_same_type(&lst);
@@ -519,9 +533,10 @@ t_list				*pparse_line(char *line)
 	}
 	*/
     remove_whitespaces(&lst);
-    check_syntax(&lst);
     trambolic_redirections(&lst);
-    /*
+    redirection_party_trick(&lst);
+//    check_syntax(&lst);
+/*    
        ft_printf("====================\n");
        tmp = lst;
        while (tmp)

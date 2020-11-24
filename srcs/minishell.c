@@ -51,7 +51,7 @@ void	prompt_loop()
 			tkn_lst = pparse_line(str);
 			tmp = tkn_lst;
 			cmd_tree = bbuild_tree(&tkn_lst, &sep);
-//			print_ascii_tree(cmd_tree);
+			//print_ascii_tree(cmd_tree);
 			ret = exec_commands(cmd_tree);
 			save_return(ret);
 //			if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))

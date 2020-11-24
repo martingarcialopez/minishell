@@ -38,7 +38,10 @@ int		exec_commands(t_tree *tree)
 	if (tree->type == literal)
 	{
 		ft_printf("");
-		return (function(tree->data));
+		int ret = function(tree->data);
+	//	ft_printf_fd(2, "in exec_cmd, ret is %d\n", ret);
+		return (ret);
+//		return (function(tree->data));
 	}
 	return (g_ret);
 }
