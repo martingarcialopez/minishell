@@ -122,7 +122,7 @@ char			*solve_cmd_path(char **args)
 	if (args[0][0] == '/')
 		return (solve_abs_path(args));
 	else if (args[0][0] == '.')
-		return (solve_relative_path(args));
+		return (solve_abs_path(args));
 	else if (args[0][0] == '~')
 		return (solve_home(args[0]));
 	else
