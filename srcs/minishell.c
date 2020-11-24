@@ -20,7 +20,9 @@ void	prompt_loop()
 {
 	int	i;
 	int	ret;
+	char	*str;
 	char 	*line;
+	char	*linetmp;
 	char	sep;
 	t_list	*tkn_lst;
 	t_list	*tmp;
@@ -35,52 +37,78 @@ void	prompt_loop()
 			ft_printf("exit\n");
 			exit(0);
 		}
-		tkn_lst = pparse_line(line);
-		free(line);
-		tmp = tkn_lst;
-		while (tkn_lst)
+		linetmp = line;
+		while (*line)
 		{
 			sep = 0;
+			str = sec(ft_strdup(line));
+			i = 0;
+			while (str[i] && str[i] != ';')
+			    i++;
+			if (str[i] == ';')
+			    sep = ';';
+			str[i] = '\0';
+			tkn_lst = pparse_line(str);
+			tmp = tkn_lst;
 			cmd_tree = bbuild_tree(&tkn_lst, &sep);
 //			print_ascii_tree(cmd_tree);
 			ret = exec_commands(cmd_tree);
 			save_return(ret);
-			if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
-				break;
-			if (tkn_lst)
-				tkn_lst = tkn_lst->next;
+//			if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
+//				break;
+//			if (tkn_lst)
+//				tkn_lst = tkn_lst->next;
+			free(str);
 			free_tree(cmd_tree);
+			ft_lstclear(&tmp, &free_token);
+			line += i;
+			if (sep == ';')
+			    line++;
 		}
-		ft_lstclear(&tmp, &free_token);
+		free(linetmp);
 	}
 	
 }
 
 int		    exec_single_command(char *line)
 {
+	int	i;
 	int	ret;
+	char	*str;
 	char	sep;
 	t_list	*tkn_lst;
 	t_list	*tmp;
 	t_tree	*cmd_tree;
 
-	    tkn_lst = pparse_line(line);
-	    tmp = tkn_lst;
-	    while (tkn_lst)
-	    {
-	    	sep = 0;
-	    	cmd_tree = bbuild_tree(&tkn_lst, &sep);
-//	    	print_ascii_tree(cmd_tree);
-	    	ret = exec_commands(cmd_tree);
-	    	save_return(ret);
-	    	if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
-	    		break;
-	    	if (tkn_lst)
-	    		tkn_lst = tkn_lst->next;
-	    	free_tree(cmd_tree);
-	    }
-	    ft_lstclear(&tmp, &free_token);
-	    return (g_ret);
+		while (*line)
+		{
+			sep = 0;
+			str = sec(ft_strdup(line));
+			i = 0;
+			while (str[i] && str[i] != ';')
+			    i++;
+			if (str[i] == ';')
+			    sep = ';';
+			str[i] = '\0';
+			tkn_lst = pparse_line(str);
+			tmp = tkn_lst;
+			cmd_tree = bbuild_tree(&tkn_lst, &sep);
+//			print_ascii_tree(cmd_tree);
+			ret = exec_commands(cmd_tree);
+			save_return(ret);
+//			if (((sep == '&' && ret != 0) || (sep == '|' && ret == 0)))
+//				break;
+//			if (tkn_lst)
+//				tkn_lst = tkn_lst->next;
+			free(str);
+			free_tree(cmd_tree);
+			ft_lstclear(&tmp, &free_token);
+			line += i;
+			if (sep == ';')
+			    line++;
+		}
+		return (g_ret);
+	
 }
 
 int		    main(int ac, char **av, char **envp)
