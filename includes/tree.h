@@ -107,4 +107,16 @@ void			print_token_lst(t_list *alst);
 
 void			join_token_of_the_same_type(t_list **alst);
 
+void			solve_quotes(t_list **alst);
+
+void			trambolic_redirections(t_list **alst);
+
+void			redirection_party_trick(t_list **alst);
+
+void			remove_whitespaces(t_list **alst);
+
+void			check_syntax(t_list **alst);
+
+void			join_quotes(t_list **alst);
+
 #endif

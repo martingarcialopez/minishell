@@ -65,6 +65,7 @@ void		print_token_lst(t_list *lst)
 	printf("token: %d, value: %s\n", token->type, token->value);
 	lst = lst->next;
     }
+    ft_printf("\n");
 }
 
 void		prompt_loop()
@@ -82,10 +83,11 @@ void		prompt_loop()
 	tkn_lst = pparse_line(line);
 	while (tkn_lst)
 	{
+	    print_token_lst(tkn_lst);
 	    split_lst_by_semicolon(&tkn_lst, &next_lst);
 	    expand_variables(&tkn_lst);
 	    cmd_tree = bbuild_tree(&tkn_lst);
-	    //print_ascii_tree(cmd_tree);
+	    print_ascii_tree(cmd_tree);
 	    ret = exec_commands(cmd_tree);
 	    save_return(ret);
 	    free_tree(cmd_tree);
