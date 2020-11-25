@@ -3,10 +3,18 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
+#define EACCES_EXIT_STATUS 126
+#define ENOENT_EXIT_STATUS 127
+
 int			error(char *err)
 {
     ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
-    return (1);
+    if (errno == EACCES)
+	return (EACCES_EXIT_STATUS);
+    else if (errno == ENOENT)
+	return (ENOENT_EXIT_STATUS);
+    else
+	return (1);
 }
 
 int			error_fork_failed(void)
