@@ -36,14 +36,14 @@ char	    *get_input()
 void		split_lst_by_semicolon(t_list **alst, t_list **next)
 {
     t_list  *lst;
-    t_token *token;
+//    t_token *token;
     t_token *ntoken;
 
     lst = *alst;
     *next = NULL;
     while (lst && lst->next)
     {
-	token = (t_token*)(lst)->content;
+//	token = (t_token*)(lst)->content;
 	ntoken = (t_token*)lst->next->content;
 	if (ntoken->type == semicolon)
 	{
@@ -92,6 +92,7 @@ void		prompt_loop()
 	    ft_lstclear(&tkn_lst, &free_token);
 	    tkn_lst = next_lst;
 	}
+	free(line);
     }
 }
 

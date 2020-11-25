@@ -58,7 +58,7 @@ static int	update_env(void)
 		if (ft_strcmp(lst->name, "OLDPWD") == 0)
 		{
 			free(lst->value);
-			lst->value = tmp;
+			lst->value = (char*)sec(ft_strdup(tmp));
 			break;
 		}
 		lst = lst->next;
@@ -67,6 +67,7 @@ static int	update_env(void)
 		new_env("OLDPWD", tmp);
 	free(g_data[OLDPWD]);
 	g_data[OLDPWD] = (char*)sec(ft_strdup(tmp));
+	free(tmp);
 	return 0;
 }
 
