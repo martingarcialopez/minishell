@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execve.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/25 19:00:11 by mgarcia-          #+#    #+#             */
+/*   Updated: 2020/11/25 19:21:24 by mgarcia-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 #include "tree.h"
 #include "libft.h"
@@ -5,25 +17,23 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-int	call_system_function(char **args)
+int		call_system_function(char **args)
 {
 	char	**env;
 	char	*abs_path;
-	int	fk;
-	int	status;
+	int		fk;
+	int		status;
 
 	if ((abs_path = solve_cmd_path(args)) == NULL)
-	    return (g_ret);
+		return (g_ret);
 	env = env_to_vect();
-	fk = fork();	
+	fk = fork();
 	if (fk == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execve(abs_path, args, env);
-		//ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], abs_path, strerror(errno));
 		exit(error(abs_path));
-		//exit(127);
 	}
 	else if (fk > 0)
 	{
@@ -37,10 +47,10 @@ int	call_system_function(char **args)
 			ft_printf("\n");
 			return (status);
 		}
-		if (WIFEXITED(status)) 
-        		return (status); 
+		if (WIFEXITED(status))
+			return (status);
 	}
-    	free_tab(env);
-    	ft_printf_fd(2, "%s: error: could not fork process\n", g_data[ARGV0]);
-    	return (1);
+	free_tab(env);
+	ft_printf_fd(2, "%s: error: could not fork process\n", g_data[ARGV0]);
+	return (1);
 }

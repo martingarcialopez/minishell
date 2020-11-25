@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/06 16:53:21 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/25 20:59:11 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,15 @@ void			remove_whitespaces(t_list **alst);
 void			check_syntax(t_list **alst);
 
 void			join_quotes(t_list **alst);
+
+int			check_path_status(char *path);
+
+char			*error_retrieving_env_variable(char *var);
+
+char			*command_not_found(char **tab, char *str, char *cmd);
+
+char			*free_tab_and_return_path(char **tab, char *abs_path);
+
+char			*is_a_directory(char *path);
 
 #endif
