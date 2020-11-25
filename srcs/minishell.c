@@ -95,7 +95,6 @@ void		prompt_loop()
 	    ft_lstclear(&tkn_lst, &free_token);
 	    tkn_lst = next_lst;
 	}
-	free(line);
     }
 }
 
