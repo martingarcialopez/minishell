@@ -69,7 +69,7 @@ t_list			*parse_line(char *str);
 
 t_list			*pparse_line(char *line);
 
-t_tree			*bbuild_tree(t_list **alst, char *sep);
+t_tree			*bbuild_tree(t_list **alst);
 
 void			display_ascii_art(void);
 
@@ -100,5 +100,11 @@ void			parse_error(int n, void *value, t_list **alst);
 char			*error_retrieving_env_variable(char *var);
 
 int			error(char *err);
+
+void			expand_variables(t_list **alst);
+
+void			print_token_lst(t_list *alst);
+
+void			join_token_of_the_same_type(t_list **alst);
 
 #endif

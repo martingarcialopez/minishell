@@ -61,7 +61,7 @@ char				**create_command(t_list **alst, t_list *lst)
     return (cmd);
 }
 
-t_tree				*bbuild_tree(t_list **alst, char *sep)
+t_tree				*bbuild_tree(t_list **alst)
 {
     t_list		*lst;
     t_token		*token;
@@ -75,17 +75,6 @@ t_tree				*bbuild_tree(t_list **alst, char *sep)
     while (lst)
     {
 	token = (t_token*)(lst->content);	
-	if (token->type == semicolon || token->type == and || token->type == or)
-	{
-	    if (token->type == semicolon)
-		*sep = ';';
-	    else if (token->type == and)
-		*sep = '&';
-	    else if (token->type == or)
-		*sep = '|';
-	    break;
-	}
-
 	if ((token->type == pipeline) || (token->type == right_redir)
 		|| (token->type == left_redir) || (token->type == double_right_redir))
 	{
@@ -404,6 +393,8 @@ void				trambolic_redirections(t_list **alst)
 	nt = (t_token*)lst->next->content;
 	if (t->type == right_redir || t->type == double_right_redir)
 	    redir = 1;
+	else if (t->type == semicolon)
+	    redir = 0;
 	else if (nt->type == right_redir || nt->type == double_right_redir)
 	    prev = lst;
 	else if (redir && t->type == literal && nt->type == literal)
@@ -456,7 +447,7 @@ void				redirection_party_trick(t_list **alst)
 	t = (t_token*)lst->content;
 	if (t->type == right_redir || t->type == double_right_redir)
 	{
-	    a  = !redir ? lst->next : a;
+	    a = !redir ? lst->next : a;
 	    b = redir ? lst->next : b;
 	    redir++;
 	}
@@ -514,39 +505,16 @@ void                            check_syntax(t_list **alst)
 t_list				*pparse_line(char *line)
 {
     t_list	*lst;
-/*
-       t_token	*token;
-       t_list *tmp; 
-*/
+
     lst = line_to_token_list(line);
     solve_quotes(&lst);
     join_token_of_the_same_type(&lst);
     reevaluate_token(&lst);
-    expand_variables(&lst);
-
-    /* tmp = lst; */
-    /*	while (tmp)
-	{
-	token = (t_token*)(tmp->content);
-	ft_printf("%s <- %d\n", token->value, token->type);
-	tmp = tmp->next;
-	}
-	*/
+    //expand_variables(&lst);
     remove_whitespaces(&lst);
     trambolic_redirections(&lst);
     redirection_party_trick(&lst);
 //    check_syntax(&lst);
-/*    
-       ft_printf("====================\n");
-       tmp = lst;
-       while (tmp)
-       {
-       token = (t_token*)(tmp->content);
-       ft_printf("%s <- %d\n", token->value, token->type);
-       tmp = tmp->next;
-       }
-
-*/
 
     return (lst);
 }

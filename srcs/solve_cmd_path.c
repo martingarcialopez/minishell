@@ -10,6 +10,7 @@ char			*command_not_found(char **tab, char *str, char *cmd)
 	free_tab(tab);
 	free(str);
 	ft_printf_fd(2, "%s: %s: command not found\n", g_data[ARGV0], cmd);
+	g_ret = 127;
 	return (NULL);
 }
 
@@ -19,29 +20,37 @@ char			*free_tab_and_return_path(char **tab, char *abs_path)
     return (abs_path);
 }
 
+char			*is_a_directory(char *path)
+{
+    ft_printf_fd(2, "%s: %s: is a directory\n", g_data[ARGV0], path);
+    free(path);
+    g_ret = 126;
+    return (NULL);
+}
+
 int			check_path_status(char *path)
 {
     struct stat		stats;
 
     if (stat(path, &stats) == 0)
     {
-//	if (stats.st_mode & S_IXUSR)
+	if (!(stats.st_mode & S_IFDIR))
 	    return (0);
-//	return (1);
+	return (1);
     }
     return (2);
 }
 
 char			*solve_abs_path(char **args)
 {
-//	int		errnum;
+	int		errnum;
 	char		*abs_path;
 
 	abs_path = sec(ft_strdup(args[0]));
-/*	if ((errnum = check_path_status(abs_path)) == 0)
+	if ((errnum = check_path_status(abs_path)) == 0)
 	    return (abs_path);
-	//free(abs_path);
-	return (path_error(errnum, abs_path));*/
+	else if (errnum == 1)
+	    return (is_a_directory(abs_path));
 	return (abs_path);
 }
 

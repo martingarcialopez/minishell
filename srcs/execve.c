@@ -13,7 +13,7 @@ int	call_system_function(char **args)
 	int	status;
 
 	if ((abs_path = solve_cmd_path(args)) == NULL)
-	    return (1);
+	    return (g_ret);
 	env = env_to_vect();
 	fk = fork();	
 	if (fk == 0)
