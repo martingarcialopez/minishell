@@ -36,14 +36,14 @@ char	    *get_input()
 void		split_lst_by_semicolon(t_list **alst, t_list **next)
 {
     t_list  *lst;
-    t_token *token;
+    //t_token *token;
     t_token *ntoken;
 
     lst = *alst;
     *next = NULL;
     while (lst && lst->next)
     {
-	token = (t_token*)(lst)->content;
+//	token = (t_token*)(lst)->content;
 	ntoken = (t_token*)lst->next->content;
 	if (ntoken->type == semicolon)
 	{
@@ -81,13 +81,14 @@ void		prompt_loop()
 	new_prompt();
 	line = get_input();
 	tkn_lst = pparse_line(line);
+        free(line);
 	while (tkn_lst)
 	{
-	    print_token_lst(tkn_lst);
+	//    print_token_lst(tkn_lst);
 	    split_lst_by_semicolon(&tkn_lst, &next_lst);
 	    expand_variables(&tkn_lst);
 	    cmd_tree = bbuild_tree(&tkn_lst);
-	    print_ascii_tree(cmd_tree);
+	    //print_ascii_tree(cmd_tree);
 	    ret = exec_commands(cmd_tree);
 	    save_return(ret);
 	    free_tree(cmd_tree);
