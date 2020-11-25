@@ -8,3 +8,8 @@ srcs/solve_cmd_path.c
 srcs/pipes.c
 srcs/redirections.c
 srcs/utils.c
+srcs/build_tree.c
+srcs/quotes.c
+srcs/parse_redirections.c
+srcs/parsing_utils.c
+srcs/expand_variables.c
