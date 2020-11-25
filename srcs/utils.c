@@ -34,6 +34,15 @@ void			free_tab(char **tab)
 	free(tab);
 }
 
+void				free_token(void *tkn)
+{
+    t_token *token;
+
+    token = (t_token*)tkn;
+    free(token->value);
+    free(token);
+}
+
 int	retrieve_env_variable(char *name, char **value)
 {
 	t_env	*list;
