@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/25 19:04:22 by mgarcia-          #+#    #+#             */
+/*   Updated: 2020/11/25 20:00:49 by mgarcia-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 #include "tree.h"
 #include <fcntl.h>
@@ -6,107 +18,109 @@
 #define EACCES_EXIT_STATUS 126
 #define ENOENT_EXIT_STATUS 127
 
-int			error(char *err)
+int				error(char *err)
 {
-    ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
-    if (errno == EACCES)
-	return (EACCES_EXIT_STATUS);
-    else if (errno == ENOENT)
-	return (ENOENT_EXIT_STATUS);
-    else
-	return (1);
+	ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
+	if (errno == EACCES)
+		return (EACCES_EXIT_STATUS);
+	else if (errno == ENOENT)
+		return (ENOENT_EXIT_STATUS);
+	else
+		return (1);
 }
 
-int			error_fork_failed(void)
+int				error_fork_failed(void)
 {
-    ft_printf_fd(2, "%s: error: %s\n", g_data[ARGV0], strerror(errno));
-    return (1);
+	ft_printf_fd(2, "%s: error: %s\n", g_data[ARGV0], strerror(errno));
+	return (1);
 }
 
 static int		right_redirection(t_tree *tree)
 {
-    int			fk;
-    int			fd;
-    int			status;
+	int			fk;
+	int			fd;
+	int			status;
 
-    if ((fd = open(tree->right->data[0], O_WRONLY | O_CREAT | O_TRUNC, 0644)) < 0)
-	return (error(tree->right->data[0]));
-    fk = fork();
-    if (fk == 0)
-    {
-	dup2(fd, 1);
-	close(fd);
-	exit(exec_commands(tree->left));
-    }
-    else if (fk > 0)
-    {
-	wait(&status);
-	if (WIFEXITED(status))
+	if ((fd = open(tree->right->data[0],
+				O_WRONLY | O_CREAT | O_TRUNC, 0644)) < 0)
+		return (error(tree->right->data[0]));
+	fk = fork();
+	if (fk == 0)
 	{
-//	    ft_printf("in redirections, ret is %d\n", status);
-	    return (status);
+		dup2(fd, 1);
+		close(fd);
+		exit(exec_commands(tree->left));
 	}
-    }
-    return (error_fork_failed());
+	else if (fk > 0)
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+		{
+			//ft_printf("in redirections, ret is %d\n", status);
+			return (status);
+		}
+	}
+	return (error_fork_failed());
 }
 
 static int		double_right_redirection(t_tree *tree)
 {
-    int			fk;
-    int			fd;
-    int			status;
+	int			fk;
+	int			fd;
+	int			status;
 
-    if ((fd = open(tree->right->data[0], O_WRONLY | O_CREAT | O_APPEND, 0644)) < 0)
-	return (error(tree->right->data[0]));
-    fk = fork();
-    if (fk == 0)
-    {
-	dup2(fd, 1);
-	close(fd);
-	exit(exec_commands(tree->left));
-    }
-    else if (fk > 0)
-    {
-	wait(&status);
-	if (WIFEXITED(status))
+	if ((fd = open(tree->right->data[0],
+				O_WRONLY | O_CREAT | O_APPEND, 0644)) < 0)
+		return (error(tree->right->data[0]));
+	fk = fork();
+	if (fk == 0)
 	{
-	    return (status);
+		dup2(fd, 1);
+		close(fd);
+		exit(exec_commands(tree->left));
 	}
-    }
-    return (error_fork_failed());
+	else if (fk > 0)
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+		{
+			return (status);
+		}
+	}
+	return (error_fork_failed());
 }
 
 static int		left_redirection(t_tree *tree)
 {
-    int			fk;
-    int			fd;
-    int			status;
+	int			fk;
+	int			fd;
+	int			status;
 
-    if ((fd = open(tree->right->data[0], O_RDONLY)) < 0)
-	return (error(tree->right->data[0]));
-    fk = fork();
-    if (fk == 0)
-    {
-	dup2(fd, 0);
-	close(fd);
-	exit(exec_commands(tree->left));
-    }
-    else if (fk > 0)
-    {
-	wait(&status);
-	if (WIFEXITED(status))
-	    return (status);
-    }
-    return (error_fork_failed());
+	if ((fd = open(tree->right->data[0], O_RDONLY)) < 0)
+		return (error(tree->right->data[0]));
+	fk = fork();
+	if (fk == 0)
+	{
+		dup2(fd, 0);
+		close(fd);
+		exit(exec_commands(tree->left));
+	}
+	else if (fk > 0)
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+			return (status);
+	}
+	return (error_fork_failed());
 }
 
-int		redirection(t_tree *tree)
+int				redirection(t_tree *tree)
 {
-    if (tree->type == right_redir)
-	return (right_redirection(tree));
-    if (tree->type == double_right_redir)
-	return (double_right_redirection(tree));
-    if (tree->type == left_redir)
-	return (left_redirection(tree));
-    return (1);
+	if (tree->type == right_redir)
+		return (right_redirection(tree));
+	if (tree->type == double_right_redir)
+		return (double_right_redirection(tree));
+	if (tree->type == left_redir)
+		return (left_redirection(tree));
+	return (1);
 }

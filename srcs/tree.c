@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:23:31 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/19 20:04:32 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/25 20:54:35 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void			free_tree(t_tree *node)
 		free_tree(node->left);
 	if (node->right)
 		free_tree(node->right);
-//	ft_printf("node->type %d, node->value[0], [1] -%s- -%s-\n",
-//				node->type, node->data[0], node->data[1]);
+	//	ft_printf("node->type %d, node->value[0], [1] -%s- -%s-\n",
+	//				node->type, node->data[0], node->data[1]);
 	free_tab(node->data);
 	free(node);
 }
@@ -57,14 +57,15 @@ void			ft_treeadd_root(t_tree **rtree, t_tree *new)
 
 int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new)
 {
-	t_tree		*root;
+	t_tree			*root;
 	t_token_type	type;
 
 	root = *rtree;
-	type = root->type;	
+	type = root->type;
 	if (root && root->left == NULL)
 	{
-		if (type == pipeline || type == right_redir || type == left_redir || type == double_right_redir)
+		if (type == pipeline || type == right_redir
+			|| type == left_redir || type == double_right_redir)
 		{
 			root->left = new;
 			return (1);
@@ -75,17 +76,18 @@ int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new)
 		return (1);
 	if (root && root->right == NULL)
 	{
-		if (type == pipeline || type == right_redir || type == left_redir || type == double_right_redir)
+		if (type == pipeline || type == right_redir ||
+			type == left_redir || type == double_right_redir)
 		{
 			root->right = new;
-			return (1);	
+			return (1);
 		}
 		return (0);
 	}
 	return (0);
 }
 
-void		print_dfs_tree(t_tree *node)
+void			print_dfs_tree(t_tree *node)
 {
 	if (!node)
 		return ;
@@ -93,31 +95,3 @@ void		print_dfs_tree(t_tree *node)
 	print_dfs_tree(node->left);
 	print_dfs_tree(node->right);
 }
-/*
-void			draw_list(t_list *list)
-{
-	t_list	*alst;
-	int i;
-
-	alst = list;
-	i = 1;
-	ft_printf("\n\no-> ");
-	while (list)
-	{
-		ft_printf("NODE%d ---> ", i++);
-		list = list->next;		
-	}
-	ft_printf("NULL\n");
-	ft_printf("\n\n");
-	
-	list = alst;
-	i = 1;
-	while (list)
-	{
-		ft_printf("NODE%d TREE:\n", i++);
-		print_ascii_tree((t_tree*)list->content);
-		ft_printf("\n\n");
-		list = list->next;
-	}
-}
-*/

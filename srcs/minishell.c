@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/25 19:00:45 by mgarcia-          #+#    #+#             */
+/*   Updated: 2020/11/25 19:40:58 by mgarcia-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 #include "tree.h"
 #include "libft.h"
@@ -5,152 +17,150 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-void	new_prompt()
+void			new_prompt(void)
 {
-    ft_printf("(los voltereta)-> ");
+	ft_printf("(los voltereta)-> ");
 }
 
-void	signal_handler(int sigid)
+void			signal_handler(int sigid)
 {
-    if (sigid == SIGINT)
-    {
-	ft_printf("\n");
-	new_prompt();
-    }
-}
-
-char	    *get_input()
-{
-    char    *line;
-    int	    i;
-
-    i = gnl(0, &line);
-    if (!i)
-    {
-	ft_printf("exit\n");
-	exit(0);
-    }
-    return (line);
-}
-
-void		split_lst_by_semicolon(t_list **alst, t_list **next)
-{
-    t_list  *lst;
-    //t_token *token;
-    t_token *ntoken;
-
-    lst = *alst;
-    *next = NULL;
-    while (lst && lst->next)
-    {
-//	token = (t_token*)(lst)->content;
-	ntoken = (t_token*)lst->next->content;
-	if (ntoken->type == semicolon)
+	if (sigid == SIGINT)
 	{
-	    ft_lstdelone(alst, lst->next, &free_token);
-	    *next = lst->next;
-	    lst->next = NULL;
-	}	
-	lst = (lst)->next;
-    }
+		ft_printf("\n");
+		new_prompt();
+	}
 }
 
-void		print_token_lst(t_list *lst)
+char			*get_input(void)
 {
-    t_token *token;
+	char	*line;
+	int		i;
 
-    while (lst)
-    {
-	token = (t_token*)lst->content;
-	printf("token: %d, value: %s\n", token->type, token->value);
-	lst = lst->next;
-    }
-    ft_printf("\n");
+	i = gnl(0, &line);
+	if (!i)
+	{
+		ft_printf("exit\n");
+		exit(0);
+	}
+	return (line);
 }
 
-void		prompt_loop()
+void			split_lst_by_semicolon(t_list **alst, t_list **next)
 {
-    int	ret;
-    char 	*line;
-    t_list	*tkn_lst;
-    t_list	*next_lst;
-    t_tree	*cmd_tree;
+	t_list		*lst;
+	t_token		*ntoken;
 
-    while(1)
-    {
-	new_prompt();
-	line = get_input();
+	lst = *alst;
+	*next = NULL;
+	while (lst && lst->next)
+	{
+		ntoken = (t_token*)lst->next->content;
+		if (ntoken->type == semicolon)
+		{
+			ft_lstdelone(alst, lst->next, &free_token);
+			*next = lst->next;
+			lst->next = NULL;
+		}
+		lst = (lst)->next;
+	}
+}
+
+void			print_token_lst(t_list *lst)
+{
+	t_token		*token;
+
+	while (lst)
+	{
+		token = (t_token*)lst->content;
+		printf("token: %d, value: %s\n", token->type, token->value);
+		lst = lst->next;
+	}
+	ft_printf("\n");
+}
+
+void			prompt_loop(void)
+{
+	t_list	*tkn_lst;
+	t_list	*next_lst;
+	t_tree	*cmd_tree;
+	char	*line;
+	int		ret;
+
+	while (1)
+	{
+		new_prompt();
+		line = get_input();
+		tkn_lst = pparse_line(line);
+		free(line);
+		while (tkn_lst)
+		{
+			//print_token_lst(tkn_lst);
+			split_lst_by_semicolon(&tkn_lst, &next_lst);
+			expand_variables(&tkn_lst);
+			cmd_tree = bbuild_tree(&tkn_lst);
+			//print_ascii_tree(cmd_tree);
+			ret = exec_commands(cmd_tree);
+			save_return(ret);
+			free_tree(cmd_tree);
+			ft_lstclear(&tkn_lst, &free_token);
+			tkn_lst = next_lst;
+		}
+	}
+}
+
+int				exec_single_command(char *line)
+{
+	t_list	*tkn_lst;
+	t_list	*next_lst;
+	t_tree	*cmd_tree;
+	int		ret;
+
 	tkn_lst = pparse_line(line);
-        free(line);
 	while (tkn_lst)
 	{
-	//    print_token_lst(tkn_lst);
-	    split_lst_by_semicolon(&tkn_lst, &next_lst);
-	    expand_variables(&tkn_lst);
-	    cmd_tree = bbuild_tree(&tkn_lst);
-	    //print_ascii_tree(cmd_tree);
-	    ret = exec_commands(cmd_tree);
-	    save_return(ret);
-	    free_tree(cmd_tree);
-	    ft_lstclear(&tkn_lst, &free_token);
-	    tkn_lst = next_lst;
+		split_lst_by_semicolon(&tkn_lst, &next_lst);
+		expand_variables(&tkn_lst);
+		cmd_tree = bbuild_tree(&tkn_lst);
+		//print_ascii_tree(cmd_tree);
+		ret = exec_commands(cmd_tree);
+		save_return(ret);
+		free_tree(cmd_tree);
+		ft_lstclear(&tkn_lst, &free_token);
+		tkn_lst = next_lst;
 	}
-    }
+	return (g_ret);
 }
 
-int		    exec_single_command(char *line)
+int				manage_flags(int ac, char **av, char **envp)
 {
-    int	ret;
-    t_list	*tkn_lst;
-    t_list	*next_lst;
-    t_tree	*cmd_tree;
-
-    tkn_lst = pparse_line(line);
-    while (tkn_lst)
-    {
-	split_lst_by_semicolon(&tkn_lst, &next_lst);
-	expand_variables(&tkn_lst);
-	cmd_tree = bbuild_tree(&tkn_lst);
-	//print_ascii_tree(cmd_tree);
-	ret = exec_commands(cmd_tree);
-	save_return(ret);
-	free_tree(cmd_tree);
-	ft_lstclear(&tkn_lst, &free_token);
-	tkn_lst = next_lst;
-    }
-    return (g_ret);
-}
-
-int		    manage_flags(int ac, char **av, char **envp)
-{
-    if (ac >= 2 && ft_strcmp(av[1], "-c") == 0)
-    {
-	if (ac == 2)
+	if (ac >= 2 && ft_strcmp(av[1], "-c") == 0)
 	{
-	    ft_printf_fd(2, "%s: -c: option requires an argument\n", g_data[ARGV0]);
-	    exit(1);
+		if (ac == 2)
+		{
+			ft_printf_fd(2, "%s: -c: option requires an argument\n",
+								g_data[ARGV0]);
+			exit(1);
+		}
+		while (--ac > 2)
+			av[ac - 3] = av[ac];
+		init_env(envp);
+		init_data(av);
+		return (exec_single_command(av[2]));
 	}
-	while (--ac > 2)
-	    av[ac - 3] = av[ac];
+	ft_printf_fd(2, "%s: %s: not a minishell option\n", g_data[ARGV0], av[1]);
+	return (1);
+}
+
+int				main(int ac, char **av, char **envp)
+{
+	if (ac > 1)
+		return (manage_flags(ac, av, envp));
 	init_env(envp);
 	init_data(av);
-	return (exec_single_command(av[2]));
-    }
-    ft_printf_fd(2, "%s: %s: not a minishell option\n", g_data[ARGV0], av[1]);
-    return (1);
-}
-
-
-int		    main(int ac, char **av, char **envp)
-{
-    if (ac > 1)
-	return (manage_flags(ac, av, envp));
-    init_env(envp);
-    init_data(av);
-    display_ascii_art();
-    signal(SIGINT, signal_handler);
-    signal(SIGQUIT, SIG_IGN);
-    prompt_loop();
-    exit(0);
-    return (0);
+	display_ascii_art();
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	prompt_loop();
+	exit(0);
+	return (0);
 }

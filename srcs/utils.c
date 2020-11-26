@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/25 19:06:29 by mgarcia-          #+#    #+#             */
+/*   Updated: 2020/11/25 20:56:35 by mgarcia-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "tree.h"
 #include "builtins.h"
@@ -5,22 +17,17 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
-char			*error_retrieving_env_variable(char *var)
+int				check_path_status(char *path)
 {
-    ft_printf_fd(2, "%s: error: %s variable not found in env\n", g_data[ARGV0], var);
-    return (NULL);
-}
+	struct stat		stats;
 
-void			parse_error(int err_type, void *value, t_list **alst)
-{
-    ft_printf_fd(2, "%s: parse error", g_data[ARGV0]);
-    if (err_type == 0)
-	ft_printf_fd(2, " near `%c'\n", *((char*)value));
-    else if (err_type == 1)
-	ft_printf_fd(2, " near `%s'\n", (char*)value);
-    else if (err_type == 2)
-	ft_printf_fd(2, ": missing quote(%c)\n", ((char*)value)[0]);
-    ft_lstclear(alst, &free_token);
+	if (stat(path, &stats) == 0)
+	{
+		if (!(stats.st_mode & S_IFDIR))
+			return (0);
+		return (1);
+	}
+	return (2);
 }
 
 void			free_tab(char **tab)
@@ -34,19 +41,19 @@ void			free_tab(char **tab)
 	free(tab);
 }
 
-void				free_token(void *tkn)
+void			free_token(void *tkn)
 {
-    t_token *token;
+	t_token *token;
 
-    token = (t_token*)tkn;
-    free(token->value);
-    free(token);
+	token = (t_token*)tkn;
+	free(token->value);
+	free(token);
 }
 
-int	retrieve_env_variable(char *name, char **value)
+int				retrieve_env_variable(char *name, char **value)
 {
 	t_env	*list;
-	
+
 	list = g_env;
 	if (ft_strcmp("PWD", name) == 0)
 	{
@@ -63,20 +70,20 @@ int	retrieve_env_variable(char *name, char **value)
 		if (ft_strcmp(list->name, name) == 0)
 		{
 			*value = sec(ft_strdup(list->value));
-			return(1);
+			return (1);
 		}
-		list = list->next;	
-	}	
-	return (0);	
+		list = list->next;
+	}
+	return (0);
 }
 
-void	*sec(void *ptr)
+void			*sec(void *ptr)
 {
 	if (ptr == NULL)
 	{
 		ft_printf_fd(2, "%s: error", g_data[ARGV0]);
 		perror("");
-		exit(1);	
+		exit(1);
 	}
 	return (ptr);
 }

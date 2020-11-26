@@ -13,3 +13,4 @@ srcs/quotes.c
 srcs/parse_redirections.c
 srcs/parsing_utils.c
 srcs/expand_variables.c
+srcs/error.c
