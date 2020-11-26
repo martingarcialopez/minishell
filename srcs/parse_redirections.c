@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:01:01 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 19:42:10 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/26 14:40:15 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ static void	put_lstnext_before_redir(int *redir, t_list **elem,
 	if (*prev == NULL)
 	{
 		(*elem)->next = *begin;
+		free(*begin);
 		*begin = *elem;
-	}
+   	}
 	else
 	{
-		prev_next = (*prev)->next;
+		prev_next = (*prev)->next; 
 		(*prev)->next = *elem;
 		(*elem)->next = prev_next;
 	}
