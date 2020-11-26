@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:45 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 19:40:58 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/26 12:25:00 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,56 +78,45 @@ void			print_token_lst(t_list *lst)
 	ft_printf("\n");
 }
 
-void			prompt_loop(void)
+void			solve_command(char *line)
 {
-	t_list	*tkn_lst;
+	t_list	*token_lst;
 	t_list	*next_lst;
 	t_tree	*cmd_tree;
-	char	*line;
 	int		ret;
+
+		token_lst = pparse_line(line);
+		while (token_lst)
+		{
+			//print_token_lst(token_lst);
+			split_lst_by_semicolon(&token_lst, &next_lst);
+			//expand_variables(&token_lst);
+			cmd_tree = bbuild_tree(&token_lst);
+			//print_ascii_tree(cmd_tree);
+			ret = exec_commands(cmd_tree);
+			save_return(ret);
+			free_tree(cmd_tree);
+			ft_lstclear(&token_lst, &free_token);
+			token_lst = next_lst;
+		}
+}
+
+void			prompt_loop(void)
+{
+	char	*line;
 
 	while (1)
 	{
 		new_prompt();
 		line = get_input();
-		tkn_lst = pparse_line(line);
+		solve_command(line);
 		free(line);
-		while (tkn_lst)
-		{
-			//print_token_lst(tkn_lst);
-			split_lst_by_semicolon(&tkn_lst, &next_lst);
-			expand_variables(&tkn_lst);
-			cmd_tree = bbuild_tree(&tkn_lst);
-			//print_ascii_tree(cmd_tree);
-			ret = exec_commands(cmd_tree);
-			save_return(ret);
-			free_tree(cmd_tree);
-			ft_lstclear(&tkn_lst, &free_token);
-			tkn_lst = next_lst;
-		}
 	}
 }
 
 int				exec_single_command(char *line)
 {
-	t_list	*tkn_lst;
-	t_list	*next_lst;
-	t_tree	*cmd_tree;
-	int		ret;
-
-	tkn_lst = pparse_line(line);
-	while (tkn_lst)
-	{
-		split_lst_by_semicolon(&tkn_lst, &next_lst);
-		expand_variables(&tkn_lst);
-		cmd_tree = bbuild_tree(&tkn_lst);
-		//print_ascii_tree(cmd_tree);
-		ret = exec_commands(cmd_tree);
-		save_return(ret);
-		free_tree(cmd_tree);
-		ft_lstclear(&tkn_lst, &free_token);
-		tkn_lst = next_lst;
-	}
+	solve_command(line);
 	return (g_ret);
 }
 
@@ -161,6 +150,5 @@ int				main(int ac, char **av, char **envp)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	prompt_loop();
-	exit(0);
 	return (0);
 }
