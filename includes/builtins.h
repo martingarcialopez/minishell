@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:05:39 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/19 20:10:21 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/26 17:48:56 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ void				list_rm_next(t_env *list);
 void				save_return(int ret);
 int				init_data(char **argv);
 void				*sec(void *ptr);
+void				new_env(char *name, char *value);
+int				print_relative_path(char *home);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/25 18:59:56 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/26 17:53:00 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ static int	print_export(void)
 	return (0);
 }
 
-static int	check_args(char **args)
+static int	check_args(char **args, int *r)
 {
 	int	i;
 
@@ -167,6 +167,21 @@ static int	check_args(char **args)
 		if (*args[i] == '?')
 		{
 			ft_printf_fd(2, "%s: export: not matches found: %s\n", g_data[ARGV0], args[i]);
+			*r = 1;
+			return (1);
+		}
+		else if (*args[i] == '=')
+		{
+			if (*(args[i] + 1) == '\0')
+			{
+				ft_printf_fd(2, "%s: bad assignment\n", g_data[ARGV0]);
+				*r = 0;
+			}
+			else
+			{
+				ft_printf_fd(2, "%s: %s not found\n", g_data[ARGV0], args[i] + 1);
+				*r = 1;
+			}
 			return (1);
 		}
 		i++;	
@@ -181,11 +196,11 @@ int		ft_export(char **args)
 	t_env	*new;
 	int	stat;
 
-	i = 1;
 	if (args[1] == NULL)
 		print_export();
-	if (check_args(args))
-		return (1);
+	if (check_args(args, &i))
+		return (i);
+	i = 1;
 	while (args[i] != NULL)
 	{
 		stat = ft_isinstr('=', args[i]) ? 0 : 1;
