@@ -54,7 +54,7 @@ void		putstr_buff(char *s, char *buf, t_flags *f)
 		buf[f->i++] = *s++;
 	if (f->i == BUFFSIZE)
 	{
-		write(1, buf, BUFFSIZE);
+		write(f->fd, buf, BUFFSIZE);
 		f->idx += BUFFSIZE;
 		f->i = 0;
 		putstr_buff(s, buf, f);

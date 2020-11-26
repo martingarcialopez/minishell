@@ -40,16 +40,24 @@ static int		right_redirection(t_tree *tree)
 	int			fk;
 	int			fd;
 	int			status;
+	char		*file;
 
-	if ((fd = open(tree->right->data[0],
-				O_WRONLY | O_CREAT | O_TRUNC, 0644)) < 0)
-		return (error(tree->right->data[0]));
+	if (tree->right)
+	    file = tree->right->data[0];
+	else
+	    file = tree->left->data[0];
+	if ((fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644)) < 0)
+		return (error(file));
 	fk = fork();
 	if (fk == 0)
 	{
+	    if (tree->right)
+	    {
 		dup2(fd, 1);
 		close(fd);
 		exit(exec_commands(tree->left));
+	    }
+	    exit(0);
 	}
 	else if (fk > 0)
 	{
@@ -68,16 +76,24 @@ static int		double_right_redirection(t_tree *tree)
 	int			fk;
 	int			fd;
 	int			status;
+	char		*file;
 
-	if ((fd = open(tree->right->data[0],
-				O_WRONLY | O_CREAT | O_APPEND, 0644)) < 0)
-		return (error(tree->right->data[0]));
+	if (tree->right)
+	    file = tree->right->data[0];
+	else
+	    file = tree->left->data[0];
+	if ((fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644)) < 0)
+		return (error(file));
 	fk = fork();
 	if (fk == 0)
 	{
+	    if (tree->right)
+	    {
 		dup2(fd, 1);
 		close(fd);
 		exit(exec_commands(tree->left));
+	    }
+	    exit(0);
 	}
 	else if (fk > 0)
 	{
