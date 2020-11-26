@@ -14,7 +14,7 @@ CC	= clang
 
 CFLAGS	= -Wall -Wextra -Werror
 
-DEBUG_FLAGS = -g -g3 -fsanitize=address
+DEBUG_FLAGS =  -g -g3 -fsanitize=address
 
 .c.o:
 	gcc ${DEBUG_FLAGS} ${CFLAGS} -c -I includes $< -o ${<:.c=.o}

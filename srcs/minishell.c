@@ -90,7 +90,7 @@ void			solve_command(char *line)
 		{
 			//print_token_lst(token_lst);
 			split_lst_by_semicolon(&token_lst, &next_lst);
-			//expand_variables(&token_lst);
+			expand_variables(&token_lst);
 			cmd_tree = bbuild_tree(&token_lst);
 			//print_ascii_tree(cmd_tree);
 			ret = exec_commands(cmd_tree);

@@ -120,8 +120,8 @@ static void			reevaluate_token(t_list **alst)
 				return ;
 			}
 		}
-//		if (lst)
-		lst = lst->next;
+		if (lst)
+		    lst = lst->next;
 	}
 }
 

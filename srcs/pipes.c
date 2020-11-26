@@ -40,7 +40,7 @@ void		pipes(t_tree *tree, int count, int backup_fd)
 
 int			exec_commands(t_tree *tree)
 {
-	int	ret;
+//	int	ret;
 
 	if (!tree)
 		return (0);
@@ -52,9 +52,10 @@ int			exec_commands(t_tree *tree)
 	if (tree->type == literal)
 	{
 		ft_printf("");
-		ret = function(tree->data);
+		return (function(tree->data));
+		//ret = function(tree->data);
 		//	ft_printf_fd(2, "in exec_cmd, ret is %d\n", ret);
-		return (ret);
+	//	return (ret);
 		//		return (function(tree->data));
 	}
 	return (g_ret);

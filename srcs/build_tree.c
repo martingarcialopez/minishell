@@ -65,9 +65,12 @@ t_tree				*bbuild_tree(t_list **alst)
 			cmd[1] = NULL;
 			tree = ft_newtree(token->type, cmd);
 			ft_treeadd_root(&root, tree);
-			cmd = create_command(alst, lst);
-			tree = ft_newtree(literal, cmd);
-			ft_add_leaf_dfs(&root, tree);
+			if (*alst != lst)
+			{
+			    cmd = create_command(alst, lst);
+			    tree = ft_newtree(literal, cmd);
+			    ft_add_leaf_dfs(&root, tree);
+			}
 			*alst = lst->next;
 		}
 		lst = lst->next;
