@@ -16,6 +16,7 @@ static void	put_lstnext_before_redir(int *redir, t_list **elem,
     if (*prev == NULL)
     {
 	(*elem)->next = *begin;
+	free(*begin);
 	*begin = *elem;
     }
     else

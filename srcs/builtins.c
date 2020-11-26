@@ -172,5 +172,10 @@ int		ft_exit(char **args)
 	ft_printf("exit\n");
 	if (!args[1])
 	    exit(0);
+	if (args[2] != NULL)
+	{
+		ft_printf_fd(2, "%s: exit: too many arguments\n", g_data[ARGV0]);
+		return(1);
+	}
 	exit(atoi(args[1]));
 }
