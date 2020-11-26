@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 18:59:22 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 19:18:16 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/26 18:05:58 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ char				**create_command(t_list **alst, t_list *lst)
 t_tree				*bbuild_tree(t_list **alst)
 {
 	t_list		*lst;
+	t_list		*begin;
 	t_token		*token;
 	t_tree		*root;
 	t_tree		*tree;
 	char		**cmd;
 
 	root = NULL;
+	begin = *alst;
 	lst = *alst;
 	while (lst)
 	{
@@ -81,5 +83,6 @@ t_tree				*bbuild_tree(t_list **alst)
 		ft_treeadd_root(&root, tree);
 	else
 		ft_add_leaf_dfs(&root, tree);
+	*alst = begin;
 	return (root);
 }
