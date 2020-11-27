@@ -25,7 +25,7 @@ static t_token			g_token_tab[] = {
 	{"\\", backslash},
 	{" ", space},
 	{"$", variable},
-	{"?", status},
+//	{"?", status},
 	{">>", double_right_redir},
 	{"&&", and},
 	{"||", or},
@@ -62,6 +62,14 @@ t_list				*line_to_token_list(char *line)
 	return (begin);
 }
 
+int				is_separator(char *value)
+{
+    if (ft_strcmp(value, "\'") == 0 || ft_strcmp(value, "\"") == 0 ||
+	ft_strcmp(value, "=") == 0)
+	return (1);
+    return (0);
+}
+
 void				join_token_of_the_same_type(t_list **alst)
 {
 	t_list	**begin;
@@ -76,9 +84,7 @@ void				join_token_of_the_same_type(t_list **alst)
 	{
 		token = (t_token*)(lst->content);
 		next_token = (t_token*)(lst->next->content);
-		if (token->type == next_token->type
-				&& ft_strcmp(next_token->value, "\'") != 0
-				&& ft_strcmp(next_token->value, "\"") != 0)
+		if (token->type == next_token->type)// && !(is_separator(next_token->value)))
 		{
 			tmp = token->value;
 			token->value = sec(ft_strjoin(token->value, next_token->value));
@@ -133,6 +139,7 @@ t_list				*pparse_line(char *line)
 	solve_quotes(&lst);
 	join_token_of_the_same_type(&lst);
 	reevaluate_token(&lst);
+	join_dollar(&lst);
 	//expand_variables(&lst);
 	remove_whitespaces(&lst);
 	trambolic_redirections(&lst);

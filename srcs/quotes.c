@@ -106,7 +106,7 @@ void			solve_quotes(t_list **alst)
 			bbackslash(alst, lst, &last, &backsl);
 		else if (backsl || last)
 		{
-			if (!(token->type == variable && last == DOUBLE_QUOTE))
+			if (!(token->type == variable && last == DOUBLE_QUOTE && !backsl))
 				token->type = literal;
 			if (backsl)
 				backsl = 0;

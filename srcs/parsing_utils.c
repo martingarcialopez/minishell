@@ -35,6 +35,40 @@ void				remove_whitespaces(t_list **alst)
 	}
 }
 
+void				join_dollar(t_list  **alst)
+{
+	t_list	*lst;
+	t_token *tkn;
+	t_token *ntkn;
+	char	*tmp;
+
+	lst = *alst;
+	while (lst && lst->next)
+	{
+		tkn = (t_token*)lst->content;
+		ntkn = (t_token*)lst->next->content;
+		if (tkn->type == literal && ntkn->type == variable)
+		{
+		    tkn->type = variable;
+		    tmp = tkn->value;
+		    tkn->value = ft_strjoin(tkn->value, ntkn->value);
+		    free(tmp);
+		    ft_lstdelone(alst, lst->next, &free_token);
+		    continue ;
+		}
+		if ((tkn->type == variable && ntkn->type == literal)
+		    || (tkn->type == variable && ntkn->type == variable))
+		{
+		    tmp = tkn->value;
+		    tkn->value = ft_strjoin(tkn->value, ntkn->value);
+		    free(tmp);
+		    ft_lstdelone(alst, lst->next, &free_token);
+		    continue;
+		}
+		lst = lst->next;
+	}
+}
+
 static int			is_operator(t_token_type type)
 {
 	if (type == pipeline || type == or || type == and
