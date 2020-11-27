@@ -88,7 +88,7 @@ void			solve_command(char *line)
 		token_lst = pparse_line(line);
 		while (token_lst)
 		{
-			//print_token_lst(token_lst);
+		//	print_token_lst(token_lst);
 			split_lst_by_semicolon(&token_lst, &next_lst);
 			expand_variables(&token_lst);
 			cmd_tree = bbuild_tree(&token_lst);

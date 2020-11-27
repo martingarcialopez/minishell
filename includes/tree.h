@@ -129,4 +129,6 @@ char			*free_tab_and_return_path(char **tab, char *abs_path);
 
 char			*is_a_directory(char *path);
 
+void			join_dollar(t_list **alst);
+
 #endif
