@@ -47,10 +47,7 @@ int			ft_pwd(char **args)
 	char	*buf;
 
 	if (args[1] != NULL)
-	{
-		ft_printf_fd(2, "zsh: pwd: %s\n", strerror(errno));
-		return (1);
-	}
+		args[1] = args[1];
 	buf = NULL;
 	buf = getcwd(buf, 0);
 	ft_printf("%s\n", buf);

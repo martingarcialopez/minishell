@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:04:14 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 19:55:55 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/26 19:09:56 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_token			g_token_tab[] = {
 	{"\\", backslash},
 	{" ", space},
 	{"$", variable},
-	{"?", status},
+//	{"?", status},
 	{">>", double_right_redir},
 	{"&&", and},
 	{"||", or},
