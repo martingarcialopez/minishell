@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 18:59:35 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/26 17:49:00 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/27 21:36:40 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ static int	update_env(void)
 	buf = getcwd(buf, 0);
 	g_data[PWD] = buf;
 	if (update_env_exp("PWD", g_data[PWD]))
-		new_env("PWD", g_data[PWD]);
+		new_env("PWD", g_data[PWD], 0);
 	if (update_env_exp("OLDPWD", tmp))
-		new_env("OLDPWD", tmp);
+		new_env("OLDPWD", tmp, 0);
 	free(g_data[OLDPWD]);
 	g_data[OLDPWD] = (char*)sec(ft_strdup(tmp));
 	free(tmp);

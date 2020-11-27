@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:05:39 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/26 17:48:56 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/27 21:36:36 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # define PWD 0
 # define OLDPWD 1
 # define ARGV0 2
+# define ERROR_IDENTIFIER "%s: export: `%s': not a valid identifier\n"
+# define ERROR_ASSIGNMENT "%s: bad assignment\n"
+# define ERROR_NFOUND "%s: %s not found\n"
 
 typedef struct			s_env
 {
@@ -48,14 +51,14 @@ int				ft_pwd(char **args);
 int				ft_cd(char **args);
 int				ft_echo(char **args);
 int				ft_exit(char **args);
-void				add_env(t_env  *new);
-char				*join_value(char **data);
-void				lst_free(t_env	*list);
-void				list_rm_next(t_env *list);
-void				save_return(int ret);
+void			add_env(t_env  *new);
+char			*join_value(char **data);
+void			lst_free(t_env	*list);
+void			list_rm_next(t_env *list);
+void			save_return(int ret);
 int				init_data(char **argv);
-void				*sec(void *ptr);
-void				new_env(char *name, char *value);
+void			*sec(void *ptr);
+void			new_env(char *name, char *value, int stat);
 int				print_relative_path(char *home);
 
 #endif

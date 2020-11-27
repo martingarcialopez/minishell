@@ -31,7 +31,7 @@ int			print_relative_path(char *home)
 	return (r);
 }
 
-void		new_env(char *name, char *value)
+void		new_env(char *name, char *value, int stat)
 {
 	t_env	*new;
 
@@ -39,6 +39,7 @@ void		new_env(char *name, char *value)
 	new->name = (char*)sec(ft_strdup(name));
 	new->value = (char*)sec(ft_strdup(value));
 	new->next = NULL;
+	new->stat = stat;
 	add_env(new);
 }
 
