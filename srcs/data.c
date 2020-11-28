@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 18:59:43 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 19:19:09 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/28 02:52:03 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #include "builtins.h"
 #include "tree.h"
 
-
 int	init_data(char **argv)
 {
 	t_env	*list;
-	int	i;
+	int		i;
 
 	list = g_env;
 	while (list != NULL)

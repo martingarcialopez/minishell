@@ -6,14 +6,14 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:03 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 19:00:04 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/11/28 03:09:47 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "libft.h"
 
-void	add_env(t_env  *new)
+void		add_env(t_env *new)
 {
 	t_env	*list;
 
@@ -31,24 +31,24 @@ void	add_env(t_env  *new)
 char		*join_value(char **data)
 {
 	char	*value;
-	int	i;
+	int		i;
 	char	*tmp;
 
 	value = data[1];
 	if (data[1] == NULL)
 	{
 		free(data[1]);
-		value = ft_strdup("");//securizar
+		value = (char*)sec(ft_strdup(""));
 		return (value);
 	}
 	i = 2;
 	while (data[i] != NULL)
 	{
 		tmp = value;
-		value = ft_strjoin(value, "=");//securizar
+		value = (char*)sec(ft_strjoin(value, "="));
 		free(tmp);
 		tmp = value;
-		value = ft_strjoin(value, data[i]);//securizar
+		value = (char*)sec(ft_strjoin(value, data[i]));
 		free(tmp);
 		free(data[i]);
 		i++;
@@ -57,18 +57,30 @@ char		*join_value(char **data)
 	return (value);
 }
 
-void	lst_free(t_env	*list)
+void		lst_free(t_env *list)
 {
-		free(list->name);
-		free(list->value);
-		free(list);
+	free(list->name);
+	free(list->value);
+	free(list);
 }
 
-void	list_rm_next(t_env *list)
+void		list_rm_next(t_env *list)
 {
 	t_env	*aux;
 
 	aux = list->next->next;
 	lst_free(list->next);
 	list->next = aux;
+}
+
+void		new_env_exp(char **data, int stat)
+{
+	t_env	*new;
+
+	new = (t_env*)sec(malloc(sizeof(t_env)));
+	new->name = data[0];
+	new->value = join_value(data);
+	new->stat = stat;
+	new->next = NULL;
+	add_env(new);
 }

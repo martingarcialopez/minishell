@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 11:05:39 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/27 21:36:36 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/28 02:33:46 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ int				init_data(char **argv);
 void			*sec(void *ptr);
 void			new_env(char *name, char *value, int stat);
 int				print_relative_path(char *home);
+void			new_env_exp(char **data, int stat);
+void			init_tmp(char ***tmp, int l[2]);
 
 #endif

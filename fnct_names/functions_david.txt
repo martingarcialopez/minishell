@@ -4,3 +4,6 @@ srcs/builtins.c
 srcs/environment_utils.c
 srcs/data.c
 srcs/more_builtins.c
+srcs/export.c
+srcs/unset.c
+srcs/init_tmp.c
