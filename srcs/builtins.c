@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 18:59:35 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/27 21:36:40 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/28 15:52:36 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			ft_cd(char **args)
 
 	home = NULL;
 	if (retrieve_env_variable("HOME", &home) == 0)
-		i = 0;
+		i = -2;
 	else if (args[1] == NULL)
 		i = chdir(home);
 	else if (args[1] != NULL && *args[1] == '~' && args[1][1] != '-')
@@ -94,6 +94,9 @@ int			ft_cd(char **args)
 		ft_printf_fd(2, "%s: cd: %s\n", g_data[ARGV0], strerror(errno));
 	if (i == 0)
 		update_env();
+	if (i == -2)
+		ft_printf_fd(2, "%s: cd: HOME not set\n", g_data[ARGV0]);
 	free(home);
-	return (i * (-1));
+	i = (i == 0) ? 0 : 1;
+	return (i);
 }
