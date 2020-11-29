@@ -18,13 +18,11 @@
 #define EACCES_EXIT_STATUS 126
 #define ENOENT_EXIT_STATUS 127
 
-int				error(char *err)
+static int			    error(char *err)
 {
 	ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
 	if (errno == EACCES)
 		return (EACCES_EXIT_STATUS);
-	else if (errno == ENOENT)
-		return (ENOENT_EXIT_STATUS);
 	else
 		return (1);
 }
@@ -55,7 +53,8 @@ static int		right_redirection(t_tree *tree)
 	    {
 		dup2(fd, 1);
 		close(fd);
-		exit(exec_commands(tree->left));
+		status = exec_commands(tree->left);
+		exit( status > 255 ? status / 256 : status);
 	    }
 	    exit(0);
 	}
@@ -63,10 +62,7 @@ static int		right_redirection(t_tree *tree)
 	{
 		wait(&status);
 		if (WIFEXITED(status))
-		{
-			//ft_printf("in redirections, ret is %d\n", status);
 			return (status);
-		}
 	}
 	return (error_fork_failed());
 }
@@ -91,7 +87,8 @@ static int		double_right_redirection(t_tree *tree)
 	    {
 		dup2(fd, 1);
 		close(fd);
-		exit(exec_commands(tree->left));
+		status = exec_commands(tree->left);
+		exit( status > 255 ? status / 256 : status);
 	    }
 	    exit(0);
 	}
@@ -112,14 +109,15 @@ static int		left_redirection(t_tree *tree)
 	int			fd;
 	int			status;
 
-	if ((fd = open(tree->right->data[0], O_RDONLY)) < 0)
+	if ((fd = open(tree->right->data[0], O_RDWR)) < 0)
 		return (error(tree->right->data[0]));
 	fk = fork();
 	if (fk == 0)
 	{
 		dup2(fd, 0);
 		close(fd);
-		exit(exec_commands(tree->left));
+		status = exec_commands(tree->left);
+		exit( status > 255 ? status / 256 : status);
 	}
 	else if (fk > 0)
 	{

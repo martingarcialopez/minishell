@@ -104,6 +104,8 @@ char			*find_path(char **args)
 
 char			*solve_cmd_path(char **args)
 {
+	if (ft_strcmp(args[0], "..") == 0)
+	    return (find_path(args));
 	if (args[0][0] == '/')
 		return (solve_abs_path(args));
 	else if (args[0][0] == '.')

@@ -99,7 +99,7 @@ void			parse_error(int n, void *value, t_list **alst);
 
 char			*error_retrieving_env_variable(char *var);
 
-int			error(char *err);
+//int			error(char *err);
 
 void			expand_variables(t_list **alst);
 
@@ -130,5 +130,7 @@ char			*free_tab_and_return_path(char **tab, char *abs_path);
 char			*is_a_directory(char *path);
 
 void			join_dollar(t_list **alst);
+
+void			the_strange_case_of_misterious_redirection_combinations(t_list **alst);
 
 #endif

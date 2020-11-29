@@ -144,6 +144,7 @@ t_list				*pparse_line(char *line)
 	remove_whitespaces(&lst);
 	trambolic_redirections(&lst);
 	redirection_party_trick(&lst);
-	//    check_syntax(&lst);
+	the_strange_case_of_misterious_redirection_combinations(&lst);
+	check_syntax(&lst);
 	return (lst);
 }

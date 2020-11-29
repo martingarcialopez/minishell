@@ -46,17 +46,13 @@ int			exec_commands(t_tree *tree)
 		return (0);
 	if (tree->type == right_redir || tree->type == left_redir
 			|| tree->type == double_right_redir)
-		return (redirection(tree));
+	    return (redirection(tree));
 	if (tree->type == pipeline)
 		pipes(tree, 1, 0);
 	if (tree->type == literal)
 	{
 		ft_printf("");
 		return (function(tree->data));
-		//ret = function(tree->data);
-		//	ft_printf_fd(2, "in exec_cmd, ret is %d\n", ret);
-	//	return (ret);
-		//		return (function(tree->data));
 	}
 	return (g_ret);
 }
