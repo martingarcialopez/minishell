@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 20:59:11 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/01 13:02:52 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_tree			*ft_newtree(t_token_type type, char **cmd);
 
 void			ft_treeadd_root(t_tree **rtree, t_tree *new);
 
-int			ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
+int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new);
 
 void			print_dfs_tree(t_tree *node);
 
@@ -69,21 +69,21 @@ t_list			*parse_line(char *str);
 
 t_list			*pparse_line(char *line);
 
-t_tree			*bbuild_tree(t_list **alst);
+t_tree			*bbuild_tree(t_list *lst);
 
 void			display_ascii_art(void);
 
-int			exec_commands(t_tree *tree);
+int				exec_commands(t_tree *tree);
 
-int			call_system_function(char **args);
+int				call_system_function(char **args);
 
 char			**env_to_vect(void);
 
-int			retrieve_env_variable(char *name, char **value);
+int				retrieve_env_variable(char *name, char **value);
 
 char			*solve_cmd_path(char **args);
 
-int			redirection(t_tree *tree);
+int				redirection(t_tree *tree);
 
 char			*solve_home(char *arg);
 
@@ -119,7 +119,7 @@ void			check_syntax(t_list **alst);
 
 void			join_quotes(t_list **alst);
 
-int			check_path_status(char *path);
+int				check_path_status(char *path);
 
 char			*error_retrieving_env_variable(char *var);
 
@@ -132,5 +132,15 @@ char			*is_a_directory(char *path);
 void			join_dollar(t_list **alst);
 
 void			the_strange_case_of_misterious_redirection_combinations(t_list **alst);
+
+void			new_prompt(void);
+
+void			split_lst_by_semicolon(t_list **alst, t_list **next);
+
+int				exec_single_command(char *line);
+
+int				manage_flags(int ac, char **av, char **envp);
+
+void			solve_command(char *line);
 
 #endif

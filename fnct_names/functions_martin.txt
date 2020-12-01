@@ -1,6 +1,5 @@
 srcs/minishell.c
 srcs/real_parsing.c
-srcs/print_tree.c
 srcs/tree.c
 srcs/ascii_art.c
 srcs/execve.c
@@ -13,4 +12,5 @@ srcs/quotes.c
 srcs/parse_redirections.c
 srcs/parsing_utils.c
 srcs/expand_variables.c
+srcs/minishell_utils.c
 srcs/error.c

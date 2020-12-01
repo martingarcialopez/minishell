@@ -16,6 +16,19 @@ CFLAGS	= -Wall -Wextra -Werror
 
 DEBUG_FLAGS =  -g -g3 -fsanitize=address
 
+MACOS_MACRO = -D SYNTAX_ERROR=2 
+
+LINUX_MACRO = -D SYNTAX_ERROR=1
+
+UNAME := $(shell uname)
+
+ifeq ($(UNAME),Darwin)
+	CFLAGS += $(MACOS_MACRO)
+endif
+ifeq ($(UNAME),Linux)
+	CFLAGS += $(LINUX_MACRO)
+endif
+
 .c.o:
 	gcc ${DEBUG_FLAGS} ${CFLAGS} -c -I includes $< -o ${<:.c=.o}
 
