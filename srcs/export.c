@@ -36,20 +36,11 @@ static int	check_args(char **args)
 	i = 1;
 	while (args[i] != NULL)
 	{
-		if (*args[i] == '?' || *args[i] == '/' || *args[i] == '$')
+		if (*args[i] == '?' || *args[i] == '/' || *args[i] == '$'
+			|| *args[i] == '=')
 		{
 			ft_printf_fd(2, ERROR_IDENTIFIER,
 					g_data[ARGV0], args[i]);
-			return (1);
-		}
-		else if (*args[i] == '=')
-		{
-			if (*(args[i] + 1) == '\0')
-				ft_printf_fd(2, ERROR_ASSIGNMENT,
-						g_data[ARGV0]);
-			else
-				ft_printf_fd(2, ERROR_NFOUND, g_data[ARGV0],
-						args[i] + 1);
 			return (1);
 		}
 		i++;
@@ -100,7 +91,7 @@ static int	print_export(void)
 	return (0);
 }
 
-int		ft_export(char **args)
+int			ft_export(char **args)
 {
 	int		i;
 	char	**data;

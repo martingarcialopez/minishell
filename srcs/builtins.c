@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 18:59:35 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/28 15:52:36 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/11/30 19:51:14 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int			ft_cd(char **args)
 	else if (args[1] != NULL)
 		i = chdir(args[1]);
 	if (i == -1)
-		ft_printf_fd(2, "%s: cd: %s\n", g_data[ARGV0], strerror(errno));
+		ft_printf_fd(2, E_CD, g_data[ARGV0], args[1], strerror(errno));
 	if (i == 0)
 		update_env();
 	if (i == -2)

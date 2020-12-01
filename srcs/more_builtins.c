@@ -58,7 +58,7 @@ int			ft_pwd(char **args)
 
 int			ft_echo(char **args)
 {
-	int	i[3];
+	int		i[3];
 
 	i[0] = 1;
 	i[1] = 0;
@@ -87,6 +87,8 @@ int			ft_echo(char **args)
 
 int			ft_exit(char **args)
 {
+	int		i;
+
 	(void)args;
 	ft_printf("exit\n");
 	if (!args[1])
@@ -96,5 +98,13 @@ int			ft_exit(char **args)
 		ft_printf_fd(2, "%s: exit: too many arguments\n", g_data[ARGV0]);
 		return (1);
 	}
+	i = (args[1][0] == '-') ? 0 : -1;
+	while (args[1][++i] != '\0')
+		if (!ft_isdigit(args[1][i]))
+		{
+			ft_printf_fd(2, "%s: exit: %s: numeric argument required\n",
+						g_data[ARGV0], args[1]);
+			return (2);
+		}
 	exit(atoi(args[1]));
 }

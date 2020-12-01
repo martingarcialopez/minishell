@@ -9,7 +9,7 @@ int		ft_unset(char **args)
 
 	i = 0;
 	if (args[1] == NULL)
-		ft_printf_fd(2, "%s: unset: not enough arguments\n", g_data[ARGV0]);
+		return (0);
 	while (args[++i] != NULL)
 	{
 		list = g_env;
