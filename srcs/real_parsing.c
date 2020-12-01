@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:04:14 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 17:25:22 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/01 19:24:18 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,6 @@ t_list				*line_to_token_list(char *line)
 	return (begin);
 }
 
-int					is_separator(char *value)
-{
-	if (ft_strcmp(value, "\'") == 0 || ft_strcmp(value, "\"") == 0 ||
-		ft_strcmp(value, "=") == 0)
-		return (1);
-	return (0);
-}
-
 void				join_token_of_the_same_type(t_list **alst)
 {
 	t_list	**begin;
@@ -94,6 +86,26 @@ void				join_token_of_the_same_type(t_list **alst)
 	}
 }
 
+void				do_the_reevaluation_thing(t_list **lst, t_token **token,
+														int *i, t_list **alst)
+{
+	*i = 0;
+	while (g_token_tab[*i].value)
+	{
+		if (ft_strcmp(g_token_tab[*i].value, (*token)->value) == 0)
+		{
+			(*token)->type = g_token_tab[*i].type;
+			if ((*token)->type == half_and)
+			{
+				parse_error(1, (*token)->value, alst);
+				*lst = NULL;
+			}
+			break ;
+		}
+		(*i)++;
+	}
+}
+
 static void			reevaluate_token(t_list **alst)
 {
 	t_list	*lst;
@@ -106,21 +118,11 @@ static void			reevaluate_token(t_list **alst)
 		token = (t_token*)(lst->content);
 		if (token->type != literal && token->type != space)
 		{
-			i = 0;
-			while (lst && g_token_tab[i].value)
-			{
-				if (ft_strcmp(g_token_tab[i].value, token->value) == 0)
-				{
-					token->type = g_token_tab[i].type;
-					if (token->type == half_and)
-						parse_error(1, token->value, alst);
-					break ;
-				}
-				i++;
-			}
+			do_the_reevaluation_thing(&lst, &token, &i, alst);
 			if (!g_token_tab[i].value)
 			{
 				parse_error(1, token->value, alst);
+				lst = NULL;
 				return ;
 			}
 		}
