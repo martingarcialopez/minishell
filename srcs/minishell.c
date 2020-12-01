@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:45 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 13:01:39 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/01 18:39:42 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			solve_command(char *line)
 
 	if ((token_lst = pparse_line(line)) == NULL)
 	{
-		save_return(2);
+		save_return(SYNTAX_ERROR);
 		return ;
 	}
 	while (token_lst && ((t_token*)token_lst->content)->type != semicolon)
