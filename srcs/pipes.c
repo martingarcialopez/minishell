@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:01:29 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 20:59:50 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/01 13:47:21 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ void		pipes(t_tree *tree, int count, int backup_fd)
 
 int			exec_commands(t_tree *tree)
 {
-//	int	ret;
-
 	if (!tree)
 		return (0);
 	if (tree->type == right_redir || tree->type == left_redir
 			|| tree->type == double_right_redir)
-	    return (redirection(tree));
+		return (redirection(tree));
 	if (tree->type == pipeline)
 		pipes(tree, 1, 0);
 	if (tree->type == literal)

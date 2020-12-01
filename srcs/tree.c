@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:23:31 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 20:54:35 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/01 13:57:51 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void			free_tree(t_tree *node)
 		free_tree(node->left);
 	if (node->right)
 		free_tree(node->right);
-	//	ft_printf("node->type %d, node->value[0], [1] -%s- -%s-\n",
-	//				node->type, node->data[0], node->data[1]);
 	free_tab(node->data);
 	free(node);
 }

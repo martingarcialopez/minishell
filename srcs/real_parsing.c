@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:04:14 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/26 19:09:56 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/12/01 13:55:35 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static t_token			g_token_tab[] = {
 	{"\\", backslash},
 	{" ", space},
 	{"$", variable},
-//	{"?", status},
 	{">>", double_right_redir},
 	{"&&", and},
 	{"||", or},
@@ -64,10 +63,10 @@ t_list				*line_to_token_list(char *line)
 
 int				is_separator(char *value)
 {
-    if (ft_strcmp(value, "\'") == 0 || ft_strcmp(value, "\"") == 0 ||
-	ft_strcmp(value, "=") == 0)
-	return (1);
-    return (0);
+	if (ft_strcmp(value, "\'") == 0 || ft_strcmp(value, "\"") == 0 ||
+		ft_strcmp(value, "=") == 0)
+		return (1);
+	return (0);
 }
 
 void				join_token_of_the_same_type(t_list **alst)
@@ -84,7 +83,7 @@ void				join_token_of_the_same_type(t_list **alst)
 	{
 		token = (t_token*)(lst->content);
 		next_token = (t_token*)(lst->next->content);
-		if (token->type == next_token->type)// && !(is_separator(next_token->value)))
+		if (token->type == next_token->type)
 		{
 			tmp = token->value;
 			token->value = sec(ft_strjoin(token->value, next_token->value));
@@ -127,7 +126,7 @@ static void			reevaluate_token(t_list **alst)
 			}
 		}
 		if (lst)
-		    lst = lst->next;
+			lst = lst->next;
 	}
 }
 
@@ -140,7 +139,6 @@ t_list				*pparse_line(char *line)
 	join_token_of_the_same_type(&lst);
 	reevaluate_token(&lst);
 	join_dollar(&lst);
-	//expand_variables(&lst);
 	remove_whitespaces(&lst);
 	trambolic_redirections(&lst);
 	redirection_party_trick(&lst);

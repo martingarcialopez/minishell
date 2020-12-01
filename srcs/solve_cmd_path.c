@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:06:05 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 20:46:41 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/01 13:56:56 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char			*find_path(char **args)
 char			*solve_cmd_path(char **args)
 {
 	if (ft_strcmp(args[0], "..") == 0)
-	    return (find_path(args));
+		return (find_path(args));
 	if (args[0][0] == '/')
 		return (solve_abs_path(args));
 	else if (args[0][0] == '.')
