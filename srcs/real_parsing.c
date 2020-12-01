@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:04:14 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 13:55:35 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/01 17:25:22 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "tree.h"
 #include "libft.h"
 
-static t_token			g_token_tab[] = {
+static t_token		g_token_tab[] = {
 	{"|", pipeline},
 	{"<", left_redir},
 	{">", right_redir},
@@ -45,7 +45,7 @@ t_list				*line_to_token_list(char *line)
 	{
 		token = (t_token*)sec(malloc(sizeof(t_token)));
 		token->type = literal;
-		str[0] = *line;
+		str[0] = *line++;
 		token->value = sec(ft_strdup(str));
 		i = 0;
 		while (g_token_tab[i].value)
@@ -56,12 +56,11 @@ t_list				*line_to_token_list(char *line)
 		}
 		lst = sec(ft_lstnew((void*)token));
 		ft_lstadd_back(&begin, lst);
-		line++;
 	}
 	return (begin);
 }
 
-int				is_separator(char *value)
+int					is_separator(char *value)
 {
 	if (ft_strcmp(value, "\'") == 0 || ft_strcmp(value, "\"") == 0 ||
 		ft_strcmp(value, "=") == 0)
