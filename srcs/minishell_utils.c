@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 12:53:10 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 12:55:37 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 17:39:56 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,23 @@ void			new_prompt(void)
 	ft_printf("(los voltereta)-> ");
 }
 
-void			split_lst_by_semicolon(t_list **alst, t_list **next)
+void			split_lst_by_semicolon(t_list **alst, t_list **next, char *sep)
 {
 	t_list		*lst;
-	t_token		*ntoken;
+	t_token		*ntkn;
 
 	lst = *alst;
 	*next = NULL;
+	*sep = 0;
 	while (lst && lst->next)
 	{
-		ntoken = (t_token*)lst->next->content;
-		if (ntoken->type == semicolon)
+		ntkn = (t_token*)lst->next->content;
+		if (ntkn->type == semicolon || ntkn->type == and || ntkn->type == or)
 		{
+			if (ntkn->type == and)
+				*sep = 'a';
+			else if (ntkn->type == or)
+				*sep = 'o';
 			ft_lstdelone(alst, lst->next, &free_token);
 			*next = lst->next;
 			lst->next = NULL;
