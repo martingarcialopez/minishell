@@ -6,13 +6,31 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 20:14:21 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 20:50:53 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 09:36:33 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "tree.h"
 #include "builtins.h"
+
+#define EACCES_EXIT_STATUS 126
+#define ENOENT_EXIT_STATUS 127
+
+int				open_error(char *err)
+{
+	ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
+	if (errno == EACCES)
+		return (EACCES_EXIT_STATUS);
+	else
+		return (1);
+}
+
+int				error_fork_failed(void)
+{
+	ft_printf_fd(2, "%s: error: %s\n", g_data[ARGV0], strerror(errno));
+	return (1);
+}
 
 char			*command_not_found(char **tab, char *str, char *cmd)
 {

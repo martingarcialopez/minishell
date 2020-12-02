@@ -13,4 +13,5 @@ srcs/parse_redirections.c
 srcs/parsing_utils.c
 srcs/expand_variables.c
 srcs/minishell_utils.c
+srcs/more_parsing_utils.c
 srcs/error.c

@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:23:31 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 13:57:51 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 09:12:37 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void			ft_treeadd_root(t_tree **rtree, t_tree *new)
 	}
 }
 
+int				add_new_to_node(t_tree *new, t_tree **node)
+{
+	*node = new;
+	return (1);
+}
+
 int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new)
 {
 	t_tree			*root;
@@ -64,10 +70,7 @@ int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new)
 	{
 		if (type == pipeline || type == right_redir
 			|| type == left_redir || type == double_right_redir)
-		{
-			root->left = new;
-			return (1);
-		}
+			return (add_new_to_node(new, &(root->left)));
 		return (0);
 	}
 	if (ft_add_leaf_dfs(&(root->left), new))
@@ -76,20 +79,8 @@ int				ft_add_leaf_dfs(t_tree **rtree, t_tree *new)
 	{
 		if (type == pipeline || type == right_redir ||
 			type == left_redir || type == double_right_redir)
-		{
-			root->right = new;
-			return (1);
-		}
+			return (add_new_to_node(new, &(root->right)));
 		return (0);
 	}
 	return (0);
-}
-
-void			print_dfs_tree(t_tree *node)
-{
-	if (!node)
-		return ;
-	ft_printf("type-> %d, val-> %s\n", node->type, node->data[0]);
-	print_dfs_tree(node->left);
-	print_dfs_tree(node->right);
 }

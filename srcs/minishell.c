@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:45 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 18:39:42 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 11:46:02 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,12 @@ void			solve_command(char *line)
 	int		ret;
 
 	if ((token_lst = pparse_line(line)) == NULL)
+		return (save_return(SYNTAX_ERROR));
+	while (token_lst)
 	{
-		save_return(SYNTAX_ERROR);
-		return ;
-	}
-	while (token_lst && ((t_token*)token_lst->content)->type != semicolon)
-	{
-		//print_token_lst(token_lst);
 		split_lst_by_semicolon(&token_lst, &next_lst);
 		expand_variables(&token_lst);
 		cmd_tree = bbuild_tree(token_lst);
-		//print_ascii_tree(cmd_tree);
 		ret = exec_commands(cmd_tree);
 		save_return(ret);
 		free_tree(cmd_tree);

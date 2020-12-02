@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 13:04:09 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 13:04:12 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 11:51:34 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int			ft_exit(char **args)
 		{
 			ft_printf_fd(2, "%s: exit: %s: numeric argument required\n",
 						g_data[ARGV0], args[1]);
-			return (2);
+			return (EXIT_ERROR);
 		}
 	exit(atoi(args[1]));
 }

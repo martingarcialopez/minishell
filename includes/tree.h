@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 13:02:52 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 11:54:00 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,15 @@
 # include <sys/wait.h>
 
 # define MAJOR_VERSION 1
-# define MINOR_VERSION 3
+# define MINOR_VERSION 4
+
+# ifndef SYNTAX_ERROR
+#  define SYNTAX_ERROR 1
+# endif
+
+# ifndef EXIT_ERROR
+#  define EXIT_ERROR 2
+# endif
 
 typedef enum		e_token_type
 {
@@ -142,5 +150,9 @@ int				exec_single_command(char *line);
 int				manage_flags(int ac, char **av, char **envp);
 
 void			solve_command(char *line);
+
+int				open_error(char *err);
+
+int				error_fork_failed(void);
 
 #endif

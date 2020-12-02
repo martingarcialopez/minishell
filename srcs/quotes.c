@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:01:45 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/25 19:49:58 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 09:21:59 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,14 @@ static void		bbackslash(t_list **begin, t_list *lst,
 	}
 }
 
+void			turn_token_to_literal(t_token **token, char last, char *backsl)
+{
+	if (!((*token)->type == variable && last == DOUBLE_QUOTE && !*backsl))
+		(*token)->type = literal;
+	if (*backsl)
+		*backsl = 0;
+}
+
 void			solve_quotes(t_list **alst)
 {
 	t_list	*lst;
@@ -105,12 +113,7 @@ void			solve_quotes(t_list **alst)
 		else if (token->type == backslash)
 			bbackslash(alst, lst, &last, &backsl);
 		else if (backsl || last)
-		{
-			if (!(token->type == variable && last == DOUBLE_QUOTE && !backsl))
-				token->type = literal;
-			if (backsl)
-				backsl = 0;
-		}
+			turn_token_to_literal(&token, last, &backsl);
 		lst = tmp;
 	}
 	if (last)

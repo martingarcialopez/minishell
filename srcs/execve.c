@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:11 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/01 11:15:35 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 11:10:30 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int					error(char *err)
 		return (1);
 }
 
-static int					error_fork_failed(char **env, char *path)
+static int					fork_failed(char **env, char *path)
 {
 	ft_printf_fd(2, "%s: error: %s\n", g_data[ARGV0], strerror(errno));
 	free(env);
@@ -78,5 +78,5 @@ int							call_system_function(char **args)
 		if (WIFEXITED(status))
 			return (status);
 	}
-	return (error_fork_failed(env, abs_path));
+	return (fork_failed(env, abs_path));
 }
