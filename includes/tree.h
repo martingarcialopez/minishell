@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/02 16:57:45 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 17:43:13 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ void			join_dollar(t_list **alst);
 
 void			new_prompt(void);
 
-void			split_lst_by_semicolon(t_list **alst, t_list **next);
+void			split_lst_by_semicolon(t_list **alst, t_list **next, char *sep);
 
 int				exec_single_command(char *line);
 
