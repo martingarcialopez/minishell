@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:04:14 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/02 11:27:48 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 16:57:24 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,5 @@ t_list				*pparse_line(char *line)
 	check_syntax(&lst);
 	trambolic_redirections(&lst);
 	redirection_party_trick(&lst);
-	the_strange_case_of_misterious_redirection_combinations(&lst);
 	return (lst);
 }

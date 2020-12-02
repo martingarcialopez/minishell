@@ -15,3 +15,5 @@ srcs/expand_variables.c
 srcs/minishell_utils.c
 srcs/more_parsing_utils.c
 srcs/error.c
+srcs/more_errors.c
+srcs/trambolic_redirections.c

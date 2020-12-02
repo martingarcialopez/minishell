@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:11 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/02 11:10:30 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 12:11:48 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <signal.h>
-
-#define EACCES_EXIT_STATUS 126
-#define ENOENT_EXIT_STATUS 127
-
-static int					error(char *err)
-{
-	ft_printf_fd(2, "%s: %s: %s\n", g_data[ARGV0], err, strerror(errno));
-	if (errno == EACCES)
-		return (EACCES_EXIT_STATUS);
-	else if (errno == ENOENT)
-		return (ENOENT_EXIT_STATUS);
-	else
-		return (1);
-}
 
 static int					fork_failed(char **env, char *path)
 {

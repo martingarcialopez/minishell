@@ -6,12 +6,12 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/29 15:21:56 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/02 11:54:00 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 16:57:45 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef _TREE_H_
-# define _TREE_H_
+#ifndef TREE_H
+# define TREE_H
 
 # include "libft.h"
 # include <sys/wait.h>
@@ -27,41 +27,40 @@
 #  define EXIT_ERROR 2
 # endif
 
-typedef enum		e_token_type
+typedef enum	e_token_type
 {
-	literal,//0
-	separator,//1
-	and,//2
-	half_and,//3
-	pipeline,//4
-	semicolon,//5
-	left_redir,//6
-	right_redir,//7
-	double_right_redir,//8
-	or,//9
-	single_quote,//10
-	double_quote,//11
-	backslash,//12
-	variable,//13
-	status,//14
-	space,//15
-	eof//16
-}			t_token_type;
+	literal,
+	separator,
+	and,
+	half_and,
+	pipeline,
+	semicolon,
+	left_redir,
+	right_redir,
+	double_right_redir,
+	or,
+	single_quote,
+	double_quote,
+	backslash,
+	variable,
+	status,
+	space,
+	eof
+}				t_token_type;
 
-typedef struct		s_token
+typedef struct	s_token
 {
-	char		*value;
+	char			*value;
 	t_token_type	type;
-	
-}			t_token;
+}				t_token;
 
-typedef struct		s_tree
+typedef struct	s_tree
 {
 	t_token_type	type;
-	char		**data;
+	char			**data;
 	struct s_tree	*left;
 	struct s_tree	*right;
-}			t_tree;
+}				t_tree;
 
 void			print_ascii_tree(t_tree *tree);
 
@@ -107,7 +106,7 @@ void			parse_error(int n, void *value, t_list **alst);
 
 char			*error_retrieving_env_variable(char *var);
 
-//int			error(char *err);
+int				error(char *err);
 
 void			expand_variables(t_list **alst);
 
@@ -138,8 +137,6 @@ char			*free_tab_and_return_path(char **tab, char *abs_path);
 char			*is_a_directory(char *path);
 
 void			join_dollar(t_list **alst);
-
-void			the_strange_case_of_misterious_redirection_combinations(t_list **alst);
 
 void			new_prompt(void);
 
