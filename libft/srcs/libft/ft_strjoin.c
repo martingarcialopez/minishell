@@ -6,7 +6,7 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 14:24:37 by mgarcia-          #+#    #+#             */
-/*   Updated: 2019/10/18 14:20:40 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 17:38:26 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
-	int	len;
+	int		len;
 
 	if (!s1 || !s2)
 		return (NULL);

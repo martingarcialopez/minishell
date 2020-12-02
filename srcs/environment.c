@@ -6,7 +6,7 @@
 /*   By: daprovin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/26 16:45:16 by daprovin          #+#    #+#             */
-/*   Updated: 2020/11/28 02:49:41 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/12/02 16:58:37 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		no_env(void)
 	add_env(new);
 }
 
-int		init_env(char **envp)
+int			init_env(char **envp)
 {
 	int		i;
 	char	**data;
@@ -65,7 +65,7 @@ int		init_env(char **envp)
 	return (0);
 }
 
-int		ft_env(char **args)
+int			ft_env(char **args)
 {
 	t_env	*list;
 

@@ -6,14 +6,14 @@
 /*   By: mgarcia- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 16:38:23 by mgarcia-          #+#    #+#             */
-/*   Updated: 2019/12/02 20:41:51 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 17:30:45 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	    print_specifier(const char **format, char *buf, t_flags *f,
-								    va_list ap)
+static void		print_specifier(const char **format, char *buf, t_flags *f,
+							va_list ap)
 {
 	if (**format == 'd' || **format == 'i' || **format == 'u'
 			|| **format == 'o' || **format == 'x' || **format == 'X')
@@ -34,14 +34,14 @@ static void	    print_specifier(const char **format, char *buf, t_flags *f,
 		(*format)++;
 }
 
-int		    ft_vprintf(int fd, const char *format, va_list ap)
+int				ft_vprintf(int fd, const char *format, va_list ap)
 {
 	char		buf[BUFFSIZE];
 	t_flags		f;
 
 	f.idx = 0;
 	f.i = 0;
-        f.fd = fd;
+	f.fd = fd;
 	while (*format)
 	{
 		if (*format != '%')

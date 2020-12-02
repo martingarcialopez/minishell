@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 18:59:43 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/11/28 02:52:03 by daprovin         ###   ########.fr       */
+/*   Updated: 2020/12/02 17:03:49 by daprovin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	init_data(char **argv)
 	}
 	g_data[ARGV0] = argv[0];
 	i = 0;
-	// gestionar ./minishell -c 'cat < doesnotexist' idonthaveslash
 	while (*(g_data[ARGV0] + i))
 		i++;
 	while (*(g_data[ARGV0] + i) != '/')
