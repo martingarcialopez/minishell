@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:45 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/02 17:48:25 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/02 18:08:38 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			solve_command(char *line)
 		{
 			if (token_lst)
 				ft_lstclear(&token_lst, &free_token);
-			break;
+			break ;
 		}
 	}
 }
