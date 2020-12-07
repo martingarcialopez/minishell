@@ -6,7 +6,7 @@
 /*   By: mgarcia- <mgarcia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:04:22 by mgarcia-          #+#    #+#             */
-/*   Updated: 2020/12/02 11:07:47 by mgarcia-         ###   ########.fr       */
+/*   Updated: 2020/12/07 15:45:14 by mgarcia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int		left_redirection(t_tree *tree)
 		file = tree->right->data[0];
 	else
 		file = tree->left->data[0];
-	if ((fd = open(file, O_RDWR)) < 0)
+	if ((fd = open(file, O_RDONLY)) < 0)
 		return (open_error(file));
 	fk = fork();
 	if (fk == 0)
