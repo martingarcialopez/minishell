@@ -27,6 +27,30 @@ minishell reads a command line, tokenizes it, builds a command tree and runs it 
   <img src=".images/pipes-redirections.png" width="80%" alt="minishell running pipes, the <, > and >> redirections, ||, $? and quoting" />
 </p>
 
+## How it works
+
+```
+ input line
+     │
+     ▼
+ lexer ──► token list ──► syntax check ──► split on ; && || ──► expand $VAR and $? ──► command tree ──► execute
+```
+
+1. **Lexing** — the line becomes a list of typed tokens: literals, quotes, `$` variables, `|`, `<`, `>`, `>>`, `;`, `&&`, `||`…
+2. **Cleaning up** — quoted text is joined into single words, whitespace tokens are dropped, redirections are moved into a canonical position and the syntax is checked (errors are reported like bash: `syntax error near unexpected token`).
+3. **Splitting** — the list is cut on `;`, `&&` and `||`; each part runs in turn, and when `&&` or `||` short-circuits on `$?`, the rest of the line is skipped.
+4. **Tree building** — pipes and redirections become inner nodes and commands become leaves. Each new operator becomes the root, with everything before it as its left child, so `ls | grep a > out` turns into:
+
+   ```
+            >
+           / \
+          |   out
+         / \
+       ls   grep a
+   ```
+
+5. **Execution** — the tree is walked recursively: a pipe node forks one process per side and connects them with `pipe`, a redirection node opens its file and `dup2`s it onto stdin or stdout, and a leaf runs a builtin in place or `fork` + `execve`s the program.
+
 ## Build and run
 
 ```sh
@@ -51,30 +75,6 @@ Or run a single command line and exit:
 > make -C libft CC="gcc -g -arch x86_64"
 > make CFLAGS="-Wall -Wextra -Werror -arch x86_64 -D SYNTAX_ERROR=2 -D EXIT_ERROR=255"
 > ```
-
-## How it works
-
-```
- input line
-     │
-     ▼
- lexer ──► token list ──► syntax check ──► split on ; && || ──► expand $VAR and $? ──► command tree ──► execute
-```
-
-1. **Lexing** — the line becomes a list of typed tokens: literals, quotes, `$` variables, `|`, `<`, `>`, `>>`, `;`, `&&`, `||`…
-2. **Cleaning up** — quoted text is joined into single words, whitespace tokens are dropped, redirections are moved into a canonical position and the syntax is checked (errors are reported like bash: `syntax error near unexpected token`).
-3. **Splitting** — the list is cut on `;`, `&&` and `||`; each part runs in turn, and when `&&` or `||` short-circuits on `$?`, the rest of the line is skipped.
-4. **Tree building** — pipes and redirections become inner nodes and commands become leaves. Each new operator becomes the root, with everything before it as its left child, so `ls | grep a > out` turns into:
-
-   ```
-            >
-           / \
-          |   out
-         / \
-       ls   grep a
-   ```
-
-5. **Execution** — the tree is walked recursively: a pipe node forks one process per side and connects them with `pipe`, a redirection node opens its file and `dup2`s it onto stdin or stdout, and a leaf runs a builtin in place or `fork` + `execve`s the program.
 
 ## Testing
 
